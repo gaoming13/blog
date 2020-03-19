@@ -29,6 +29,8 @@
 - 黑名单方式：`.npmignore` 没有该文件默认使用.gitignore文件
 [NPX]
 - `npx node@9.2.0 -v` 使用任意版本的软件执行命令
+- `npx -p node@6 node -v`
+- `npx browserslist`
 [升级本机node至最新稳定版]
 ```sh
 # 安装n工具,这个工具是专门用来管理node.js版本的
