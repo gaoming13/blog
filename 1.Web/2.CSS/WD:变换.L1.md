@@ -1,0 +1,15 @@
+### WD:变换(Transitions)
+- 定义了平滑变换 CSS 属性值的方法; 可以决定哪些属性发生动画效果, 何时开始(delay), 持续多久(duration), 如何动画(timing function)
+
+#### transition 缩写
+- `transition: <property> <duration> <timing-function> <delay>`
+- 1. transition-property: width,height; 哪些属性
+- 2. transition-duration: 2s,2s; 缓动时长
+- 3. transition-timing-function: ease | ease-out; 缓动延迟
+- 4. transition-delay: 2s; 缓动函数
+
+#### 事件
+- transitionrun(TransitionEvent)
+- transitionstart(TransitionEvent)
+- transitioncancel(TransitionEvent)
+- transitionend(TransitionEvent)

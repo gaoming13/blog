@@ -1,0 +1,179 @@
+#### 优化
+- cookie free： 客户端请求静态资源也会发送cookie信息，但这是没有必要的。解决方案是启用和主站不同的域名来防止静态资源，也就是cookie free
+- domain hash： 浏览器单域名并发数有限制，使用多域名可以加大并发量，但会再DNS解析上付出额外代价，所以一般也是控制在2-4之间
+- css spirites： 将图标合并成大图，使用background-position定位，大大减少总请求数
+- js/css combine：不连贯的载入会造成多次重新渲染，网站变大需要保持模块化来提交可维护性，js/css合并压缩技术就出来了
+- 设置静态资源有效期为最长，每次发布为不同的URL确保用户载入变动的资源
+- 首屏优化：用户下拉进入可见区了才载入，降低带宽费用
+
+#### 安全
+- XSS(Cross Site Scripting) 跨站脚本攻击
+  - 攻击：攻击者往Web页面插入恶意Script代码，当用户浏览该页时，插入的Script代码会被执行
+  - 防范：对输入进行验证；对输出进行编码
+- target="_blank" 存在跳转风险
+  - 攻击：通过 target="_blank" 跳转到的页面通过 window.opener 可以控制原页面
+  - 防范：为 target="_blank" 加上 rel="noopener norefferrer" 属性
+
+#### Javascript
+- this:
+  - https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this
+  - https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arrow_functions
+  - 在绝对多数情况下,函数的调用方式决定了`this`的值。`this`不能在执行期间被赋值，每次函数被调用时`this`的值也有可能不同。
+  - ES5引入了`bind`方法来设置函数的`this`值，而不用考虑函数如何被调用的
+  - ES2015引入了支持`this`词法解析的箭头函数(它在闭合的执行环境内设置`this`的值)
+  - 1.全局环境中: 都指向全局对象 `console.log(this);` => `window`
+  - 2-1.函数简单调用,非严格模式: 调用的函数未设置this时,默认指向全局对象 `(function() { console.log(this); })();` => `window`
+  - 2-2.函数简单调用,严格模式: this保持他进入执行环境时的值,如果this没有被执行环境(execution context)定义,那它将保持为`undefined`
+    - `(function() { 'use strict'; console.log(this); })();` => `undefined`
+    - 如果想把this的值从一个环境传到另一个,可用`call`或`apply`方法
+      - `(function() { 'use strict'; console.log(this); }).call({ a: 123 })` => `{a: 123}`
+    - 当一个函数在其主体内使用this关键字时,可以使用函数继承自`Function.prototype`的`call`或`apply`将this绑定到调用中的特定对象
+      - `(function(c, d) { console.log(this.a + this.b + c + d); }).call({ a: '1', b: '2' }, '3', '4')` => `1234`
+      - `(function(c, d) { console.log(this.a + this.b + c + d); }).apply({ a: '1', b: '2' }, ['3', '4'])` => `1234`
+  - 3.bind方法：ES2015引入的`Function.prototype.bind`,调用`f.bind(obj)`会创建一个与f具有相同函数体和作用域的函数,this永久被绑定到obj,无论函数如何被调用
+    - `function f() { console.log(this); }; var f1 = f.bind({a: '123'}); var f2 = f1.bind({a: '456'}); var obj = { f1, f2 };`
+    - `console.log(obj.f1()); console.log(obj.f2());` => `{a: '123'}  {a: '123'}`
+  - 4.对象的方法: 函数作为对象中的方法被调用时，this是调用该函数的对象; 这样的行为不受函数定义方式或位置的影响
+    - `var obj = {a: '123', obj1: { b: '345', f: function() { return this } }}` => `{b: '345', f}`
+    - `function f() { return this }; var obj = {a: '123', f}; obj.f()` => `{a: '123', f}`
+  - 5.原型链中的方法：同上, 如果方法存在于对象的原型链上，那么this是调用这个方法的对象
+    - `var obj = {f: function() { return this; }}; var obj1 = Object.create(obj); obj1.a = '123'; obj1.f()` => `{a: '123'}`
+  - 6.getter与setter中：同上，this是设置或获取属性的对象
+    - `var obj = {a: '123', b: {c: '456'}}; Object.defineProperty(obj.b, 'd', {get: function() { return this }}); obj.b.d` => `{c: '456'}`
+  - 7.构造函数：当一个函数用作构造函数时(使用new关键字), this是正在构造的新对象；虽然构造器默认返回this指的对象,但可手动返回其它对象
+    - `function C() { this.a = '123'; console.log(this); return {b: '456'}; }; new C()` => `C {a: "123"} {b: "456"}`
+  - 8.dom事件处理函数：
+    - `$0.addEventListener('click', function() { console.log(this); })` => `当前元素`
+    - `$0.addEventListener('click', function() { (function() { console.log(this); })(); })` => `window`
+  - 9.内联事件处理函数
+    - `onclick="console.log(this);"` => `当前元素`
+    - `onclick="(function() { console.log(this); })()"` => `window`
+  - 10.箭头函数: this与封闭词法环境的this保持一致,即被设置为创建他时的环境; 如果通过`call/apply/bind`传递this,它将被忽略;
+    - `(() => this)() === this` => `true`
+    - `(() => this).call({a: 123}) === this` => `true`
+    - `var obj = {f: function() { return () => this }}; (obj.f())() === obj` => `true`
+    - `var obj = {f: function() { return () => this }}; var obj1 = {a: 123, f: obj.f}; (obj1.f())() === obj` => `false`
+    - 箭头函数不能用作构造器,和new一起用会抛出错误 `var C = () => {}; new C();` // // TypeError: Foo is not a constructor
+    - 箭头函数没有prototype属性 `var f = () => {}; f.prototype;` // undefined
+    - 箭头函数也可以使用闭包
+      - 标准闭包函数: `function f() { var i = 0; return function() { return ++i; } }; var a = f(); a(); a();`
+      - 箭头函数的闭包：`var f = (i = 0) => () => ++i; var a = f(); a(); a();`
+- 循环函数：
+  - for:
+    - `for (var i = 0; i < 9; i++) { console.log(i); }`
+    - `var i = 0; for (; i < 9; i++) { console.log(i); }`
+    - `for (var i = 0;; i++) { if (i >= 9) break; console.log(i); }`
+    - `var i = 0; for (;;) { if (i >= 9) break; console.log(i); i++; }`
+  - for...in: 以任意顺序遍历对象的除Symbol以外的可枚举属性
+    - 通常，在迭代过程中最好不要对对象属性进行添加、修改、删除的操作
+    - 不应该用于迭代一个Array,不能保证索引顺序
+    - 仅迭代自身的属性，只考虑对象本身的属性，而不是它的原型：`Object.getOwnPropertyNames(obj)` 或 `obj.hasOwnProperty('a')`
+    - `var obj = {a:1, b:2}; function C() { this.c = '3'; }; C.prototype = obj; var obj1 = new C();`
+    - `for (var i in obj1) { if (obj1.hasOwnProperty(i)) console.log(i); }` => `c`
+    - `let obj = {a: 1, b: 2}; obj.__proto__.c = 3; for (let i in obj) { console.log(i); }` => `a b c`
+  - for...of: 在可迭代对象(Array、Map、Set、String、TypedArray、arguments)上创建一个迭代循环
+    - `break / throw / continue / return` 可跳出循环
+    - 迭代Array: `for (let v of [1, 2, 3]) { console.log(v) }`
+    - 迭代String: `for (let v of 'abc') { console.log(v) }`
+    - 迭代TypedArray: `for (let v of (new Uint8Array([0x00, 0xff]))) { console.log(v) }`
+    - 迭代Map: `for (let [k, v] of (new Map([['a', 1]]))) { console.log({k, v}) }`
+    - 迭代Set: `for (let v of (new Set([1, 2, 3]))) { console.log(v) }`
+    - 迭代arguments `(function() { for (let v of arguments) { console.log(v) } })(1, 2, 3);`
+    - 迭代DOM集合 `for (let v of document.querySelectorAll('p')) { console.log(v) }`
+    - 迭代生成器 `function* f() { i = 0; while(true) { i += 1; yield(i); } }; for (let v of f()) { console.log(v) }`
+    - for...in 与 for...of 对比
+      - `Object.prototype.p1 = '123'; Array.prototype.p2 = '456';`
+      - `let obj1 = [1, 2, 3]; obj1.a = '123';`
+      - `for (let k in obj1) { console.log(k); }` => `0 1 2 a p2 p1`
+      - `for (let k in obj1) { if (obj1.hasOwnProperty(k)) console.log(k); }` => `0 1 2 a`
+      - `for (let v of obj1) { console.log(v); }` => `1 2 3`
+      - `let obj2 = {a: '123'};`
+      - `for (let k in obj2) { console.log(k); }` => `a p1`
+      - `for (let k in obj2) { if (obj2.hasOwnProperty(k)) console.log(k); }` => `a`
+- 继承与原型链
+  - Js对象有一个指向原型对象的链。`obj.__proto__` => `原型对象.prototype`
+  - 创建对象与生成原型链
+    - 1.使用语法结构构建的对象
+      - `let a = "123";`
+        - `a.__proto__                  --->  String.prototype`
+        - `String.prototype.__proto__   --->  Object.prototype`
+        - `Object.prototype.__proto__   --->  null`
+      - `let a = ['123'];`
+        - `a.__proto__                  --->  Array.prototype`
+        - `Array.prototype.__proto__    --->  Object.prototype`
+        - `Object.prototype.__proto__   --->  null`
+      - `function a() {}`
+        - `a.__proto__                  --->  Function.prototype`
+        - `Function.prototype.__proto__ --->  Object.prototype`
+        - `Object.prototype.__proto__   --->  null`
+    - 2.使用构造器创建的对象(构造器其实就是一个普通函数,当使用new操作符时,它就可以被称为构造方法)
+      - `function a() {}; let b = new a();`
+        - `b.__proto__                  --->  a.prototype`
+        - `a.prototype.__proto__        --->  Function.prototype`
+        - `Function.prototype.__proto__ --->  Object.prototype`
+        - `Object.prototype.__proto__   --->  null`
+    - 3.使用Object.create创建的对象(es5引入的新方法)
+      - `let a = {}; let b = Object.create(a);`
+        - `b.__proto__                  --->  a`
+        - `a.__proto__                  --->  Object.prototype`
+        - `Object.prototype.__proto__   --->  null`
+      - `let a = Object.create(null);`
+        - `a.__proto__                  --->  undefined`
+    - 4.使用class关键字创建对象(es6引入的新方法)
+      - `class A {}; class B extends A {};`
+        - `B.__proto__                  --->  A.prototype`
+        - `A.prototype.__proto__        --->  Object.prototype`
+        - `Object.prototype.__proto__   --->  null`
+  - `hasOwnProperty`是唯一一个处理属性而不用遍历原型链的方法
+  - 检查属性是否为`undefined`不能够确认属性是否存在，可能属性值就为`undefined`
+- 严格模式(es5)
+  - 1.通过抛出错误来消除一些原有静默错误
+    - 八进制语法: `var n = 023; var s = "\047"` // ES6 `var n = Oo23`
+    - with语句
+    - 使用delete删除变量名(而非属性名) `delete a`
+    - 删除一个不可配置的属性 `delete Object.prototype`
+    - 使用`eval`或`arguments`作为变量名或函数名
+    - 对象字面量中使用相同的属性名：`{a:1, b:2, a:3}`
+    - 函数形参中使用相同的参数名：`function f(a, b, b) {}`
+    - 给一个未声明的变量赋值 `a = 123`
+  - 2.修复了一些导致Javascript引擎难以执行优化的缺陷,有时候相同代码严格模式执行更快.
+    - 在语句块中使用函数声明 `if (a > b) { function f() {} }`
+    - 访问 `arguments.callee, arguments.caller, anyFunction.caller以及anyFunction.arguments`
+    - 普通函数调用f()中,this指向全局变量;严格模式中,this指向undefined,使用call或apply可传入this参数
+    - 严格模式下arguments对象会以形参变量的拷贝形式被创建和初始化，因此arguments对象的改变不会影响形参
+    - 严格模式下eval不会在当前的作用域内创建新变量,传入eval的字符串参数也会按照严格模式去解析
+  - 3.禁用了ECMAScript在未来版本中可能用到的语法
+    - 使用未来保留字作为变量名或函数名(implements/interface/let/package/private/procted/public/static/yield)
+- 类型化数组：类型化数组是一种类似数组的对象，并提供了一种用于访问原始二进制数据的机制
+  - 不是正常数组, Array.isArray() 会返回false
+  - 类型数组(Typed Arrays)拆分为缓冲和视图
+  - `let buffer = new ArrayBuffer(16); let uInt8View = new Uint8Array(buffer);`
+- `'a' in { a: '123' }` 如果指定的属性在指定的对象或原型链中，则 `in` 运算符返回 `true`
+- `Array.isArray` 判断是否为数组
+- 求a.x `var a = {n: 1}; var b = a; a.x = a = { n: 2 }`
+  - // a ---> x1({n: 1}) <--- b
+  - // a ---> x2({n: 2}), x1({n: 1}) <--- b
+  - // a ---> x2({n: 2}), x1({n: 1, x: {n: 2}}) <--- b
+- 求a和b `(() => { var a = b = 3 })()`
+  - 等价于：b = 3; var a = b;
+
+### Console对象
+- 对象输出
+  - log: function(message, [...values]) 输出信息
+  - info: function(message, [...values]) log的别名
+  - warn: function(message, [...values]) 输出警告信息
+  - error: function(message, [...values]) 输出错误信息+堆栈
+  - trace: function(message, [...values]) 输出错误信息+堆栈
+  - dir: function(object) 与log没啥区别似乎
+  - dirxml: function(object) 与log没啥区别似乎
+  - table: function(data, [columns]) 以表格形式输出对象
+- 分组显示
+  - group: function([name]) 开始分组
+  - groupCollapsed: function([name]) 开始分组(默认折叠)
+  - groupEnd: function([name]) 结束分组
+- 计时功能
+  - time: function(name = "default") 开始计时
+  - timeEnd: function(name = "default") 结束计时
+- assert: function(condition, [message], [...values]) 断言,如果结果为否,输出相应信息,并抛出异常
+- count: function([label]) 输出它被调用了多少次
+- clear: function() 清除当前控制台的所有输出,光标回至首行

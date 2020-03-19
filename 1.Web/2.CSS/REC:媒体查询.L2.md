@@ -1,0 +1,25 @@
+### REC:媒体查询(Media Queries) Level 2
+- 使用情景与语法
+  - 1.`@media all and (min-width:500px) { }`
+  - 2.`<link rel="stylesheet" type="text/css" media="print and (min-width:500px)" href="example.css">`
+  - 3.`@import url(color.css) screen and (color);`
+  - 4.not关键字用来排除符号表达式的设备 `@media not print and (min-width:500px);`
+  - 5.only关键字用来排除不支持媒体查询的浏览器，对哪些不支持Media Query但却支持Media Type的设备隐藏样式表 `@media only print and (min-width:500px);`
+- 媒体类型：
+  - all 用于所有设备
+  - print 用于打印机与打印预览
+  - screen 用于电脑屏幕/平板电脑/智能手机等
+  - speech 用于屏幕阅读器等发声设备
+- 媒体功能
+  - width 视区宽度；接受最小最大前缀
+  - height 视区高度；接受最小最大前缀
+  - device-width 设备宽度；接受最小最大前缀
+  - device-height 设备高度；接受最小最大前缀
+  - orientation 取向，landscape 宽大与高，portrait 高大于宽
+  - aspect-ratio 纵横比(width/height)；接受最小最大前缀
+  - device-aspect-ratio 设备纵横比(width/height)；接受最小最大前缀
+  - color 每个像素单位的比特值，如果不支持输出颜色，则值为0；接受最小最大前缀
+  - color-index 颜色查询表中的条目数量；接受最小最大前缀
+  - monochrome 黑白(灰度)设备每个像素的比特数，如果不是黑白设备，值为0；接受最小最大前缀
+  - resolution 分辨率，可以用 dpi(每英寸点数) / dpcm(每厘米点数) / dppx(每像素点数)；接受最小最大前缀；window.devicePixelRatio
+  - grid 网格 判断是网格设备(1)还是为位图设备(0)

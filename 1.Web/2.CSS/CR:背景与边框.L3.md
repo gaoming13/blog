@@ -1,0 +1,32 @@
+### CR:背景与边框(Backgrounds and Borders) Level 3
+- background 背景
+  - 多张背景叠加，背景用逗号分割，第1张在最上面，最后1张在最下面 `background: url(1.jpg), url(2.jpg), red;`
+  - 背景属性也按逗号分割，属性不够的，重复使用 `background-position: top left, bottom right;`
+  - `background-color` 始终绘制在最底层
+  - `background-repeat` 背景重复属性
+    - `no-repeat` 等价于 `no-repeat no-repeat`
+    - `repeat-x` 等价于 `repeat no-repeat`
+    - `repeat-y` 等价于 `no-repeat repeat`
+    - `repeat` 等价于 `repeat repeat`
+    - `space` 等价于 `space space` 尽可能多的放置背景，背景宽高比不变，多余的地方使用空白
+    - `round` 等价于 `space space` 尽可能完整的放置背景，多余的地方将进行拉伸
+  - `background-size` 背景图片大小
+    - `length length` 第1个值表示宽度，第2个值表示高度；如果只设置1个值，则第2个值默认auto
+    - `percentage percentage` 以父元素的百分比来设置宽高
+    - `cover` 把背景图像扩展至完全覆盖背景区域，背景图像的某些部分可能被遮住
+    - `contain` 把背景图片宽高拉至完全适应内容区域
+  - `background-position` 背景图像位置
+    - `top center` 顶部居中
+    - `top 10px center` 距离顶部10px居中
+    - `right 10px bottom 50%` 距离右侧10px,距离底部50%图片高度
+  - `background-attachment` 背景图像是固定还是随页面滚动
+    - scroll 默认值，背景图相对于元素固定
+    - fixed 背景图相对于视口固定
+    - local 背景图相对于元素内容固定
+  - `background-origin` 规定背景的定位区域(padding-box / border-box / content-box)
+  - `background-clip` 规定背景的裁剪区域(padding-box / border-box / content-box)
+- border 边框
+  - `border-radius: A / B;` 圆角的角度
+  - `border-image` 边框背景
+- box-shadow 边框阴影
+  - `<必填:向右位移(h-shadow)> <必填:向下位移(v-shadow)> <可选:模糊距离(blur)> <可选:阴影尺寸(spread)> <可选:颜色(color)> <可选:inset:外阴影outset改为内阴影>`

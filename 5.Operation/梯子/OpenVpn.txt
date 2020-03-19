@@ -1,0 +1,154 @@
+OpenVpn
+
+1.1 生成服务端与客户端证书
+
+yum install easy-rsa -y
+# 创建一个新的PKI和CA
+cd /usr/share/easy-rsa/3.0.3
+./easyrsa init-pki
+./easyrsa build-ca nopass
+
+1.2 创建服务端证书
+
+./easyrsa gen-req server nopass
+# 签约服务端证书
+./easyrsa sign server server
+
+1.3 创建 Diffie-Hellmman
+
+./easyrsa gen-dh
+
+1.4 创建客户端证书
+
+./easyrsa gen-req zhaoliming nopass
+# 签约客户端证书
+./easyrsa sign client zhaoliming
+
+1.5 创建后
+
+[root@gm13 3.0.3]# tree .
+.
+├── easyrsa
+├── openssl-1.0.cnf
+├── pki
+ │   ├── ca.crt
+ │   ├── certs_by_serial
+ │   │   ├── 879CE57C0DE044BBAABE0C1A796CF829.pem
+ │   │   └── B996F4B887095F9F99F3C0B966F287C5.pem
+ │   ├── dh.pem
+ │   ├── index.txt
+ │   ├── index.txt.attr
+ │   ├── index.txt.attr.old
+ │   ├── index.txt.old
+ │   ├── issued
+ │   │   ├── server.crt
+ │   │   └── zhaoliming.crt
+ │   ├── private
+ │   │   ├── ca.key
+ │   │   ├── server.key
+ │   │   └── zhaoliming.key
+ │   ├── reqs
+ │   │   ├── server.req
+ │   │   └── zhaoliming.req
+ │   ├── serial
+ │   └── serial.old
+└── x509-types
+    ├── ca
+    ├── client
+    ├── COMMON
+    ├── san
+    └── server
+
+2.1 安装OpenVpn
+
+yum install -y openvpn
+cp /usr/share/doc/openvpn-2.4.6/sample/sample-config-files/server.conf /etc/openvpn/
+
+2.2 server.conf
+
+port 1194
+proto tcp
+dev tun
+
+ca /usr/share/easy-rsa/3/pki/ca.crt
+cert /usr/share/easy-rsa/3/pki/issued/server.crt
+key /usr/share/easy-rsa/3/pki/private/server.key  # This file should be kept secret
+dh /usr/share/easy-rsa/3/pki/dh.pem
+
+server 10.8.0.0 255.255.255.0
+
+ifconfig-pool-persist ipp.txt
+
+;push "route 192.168.10.0 255.255.255.0"
+;push "route 192.168.20.0 255.255.255.0"
+
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 10.202.72.118"
+push "dhcp-option DNS 10.202.72.116"
+client-to-client
+
+;duplicate-cn
+
+keepalive 10 120
+
+;tls-auth ta.key 0 # This file is secret
+
+cipher AES-256-CBC
+
+compress lz4-v2
+;push "compress lz4-v2"
+
+;comp-lzo
+;max-clients 100
+
+user nobody
+group nobody
+
+persist-key
+persist-tun
+
+status openvpn-status.log
+log         openvpn.log
+verb 3
+
+;mute 20
+;explicit-exit-notify 1
+
+2.3启动openvpn
+
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth1 -j MASQUERADE
+
+# 开启Ip转发功能
+
+vim /etc/sysctl.conf
+net.ipv4.ip_forward = 1  #将默认的0改成1
+sysctl -p   #使修改的参数生效
+
+# 启动
+
+systemctl start openvpn@server
+systemctl status openvpn@server
+
+
+3.4 客户端配置
+
+client
+dev tun
+proto tcp
+remote 121.40.80.46 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca ca.crt
+cert zhaoliming.crt
+key zhaoliming.key
+compress lz4-v2
+remote-cert-tls server
+rcvbuf 65536
+verb 3
+
+
+# 报错
+openvpn --genkey --secret /etc/openvpn/ta.key

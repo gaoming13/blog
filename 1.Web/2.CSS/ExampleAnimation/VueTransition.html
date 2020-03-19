@@ -1,0 +1,275 @@
+<!-- Vue元素v-if/v-show的动画过渡 -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+  <style>
+    .ani-dom { width: 60px; height: 60px; background: burlywood; }
+  </style>
+</head>
+<body>
+  <pre>
+    插入：            (插入前:opacity:0)---->(下一帧)---->(动画完:opacity:1)
+    事件：before-enter|enter                                            |after-enter
+    类名：            |<---- v-enter ------>|<----- v-enter-to -------->|
+                     |<------------ v-enter-active ------------------->|
+    移除：            (移除前:opacity:1)---->(下一帧)---->(动画完:opacity:0)
+    事件：before-leave|leave                                             |after-leave
+    类名：            |<---- v-leave ------>|<----- v-leave-to -------->|
+                     |<------------ v-leave-active ------------------->|
+
+    1.transition: 过渡(属性 效果 持续时间),改变属性值时触发
+    2.animation: 动画(定义帧1 => 帧2 => 帧3),元素出现的时候触发
+    3.jQuery & velocity: 只是JS间隔时间修改样式,非原生动画
+    4.animate.css: 使用animation 动画
+  </pre>
+  <!-- eg1: 简单模式 -->
+  <div id="demo1">
+    <button @click="isShow = !isShow">{{ isShow ? '隐藏' : '显示' }}</button>
+    <transition name="fade1">
+      <div v-if="isShow" class="ani-dom">eg1: 简单模式</div>
+    </transition>
+  </div>
+  <script>
+    new Vue({
+      el: '#demo1',
+      data: {
+        isShow: false,
+      },
+    });
+  </script>
+  <style>
+    @keyframes fade1-in {
+      0% { transform: translate3d(0,-50px,0); opacity: 0; }
+      to { transform: translateZ(0); opacity: 1; }
+    }
+    @keyframes fade1-out {
+      0% { transform: translateZ(0); opacity: 1; }
+      to { transform: translate3d(0,50px,0); opacity: 0; }
+    }
+    .fade1-enter-active {
+      animation: fade1-in .5s;
+    }
+    .fade1-leave-active {
+      animation: fade1-out .5s;
+    }
+  </style>
+
+  <!-- eg2: 自定义动画添加的类名(使用animate.css的类名) -->
+  <div id="demo2">
+    <button @click="isShow = !isShow">{{ isShow ? '隐藏' : '显示' }}</button>
+    <transition
+      enter-active-class="animated slideInUp"
+      leave-active-class="animated rotateOut"
+    >
+      <div v-if="isShow" class="ani-dom"
+        ontransitionend="console.log('过渡完成')"
+        onanimationend="console.log('动画完成')"
+      >eg2: 自定义类名</div>
+    </transition>
+  </div>
+  <script>
+    new Vue({
+      el: '#demo2',
+      data: {
+        isShow: false,
+      },
+    });
+  </script>
+
+  <!-- eg3: 自定义动画事件处理(使用velocity来做动画) -->
+  <div id="demo3">
+    <button @click="isShow = !isShow">{{ isShow ? '隐藏' : '显示' }}</button>
+    <transition
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @enter-cancelled="enterCancelled"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+      @leave-cancelled="leaveCancelled"
+      @before-appear="console.log('111')"
+    >
+      <div v-if="isShow" class="ani-dom">eg3: 自定义动画事件处理</div>
+    </transition>
+  </div>
+  <script>
+    new Vue({
+      el: '#demo3',
+      data: {
+        isShow: false,
+      },
+      methods: {
+        beforeEnter: function(el) {
+          // el.style.transform = 'translateY(-50px)';
+          el.style.opacity = 0;
+        },
+        enter: function(el, done) {
+          Velocity(el, {
+            translateY: '0px',
+            opacity: 1,
+          }, { duration: 500, complete: done });
+        },
+        afterEnter: function(el) {},
+        enterCancelled: function(el) {},
+        beforeLeave: function(el) {},
+        leave: function(el, done) {
+          Velocity(el, {
+            translateY: '50px',
+            opacity: 0,
+          }, { duration: 500, complete: done });
+        },
+        afterLeave: function(el) {},
+        leaveCancelled: function(el) {},
+      },
+    });
+  </script>
+
+  <!-- eg4: 切换效果实现方式1 -->
+  <div id="demo4">
+    <transition name="fade4">
+      <button v-if="on" key="on" @click="on = false">ON</button>
+      <button v-else key="off" @click="on = true">OFF</button>
+    </transition>
+  </div>
+  <script>
+    new Vue({
+      el: '#demo4',
+      data: {
+        on: false,
+      },
+    });
+  </script>
+  <style>
+    #demo4 { position: relative; width: 100px; height: 30px; }
+    #demo4 > button { position: absolute; top: 0; left: 0; }
+    @keyframes fade4-in {
+      0% { transform: translateX(30px); opacity: 0; }
+      to { transform: translateX(0px); opacity: 1; }
+    }
+    @keyframes fade4-out {
+      0% { transform: translateX(0px); opacity: 1; }
+      to { transform: translateX(-30px); opacity: 0; }
+    }
+    .fade4-enter-active {
+      animation: fade4-in 1s;
+    }
+    .fade4-leave-active {
+      animation: fade4-out 1s;
+    }
+  </style>
+
+  <!-- eg5: 切换效果实现方式2
+    mode未设置：默认同时生效
+    mode="in-out" 先插后删
+    mode="out-in" 先删后插
+  -->
+  <div id="demo5">
+    <transition name="fade5" mode="out-in">
+      <button v-if="on" key="on" @click="on = false">ON</button>
+      <button v-else key="off" @click="on = true">OFF</button>
+    </transition>
+  </div>
+  <script>
+    new Vue({
+      el: '#demo5',
+      data: {
+        on: false,
+      },
+    });
+  </script>
+  <style>
+    #demo5 { position: relative; width: 100px; height: 30px; }
+    #demo5 > button { position: absolute; top: 0; left: 0; }
+    .fade5-enter {
+      transform: translateX(30px);
+      opacity: 0;
+    }
+    .fade5-enter-to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .fade5-enter-active {
+      transition: all 1s;
+    }
+    .fade5-leave {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .fade5-leave-to {
+      transform: translateX(-30px);
+      opacity: 0;
+    }
+    .fade5-leave-active {
+      transition: all 1s;
+    }
+  </style>
+
+  <!-- eg6: 列表过渡 -->
+  <div id="demo6">
+    <button v-on:click="add">Add</button>
+    <button v-on:click="remove">Remove</button>
+    <transition-group name="fade6" tag="div">
+      <span v-for="v in items" v-bind:key="v">{{ v }}</span>
+    </transition-group>
+  </div>
+  <script>
+    new Vue({
+      el: '#demo6',
+      data: {
+        items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        nextNum: 10,
+      },
+      methods: {
+        randomIndex: function() {
+          return Math.floor(Math.random() * this.items.length)
+        },
+        add: function () {
+          this.items.splice(this.randomIndex(), 0, this.nextNum++)
+        },
+        remove: function () {
+          this.items.splice(this.randomIndex(), 1)
+        },
+      },
+    });
+  </script>
+  <style>
+    #demo6 span {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .fade6-enter-active, .fade6-leave-active {
+      transition: all 1s;
+    }
+    .fade6-enter, .fade6-leave-to {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+  </style>
+
+  <!-- eg7: 状态过渡 -->
+  <div id="demo7">
+    <input v-model="num" type="number" step="20">
+    <span>{{ parseInt(animateNum) }}</span>
+  </div>
+  <script>
+    new Vue({
+      el: '#demo7',
+      data: {
+        num: 0,
+        animateNum: 0,
+      },
+      watch: {
+        num: function(newVal) {
+          TweenLite.to(this.$data, 0.5, { animateNum: newVal });
+        },
+      },
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+  <h3>弹性盒对齐</h3>
+  <div style="border: 1px solid blue; display: flex; min-height: 200px; align-items: flex-end;">
+    <div style="border: 1px solid grey; align-self: stretch;">One</div>
+    <div style="border: 1px solid grey; align-self: flex-start;">Two</div>
+    <div style="border: 1px solid grey;">Three</div>
+  </div>
+  <h3>网格对齐</h3>
+  <div style="border: 1px solid blue; display: grid; grid-template-columns: repeat(3, min-content); min-height: 200px; align-items: end;">
+    <div style="border: 1px solid grey; align-self: stretch;">One</div>
+    <div style="border: 1px solid grey; align-self: start;">Two</div>
+    <div style="border: 1px solid grey;">Three</div>
+  </div>
+</body>
+</html>

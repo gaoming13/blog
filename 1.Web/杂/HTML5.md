@@ -1,0 +1,113 @@
+## HTML5 (HTML最新修订版本,2014年10月由W3C完成标准制定)
+- 必须以 `<!DOCTYPE html>` 作为首行
+
+### HTML5 语义元素、输入类型、表单元素、表单属性
+
+### HTML5 视频 (支持video标签)
+- `<video><source src="1.ogg" type="video/ogg"><source src="1.mp4" type="video/mp4">不支持video</video>`
+- video拥有方法、属性以及事件
+- 浏览器支持文件格式不一
+
+### HTML5 音频 (支持audio标签)
+- `<audio><source src="1.ogg" type="audio/ogg"><source src="1.mp3" type="audio/mpeg">不支持audio</audio>`
+- audio拥有方法、属性以及事件
+- 浏览器支持文件格式不一
+
+### HTML5 拖放
+- `<div draggable="true" ondragstart="ondragstart(event)"></div>`
+- `<div ondragover="ondragover(event)" ondrop="ondrop(event)"></div>`
+- `ondragstart` 当元素被拖送时
+- `ondragover` 放置元素时hover事件
+- `ondrop` 放置时
+
+### HTML5 地理定位
+- `navigator.geolocation.getCurrentPosition(function(v) { console.log(v); })`
+
+### HTML5 画布Canvas (使用js在页面上绘制图形)
+- 优缺点
+  - 能够以.png或.jpg格式保存结果图像
+  - 依赖分辨率
+  - 不支持事件处理器
+  - 弱的文本渲染能力
+  - 最适合图像密集型的游戏，其中的许多对象会被频繁重绘
+
+### HTML5 SVG 支持内联
+- 内联 `<svg:svg version="1.1" ><svg:circle cx="100" cy="50" r="40" /></svg:svg>`
+- 使用embed标签 `<embed src="1.svg" style="width: 30px; height: 30px;"/>`
+- 使用object标签 `<object data="1.svg" width="30" height="30"></object>`
+- 使用iframe标签 `<iframe src="1.svg" width="30" height="30"></iframe>`
+- 复用元素：`defs symbol` `use` svg-sprite-loader 的原理
+```
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs><g id="logo" fill="none" fill-rule="evenodd"></g></defs>
+  <use x="calc(50% - 20px)" y="30%" xlink:href="#logo" />
+</svg>
+```
+```
+<svg width="100%" height="100%" style="background-color: #f9f9f9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <g id="logo"></g>
+  </defs>
+  <svg x="calc(50% - 20px)" y="30%" width="40" height="40" viewBox="0 0 1024 1024">
+    <use xlink:href="#logo" style="fill:blue"/>
+  </svg>
+</svg>
+```
+- 优缺点
+  - 不依赖分辨率
+  - 支持事件处理器
+  - 最适合带有大型渲染区域的应用程序(比如谷歌地图)
+  - 复杂度高会减慢渲染速度(任何过度使用DOM的应用都不快)
+  - 不适合游戏应用
+
+### HTML5 Web存储 (localStorage & sessionStorage)
+
+### 服务器发送事件
+- `var source = new EventSource('1.php'); source.onmessage = function(e) {};`
+- 服务器端事件流的语法，把 `Content-Type` 报头设置为 `text/event-stream`
+
+### HTML5 应用程序缓存(Application Cache)
+- `<html manifest="demo.appcache">`
+- 估计会被淘汰
+
+### HTML5 Web Workers (为JavaScript引入线程技术, 规范定义了网络应用中生成后台脚本的API)
+- 文档：[https://www.html5rocks.com/zh/tutorials/workers/basics/#toc-gettingstarted-workercomm]
+- Worker 在独立线程中运行，在完全下载并执行文件之前，系统不会生成 Worker
+- Worker 与父网页之间通过 `事件模型` 和 `postMessage` 进行通信
+- Worker 与父网页之间的消息是复制而不是共享的(系统自动序列化)
+- Worker 内 self 和 this 指的都是 Worker 的全局作用域，可省略
+- 由于 Worker 的多线程行为，所以只能使用 JavaScript 功能的子集：
+  - navigator 对象
+  - location 对象(只读)
+  - XMLHttpRequest
+  - setTimeout() / clearTimeout() / setInterval() / clearInterval()
+  - 应用缓存 AppCache [https://www.html5rocks.com/zh/tutorials/appcache/beginner/]
+  - 使用 importScripts() 方法导入外部脚本
+  - 生成其它 Web Worker
+- 无法使用
+  - DOM (非线程安全)
+  - window 对象
+  - document 对象
+  - parent 对象
+- 用例
+  - 预先抓取缓存数据以便稍后使用
+  - 拼写检查程序
+  - 后台 I/O 或网络服务轮询
+  - 处理较大数组或超大 JOSN 响应
+- 示例
+  ```js
+  // app.js
+  var w1 = new Worker('task.js');
+  w1.onmessage = function(e) {};
+  w1.postMessage('发送给task');
+  // 停止 Worker
+  w1.terminate();
+
+  // task.js
+  onmessage = function(e) {
+    postMessage({'msg': '我收到了'});
+  };
+  // 停止 Worker
+  close();
+  ```
+

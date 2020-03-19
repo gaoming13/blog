@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>网格模版区域</title>
+<style>
+  .list > div { border: 1px solid bisque; border-radius: 8px; }
+</style>
+</head>
+<body>
+  <h3>网格模版区域 grid-template-areas / grid-area</h3>
+  <div class="list" style="width: 600px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 100px;
+  grid-template-areas: 'h h h h .' 's s c c c'  's s c c c'  'f f f f f';">
+    <div style="grid-area: h;">HEADER</div>
+    <div style="grid-area: s;">Slider</div>
+    <div style="grid-area: c;">Content</div>
+    <div style="grid-area: f;">Footer</div>
+  </div>
+</body>
+</html>

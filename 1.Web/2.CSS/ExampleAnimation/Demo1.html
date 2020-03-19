@@ -1,0 +1,180 @@
+<!-- Vue元素v-if/v-show的动画过渡 -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="demo1">
+    <div class="box1">
+      <span class="label">订单编号</span>
+      <div class="num" @mouseenter="box1Pop2IsShow = true" @mousemove="box1Pop2IsShow = true" @mouseout="box1Pop2IsShow = false">
+        <div class="txt">115227329921371{{ box1Pop2IsShow ? 1 : 0 }}</div>
+        <div class="pop1">
+          <div class="arrow"></div>
+          <div class="inner">CSS Hover transition</div>
+        </div>
+        <transition name="fade1">
+          <div v-if="box1Pop2IsShow" class="pop2">
+            <div class="arrow"></div>
+            <div class="inner">Vue transition</div>
+          </div>
+        </transition>
+      </div>
+      <div class="box2">
+        <div class="btn">
+          <transition name="fade2" mode="out-in">
+            <div v-if="box1Pop2IsShow" key="on" class="icon show">打开</div>
+            <div v-else key="off" class="icon close">关闭</div>
+          </transition>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: '#demo1',
+      data: {
+        box1Pop2IsShow: false,
+      },
+    });
+  </script>
+  <style>
+    @keyframes fade1In {
+      0% { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fade1Out {
+      0% { opacity: 1; }
+      to { opacity: 0; }
+    }
+    .fade1-enter-active {
+      animation: .3s fade1In;
+    }
+    .fade1-leave-active {
+      animation: .3s fade1Out;
+    }
+    .box1 {
+      font-size: 12px;
+      line-height: 20px;
+      padding-top: 40px;
+      padding-bottom: 40px;
+      border: 1px dashed rebeccapurple;
+    }
+    .box1 > .label {
+      transition: color .3s;
+    }
+    .box1 > .label:hover {
+      color: #357ce1;
+    }
+    .box1 > .num {
+      display: inline-block;
+      position: relative;
+    }
+    .box1 > .num > .txt {
+      background: #409eff;
+      padding: 5px;
+      color: #fff;
+      border-radius: 4px;
+    }
+    .box1 > .num > .pop1 {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      z-index: 2;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility .3s, opacity .3s;
+    }
+    .box1 > .num > .pop1 > .arrow {
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      margin-left: -5px;
+      width: 0;
+      height: 0;
+      border: 5px solid transparent;
+      border-bottom-color: rgba(70,76,91,.9);
+      border-top-width: 0;
+    }
+    .box1 > .num > .pop1 > .inner {
+      color: #fff;
+      background-color: rgba(70,76,91,.9);
+      padding: 8px 12px;
+      border-radius: 4px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+      white-space: nowrap;
+    }
+    .box1 > .num:hover > .pop1 {
+      visibility: visible;
+      opacity: 1;
+    }
+    .box1 > .num > .pop2 {
+      position: absolute;
+      top: -35px;
+      left: 0;
+      z-index: 2;
+      transition: visibility .3s, opacity .3s;
+    }
+    .box1 > .num > .pop2 > .arrow {
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      margin-left: -5px;
+      width: 0;
+      height: 0;
+      border: 5px solid transparent;
+      border-top-color: rgba(70,76,91,.9);
+      border-bottom-width: 0;
+    }
+    .box1 > .num > .pop2 > .inner {
+      color: #fff;
+      background-color: rgba(70,76,91,.9);
+      padding: 8px 12px;
+      border-radius: 4px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+      white-space: nowrap;
+    }
+    .box2 {
+      font-size: 12px;
+      line-height: 20px;
+      padding-top: 40px;
+      padding-bottom: 40px;
+      padding-left: 40px;
+      border: 1px dashed rebeccapurple;
+    }
+    .box2 > .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: darkcyan;
+    }
+    .box2 > .btn > .icon {
+      width: 50px;
+      height: 50px;
+      background: skyblue;
+    }
+    .box2 > .btn > .close {
+      background: lightcoral;
+    }
+    @keyframes fade2In {
+      from { transform: rotate(30deg) scale(0.2); opacity: 0; }
+      to { transform: rotate(0) scale(1); opacity: 1; }
+    }
+    @keyframes fade2Out {
+      from { transform: rotate(0) scale(1); opacity: 1; }
+      to { transform: rotate(30deg) scale(0.2); opacity: 0; }
+    }
+    .fade2-enter-active {
+      animation: .3s fade2In;
+    }
+    .fade2-leave-active {
+      animation: .3s fade2Out;
+    }
+  </style>
+</body>
+</html>

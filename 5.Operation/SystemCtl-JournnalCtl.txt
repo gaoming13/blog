@@ -1,0 +1,86 @@
+### Systemctl
+
+* whereis systemd
+    * systemd: /usr/lib/systemd /etc/systemd /usr/share/systemd /usr/share/man/man1/systemd.1.gz
+    * /lib/systemd/system/ 大多数 unit 的配置文件都放在这个目录下
+    * /run/systemd/system/ 系统运行过程中产生的脚本，比如用户相关的脚本和会话相关的脚本
+    * /etc/systemd/system/ 这个目录中主要的文件都是指向 /lib/systemd/system/ 目录中的链接文件
+* ps u -p 1
+    * 查看1号进程
+    * USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+    * root         1  0.0  0.2 125132  3020 ?        Ss   9月09  14:39 /usr/lib/systemd/systemd --switched-root --system --deserialize 21
+* systemctl --v
+    * 检查systemd版本
+* systemctl [list-units]
+    * 查看系统上所有unit
+    * UNIT：项目的名称和类型
+    * LOAD：开机是否启动（enable、disable、static、mask）
+    * ACTIVE：目前状态
+    * DESCRIPTION：描述信息
+* systemctl list-units --type=service --all
+    * 查看某种服务类型的所有unit
+* systemctl --failed
+    * 查看加载失败的unit
+* systemctl show nginx-1.9.9.service
+    * 查看详细配置
+* systemctl status nginx-1.9.9.service
+    * unit状态，会列出有没有正在执行、开机时是否启动等信息
+* systemctl stop nginx-1.9.9.service
+    * 立即停止
+* systemctl kill nginx-1.9.9.service
+    * 强制停止
+* systemctl start nginx-1.9.9.service
+    * 立即启动
+* systemctl restart nginx-1.9.9.service
+    * 重启，先stop后start
+* systemctl reload nginx-1.9.9.service
+    * 不停止，重新载入配置文件
+* systemctl is-active nginx-1.9.9.service
+    * 是否在运行中
+* systemctl enable nginx-1.9.9.service
+    * 设置开机自动启动
+* systemctl disable nginx-1.9.9.service
+    * 设置开机不自动启动
+* systemctl is-enable nginx-1.9.9.service
+    * 是否开机自动启动
+* systemctl mask nginx-1.9.9.service
+    * 注销unit，注销后就无法启动了
+* systemctl unmask nginx-1.9.9.service
+    * 取消注销unit
+* systemctl list-units --type=target -all
+    * 查看系统中有多少种target
+    * basic.target           loaded    active   active Basic System
+    * cryptsetup.target      loaded    active   active Encrypted Volumes
+    * emergency.target       loaded    inactive dead   Emergency Mode
+    * final.target           loaded    inactive dead   Final Step
+    * getty.target           loaded    active   active Login Prompts
+    * graphical.target       loaded    inactive dead   Graphical Interface  文字界面再加上图形界面
+    * local-fs-pre.target    loaded    active   active Local File Systems (Pre)  纯文本模式
+    * local-fs.target        loaded    active   active Local File Systems
+    * multi-user.target      loaded    active   active Multi-User System
+    * network-online.target  loaded    active   active Network is Online
+    * network-pre.target     loaded    inactive dead   Network (Pre)
+    * network.target         loaded    active   active Network
+    * nss-lookup.target      loaded    inactive dead   Host and Network Name Lookups
+    * nss-user-lookup.target loaded    inactive dead   User and Group Name Lookups
+    * paths.target           loaded    active   active Paths
+    * remote-fs-pre.target   loaded    inactive dead   Remote File Systems (Pre)
+    * remote-fs.target       loaded    inactive dead   Remote File Systems
+    * rescue.target          loaded    inactive dead   Rescue Mode
+    * shutdown.target        loaded    inactive dead   Shutdown 执行关机
+    * slices.target          loaded    active   active Slices
+    * sockets.target         loaded    active   active Sockets
+    * swap.target            loaded    active   active Swap
+    * sysinit.target         loaded    active   active System Initialization
+    * syslog.target          not-found inactive dead   syslog.target
+    * time-sync.target       loaded    inactive dead   System Time Synchronized
+    * timers.target          loaded    active   active Timers
+    * umount.target          loaded    inactive dead   Unmount All Filesystems
+* systemctl get-default
+    * 查看默认的target
+* systemctl isolate multi-user.target
+    * 切换target
+
+### journalctl
+- journalctl工具
+

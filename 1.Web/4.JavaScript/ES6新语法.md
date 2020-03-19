@@ -1,0 +1,1 @@
+- ES6 New feature: https://github.com/lukehoban/es6features

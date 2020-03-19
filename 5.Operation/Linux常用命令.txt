@@ -1,0 +1,674 @@
+## 常用
+- `root@AY140721201337431f5bZ:~#` ~ 家目录, # 超级用户提示符, $ 普通用户提示符
+[帮助命令]
+- `man 1 git`
+- `man -f git` = `man --wahtis git` = `whatis git` 在 whatis 数据库里查找完整的单词
+- `man -k git` = `man --apropos git` = `apropos git` 在 whatis 数据库中查找字符串
+
+
+### help
+
+    # shell内部命令帮助
+    help cd
+    # whereis确定是否为内核命令(内核命令没有.gz的帮助文档)
+    whereis cd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### man的级别
+> 1. 查看命令的帮助
+> 2. 查看可被内核调用的函数帮助
+> 3. 查看函数和函数库的帮助
+> 4. 查看特殊文件的帮助（主要是/dev下的文件）
+> 5. 查看配置文件帮助
+> 6. 查看游戏的帮助
+> 7. 查看其它杂项的帮助
+> 8. 查看系统管理员可用命令的帮助
+> 9. 查看和内核相关文件的帮助
+
+### 系统运行级别
+> 0. 关机
+> 1. 单用户
+> 2. 不完全多用户，不含NFS服务
+> 3. 完全多用户
+> 4. 未分配
+> 5. 图形界面
+> 6. 重启
+
+> 查看当前运行级别 `runlevel`
+
+> 配置文件位置 `/etc/inittab`
+
+### 通配符
+
+    *   匹配任意内容
+    ?   匹配任意一个字符
+    []  匹配任意一个中括号中的字符
+    [-] -代表范围，eg: [a-z]
+    [^] 不是中括号中的字符，eg: [^0-9]
+
+
+### 命令格式
+
+    命令 [选项] [参数]
+
+### PATH的环境变量
+
+定义系统搜索命令的路径
+
+    echo $PATH
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+
+### 命令的生效顺序
+>  1. 第一顺位执行用绝对路径或相对路径执行的命令
+>  2. 第二顺位执行别名
+>  3. 第三顺位执行Bash的内部命令
+>  4. 第四顺位执行$PATH环境变量定义的目录查找顺序查找到的第一个命令
+
+### 快捷键
+快捷键 | 解释
+--- | ---
+`ctrl+c` | 强制终止当前命令
+`ctrl+z` | 将命令放入后台
+`ctrl+l` | 清屏
+`ctrl+a` | 光标移至行首
+`ctrl+e` | 光标移至行尾
+`ctrl+u` | 删除光标之前的字符
+`ctrl+r` | 在历史命令中搜索
+
+## 文件处理命令
+### ls
+
+    ls [OPTION]... [FILE]...
+    -a  显示所有
+    -h  文件大小可读格式(e.g., 1K 234M 2G)
+    -i  显示文件的inode号
+    -l  使用较长的格式
+    -R  递归显示子目录
+
+### mkdir
+
+    mkdir [OPTION]... DIRECTORY...
+    -p  递归创建
+    mkdir -p 目录名
+
+### cd
+
+    cd ~    进入当前用户的家目录
+    cd      同 cd ~
+    cd -    进入上一次目录
+    cd ..   进入上级目录
+    cd .    进入当前目录
+
+### rm
+
+    rm [OPTION]... FILE...
+    -r  删除目录
+    -f  强制
+    rm -rf [目录名或文件名]
+
+### cp
+
+    cp [OPTION]... SOURCE... DIRECTORY
+    -r  复制目录
+    -p  连带文件属性复制
+    -d  若源文件是链接，则复制链接属性
+    -a  同 -pdr
+    cp -r [源目录或文件] [目标目录或文件]
+
+### mv
+
+    mv [OPTION]... SOURCE... DIRECTORY
+
+    无 -r
+    mv [源目录或文件] [目标目录或文件]
+
+### ln
+
+    -s  创建软连接
+
+    ln -s [原文件] [目标文件]   # 创建软链接
+    ln [原文件] [目标文件]      # 创建硬链接
+
+
+- 硬链接
+    1. 拥有相同的i节点和存储的block块, 可以看做是同一文件
+    2. 可以通过i节点识别
+    3. 不能跨分区
+    4. 不能针对目录使用
+- 软连接
+    0. 类似快捷方式
+    0. 软连接有自己的i节点和block块，但数据块中只保存源文件的文件名和i节点号，并没有实际的文件数据
+    0. 权限都为 lrwxrwxrwx
+    0. 删除源文件，软链接不能使用
+
+## 文件搜索命令
+### locate
+
+    locate [OPTION]... PATTERN...
+    在后台数据库中按文件名搜索，速度快
+    数据库位置      /var/lib/mlocate/mlocate.db
+    配置文件位置    /etc/updatedb.conf
+    locate /home/*.js
+    更新数据库(默认一天一次)    updatedb
+
+### whereis & which
+
+    whereis 搜索命令和帮助文档的位置
+
+    -b  只查找可执行文件
+    -m  只查找帮助文件
+    whereis apache2
+
+    which 搜索命令的位置和别名
+    which ls
+
+### find
+
+    find [搜索范围] [搜索条件]
+    # 使用通配符完全匹配
+    # 搜索以abm或abn结尾的文件
+    find . -name "*ab[mn]"
+    # 不区分大小写
+    find /root -iname install.log
+    # 按照所有者搜索
+    find /root -user root
+    # 搜索没有所有者的文件
+    find /root -nouser
+
+    # 搜索十天内修改的文件
+    find /var/log -mtime -10
+        -10 10天内修改的文件
+        10  10点当天修改的文件
+        +10 10天前修改的文件
+        atime 文件访问时间
+        ctime 改变文件属性
+        mtime 改变文件内容
+
+    # 查找文件大小是25KB的文件(M=MB)
+    find . -size 25k
+        -25k    小于25KB的文件
+        25k     等于25KB的文件
+        +25k    大于25KB的文件
+
+    # 查找i节点为2465235的文件
+    find . -inum 2465235
+
+    # 在当前目录下查找大于20KB小于24KB的文件
+    find . -size +20k -a -size -24k
+    -a  and 逻辑与
+    -o  or  逻辑或
+    # 详细输出查找到的文件
+    find . -size +20k -a -size -24k -exec ls -lh {} \;
+    -exec [命令] {} \;  对结果执行操作
+### grep
+
+    grep [选项] 字符串 文件名
+    # 在文件当中匹配符合条件的字符串
+    # 使用正则表达式包含匹配
+    -i  忽略大小写
+    -v  取反
+    grep -i 'Class' xcache.php
+    php -i | grep memcached
+
+## 压缩与解压缩命令
+### .zip  .gz  .bz2
+.zip
+
+    zip [压缩文件名] [源文件]
+    zip -r [压缩文件名] [源目录]
+    zip sky.zip sky.jpg
+    zip -r 1.zip ./*
+    unzip [待解压文件]
+    unzip 1.zip
+
+.gz
+
+    # 压缩为.gz的压缩文件，源文件会消失
+    gzip [源文件]
+    # 压缩为.gz的压缩文件，源文件保留
+    gzip -c [源文件] > [压缩文件]
+    gzip -c app.js > app.js.gz
+    # 压缩目录下所有的子文件，但不能压缩目录
+    gzip -r [目录]
+    # 解压缩
+    gzip -d [.gz压缩文件]
+    gunzip [.gz压缩文件]
+
+.bz2
+
+    # 压缩为.gz2压缩文件，源文件会消失
+    bzip2 [源文件]
+    # 压缩后保留源文件
+    bzip2 -k [源文件]
+    # bzip2不能压缩目录
+    # 解压文件
+    bzip2 -d [.gz2压缩文件]
+    gunzip2 [.gz2压缩文件]
+    # 解压文件，保留压缩文件
+    bzip2 -dk [.gz2压缩文件]
+
+### .tar.gz  .tar.bz2
+tar
+
+    tar -cvf [打包文件名] [源文件]
+    -c  打包
+    -v  显示过程
+    -f  制定打包后文件名
+    tar -cvf node_modules.tar node_modules
+    gzip node_modules.tar
+    tar -cvf big.jpg big.jpg.tar
+    bzip big.jpg.tar
+
+    tar -xvf [待解压.tar]
+    -x  解打包
+    tar -xvf node_module.tar
+    # 指定解压缩位置
+    tar -xvf [待解压.tar] -C [解压目录]
+    tar -xvf util.tar -C tmp/
+    # 只查看.tar中文件
+    tar -tvf [待解压.tar]
+
+.tar.gz
+
+    # 其实.tar.gz是先打包为.tar，再压缩为.gz格式
+    # 压缩为.tar.gz
+    tar -zcvf [压缩包名] [源文件]
+    tar -zcvf node_modules.tar.gz node_modules
+    tar -zcvf txt.tar.gz 1.txt 2.txt
+    # 解压缩.tar.gz
+    tar -zxvf [.gar.gz压缩文件]
+    tar -zxvf node_modules.tar.gz
+
+.tar.bz2
+
+    # 其实.tar.bz2是先打包为.tar，再压缩为.bz2格式
+    # 压缩为.tar.bz2
+    tar -jcvf [压缩包名] [源文件]
+    tar -jcvf node_modules.tar.bz2 node_modules
+    tar -jcvf txt.tar.bz2 1.txt 2.txt
+    # 解压缩.tar.bz2
+    tar -jxvf [.gar.gz压缩文件]
+    tar -jxvf node_modules.tar.bz2
+
+
+Tar分块压缩
+
+cd /Users/zhaoliming/Documents/HiniuOss/hiniu-i0
+tar czf - ./ | split -b 1000m - hiniu-i0.tar.bz2.
+
+cd /Users/zhaoliming/Documents/HiniuOss/hiniu-i0
+tar cjfv - ./ | split -b 1000m - hiniu-i0.tar.bz2.
+cat hiniu-i0.tar.bz2.* | tar xj
+
+
+## 关机与重启命令
+shutdown
+
+    shutdown [选项] 时间
+    # 关机或重启会自动保存文件，安全
+    -c  取消前一个关机命令
+    -h  关机
+    -r  重启
+    # 马上重启
+    shutdown -r now
+    # 5:30重启
+    shutdown -r 05:30 &
+    # 取消上个shutdown预约
+    shutdown -c
+
+    # 关机，不安全
+    init 0
+
+reboot
+
+    # 重启，安全
+    reboot
+    # 重启，不安全
+    init 6
+
+logout
+
+    # 退出登录
+    logout
+
+## 其它常用命令
+### 挂载命令
+
+    # 查询系统中已经挂载的设备
+    mount
+    # 根据/etc/fstab配置文件，自动挂载
+    mount -a
+    # mount [-t 文件系统] [-o 特殊选项] 设备名 挂载点
+    -t  加入文件系统类型来制定挂载的类型，可以是ext3、ext4、iso9660等
+    -o 指定挂载的额外选项
+
+    # 挂载光盘
+    # 建立挂载点
+    mkdir /mnt/cdrom/
+    # 法1
+    mount -t iso9660 /dev/cdrom /mnt/cdrom
+    # 法2
+    mount /dev/sr0 /mnt/cdrom
+
+    # 挂载优盘
+    # 查看优盘设备文件名
+    fdisk -l
+    # 挂载
+    mount -t vfat /dev/sdb1 /mnt/usb
+
+    # 卸载
+    unmount [设备文件名或挂载点]
+    unmount /mnt/cdrom
+
+### 用户登录查看命令
+命令 | 解释
+--- | ---
+`w` | `w` 查看系统登录用户信息
+`who` | `who` 看到的信息少
+`last` | 查看当前登录和过去登录的用户信息<br/>默认读取`/var/log/wtmp`文件数据
+`lastlog` | 查看所有用户的最后登录信息
+
+
+## Shell基础
+### shell概述
+Shell 是一个命令行解释器。
+Shell的两种主要语法类型有Bourne和C，彼此不兼容。Bourne家族主要包括`sh`、`ksh`、`Bash`、`psh`、`zsh`；C家族主要包括`csh`、`tcsh`。
+
+    # 查看当前系统使用的shell
+    echo $SHELL
+    # 查看系统支持的shell
+    vi /etc/shells
+        # /etc/shells: valid login shells
+        /bin/sh
+        /bin/dash
+        /bin/bash
+        /bin/rbash
+    # 切换到其它shell
+    sh
+    # 退出当前shell
+    exit
+
+### 脚本执行方式
+echo 输出命令
+
+    echo [选项] [输出内容]
+    -e  支持反斜线控制字符转换
+
+控制字符 | 作用
+--- | ---
+`\a` | 输出警告音
+`\b` | 退格键，向左删除一个字符
+`\n` | 换行符
+`\r` | 回车键
+`\t` | 制表符，也就是Tab键
+`\v` | 垂直制表符
+`\0nnn` | 按八进制ASCII码输出字符，其中`0`为数字零，`nnn`为要输出的八进制数
+`\xhh` | 按十六进制ASCII码输出字符，`hh`为两位十六进制数
+`\e[1;31mxxx\e[0m` | 输出字符着色，`31m`为颜色代码，`xxx`为字符串
+
+
+    echo -e "abc\tdefg\thij\n123\t456\t789"
+    echo -e "abc\t\e[1;31mdefg \e[0m\thij\n123\t456\t789"
+
+简单.sh程序
+
+    vim 1.sh
+        #!/bin/bash
+        #This is a test shell program
+        a=`ls`
+        echo "$a"
+
+    # 脚本执行方式1，赋予权限后直接执行
+    chmod 755 1.sh
+    ./1.sh
+    # 脚本执行方式2，通过Bash调用执行版本、
+    bash 1.sh
+
+### 别名
+查看与临时设定别名
+
+    # 查看系统中所有的别名
+    alias
+        alias egrep='egrep --color=auto'
+        alias fgrep='fgrep --color=auto'
+        alias grep='grep --color=auto'
+        alias l='ls -CF'
+        alias la='ls -A'
+    # 临时设定命令别名
+    alias [别名]='[原命令]'
+    alias vi='vim'
+    # 临时删除别名
+    unalias vi
+别名永久生效
+
+    # 写入环境变量配置文件
+    vi ~/.bashrc
+
+### 历史命令
+
+    history [选项] [历史命令保存文件]
+    本地登录的历史命令存在缓存中，logout后才会写入文件
+    -c  清空历史命令
+    -w  把缓存的历史命令写入历史命令保存文件 ~/.bash_history
+    # 修改历史命令最大保存条数
+    vi ~/.bashrc (redhat 用 vi /etc/profile )
+        # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+        HISTSIZE=1000
+        HISTFILESIZE=2000
+
+历史命令的调用
+
+- 使用上下箭头调用之前的历史命令
+- 使用 `!n` 执行第n条历史命令
+- 使用 `!!` 执行上一条命令
+- 使用 `!字符串` 执行最后一条以该字符串开头的历史命令
+
+### 输出重定向
+类型 | 符号 | 作用
+--- | --- | ---
+标准正确输出重定向 | `命令 > 文件` | 覆盖，正确输出到文件或设备
+~ | `命令 >> 文件` | 追加，正确输出到文件或设备
+标准错误输出重定向 | `错误命令 2> 文件` | 覆盖，错误输出到文件或设备
+~ | `错误命令 2>> 文件` | 追加，错误输出到文件或设备
+正确与错误同时输出 | `命令 > 文件 2>&1` | 覆盖，正确与错误输出到文件或设备
+~ | `命令 >> 文件 2>&1` | 追加，正确与错误输出到文件或设备
+~ | `命令 &>文件` | 覆盖，正确与错误输出到文件或设备
+~ | `命令 &>>文件` | 追加，正确与错误输出到文件或设备
+~ | `命令>>文件1 2>>文件2` | 追加，正确输出文件1，错误输出文件2
+
+
+    # 执行命令不输出（/dev/null 黑洞）
+    ls &>> /dev/null
+
+### 输入重定向
+
+    wc [选项] [文件名]
+    -l  统计行数
+    -w  统计单词数
+    -c  统计字节数
+    wc ~/.viminfo
+    wc <  ~/.viminfo
+         1026  2674 14258 .viminfo
+    netstat -an | grep ":22" | wc -l
+
+### 管道符
+多命令顺序执行
+多命令执行符 | 格式 | 作用
+--- | --- | ---
+`;` | `命令1; 命令2` | 顺序执行，命令间无逻辑关系
+`&&` | `命令1&&命令2` | 逻辑与; 命令1正确，命令2才会执行
+`\|\|` | `命令1\|\|命令2` | 逻辑或; 命令1不正确，命令2才会执行
+
+
+    # 三个都会执行
+    date; ls; ifconfig
+    # 两个都会执行
+    date && echo yes
+    # 都不会执行
+    date123 && echo yes
+    # 头一个会执行
+    date || echo yes
+    # 后一个会执行
+    date123 || echo yes
+    # 判断命令执行是否正确（第一条yes，第二条no）
+    ls && echo yes || echo no
+    ls123 && echo yes || echo n
+    ls > /etc/null && echo yes || echo no
+
+管道符
+
+    # 命令1的输出作为命令2的操作对象
+    命令1 | 命令2 | ...
+    ls -al /etc/ | more
+    netstat -an | grep "ESTABLISHED" | wc -l
+
+## 系统管理
+
+### systemctl命令 - 系统服务管理器指令，实际上是将service和chkconfig组合到一起
+- `systemctl [OPTIONS...] COMMAND [NAME...]`
+- OPTIONS
+  - `-a --all` 展示所有unit,包括ACTIVE=dead,empty; 默认只展示ACTIVE=active,failed
+  - `-t --type=TYPE` 筛选指定类型的unit
+- COMMAND
+  - `list-units` 查看系统上所有unit
+    - UNIT：项目的名称和类型
+    - LOAD：开机是否启动（enable、disable、static、mask）
+    - ACTIVE：目前状态
+- 注:systemd为pid=1的进程 `ps u -p 1`
+- `systemctl list-units --type=service --all` 查看某种服务类型的所有unit
+* systemctl show nginx-1.9.9.service
+    * 查看详细配置
+* systemctl status nginx-1.9.9.service
+    * unit状态，会列出有没有正在执行、开机时是否启动等信息
+* systemctl stop nginx-1.9.9.service
+    * 立即停止
+* systemctl kill nginx-1.9.9.service
+    * 强制停止
+* systemctl start nginx-1.9.9.service
+    * 立即启动
+* systemctl restart nginx-1.9.9.service
+    * 重启，先stop后start
+* systemctl reload nginx-1.9.9.service
+    * 不停止，重新载入配置文件
+* systemctl is-active nginx-1.9.9.service
+    * 是否在运行中
+* systemctl enable nginx-1.9.9.service
+    * 设置开机自动启动
+* systemctl disable nginx-1.9.9.service
+    * 设置开机不自动启动
+* systemctl is-enable nginx-1.9.9.service
+    * 是否开机自动启动
+* systemctl mask nginx-1.9.9.service
+    * 注销unit，注销后就无法启动了
+* systemctl unmask nginx-1.9.9.service
+    * 取消注销unit
+* systemctl list-units --type=target -all
+    * 查看系统中有多少种target
+    * basic.target           loaded    active   active Basic System
+    * cryptsetup.target      loaded    active   active Encrypted Volumes
+    * emergency.target       loaded    inactive dead   Emergency Mode
+    * final.target           loaded    inactive dead   Final Step
+    * getty.target           loaded    active   active Login Prompts
+    * graphical.target       loaded    inactive dead   Graphical Interface  文字界面再加上图形界面
+    * local-fs-pre.target    loaded    active   active Local File Systems (Pre)  纯文本模式
+    * local-fs.target        loaded    active   active Local File Systems
+    * multi-user.target      loaded    active   active Multi-User System
+    * network-online.target  loaded    active   active Network is Online
+    * network-pre.target     loaded    inactive dead   Network (Pre)
+    * network.target         loaded    active   active Network
+    * nss-lookup.target      loaded    inactive dead   Host and Network Name Lookups
+    * nss-user-lookup.target loaded    inactive dead   User and Group Name Lookups
+    * paths.target           loaded    active   active Paths
+    * remote-fs-pre.target   loaded    inactive dead   Remote File Systems (Pre)
+    * remote-fs.target       loaded    inactive dead   Remote File Systems
+    * rescue.target          loaded    inactive dead   Rescue Mode
+    * shutdown.target        loaded    inactive dead   Shutdown 执行关机
+    * slices.target          loaded    active   active Slices
+    * sockets.target         loaded    active   active Sockets
+    * swap.target            loaded    active   active Swap
+    * sysinit.target         loaded    active   active System Initialization
+    * syslog.target          not-found inactive dead   syslog.target
+    * time-sync.target       loaded    inactive dead   System Time Synchronized
+    * timers.target          loaded    active   active Timers
+    * umount.target          loaded    inactive dead   Unmount All Filesystems
+* systemctl get-default
+    * 查看默认的target
+* systemctl isolate multi-user.target
+    * 切换target
+
+### journalctl命令 - Systemd 统一管理所有 Unit 的启动日志，只用journalctl一个命令，查看所有日志（内核日志和 应用日志）
+- 命令格式 `journalctl [OPTIONS...] [MATCHES...]`
+- journalctl工具是CentOS7才有的工具
+- 配置文件 `/etc/systemd/journald.conf`
+- 日志文件 `/var/log/journal`
+- `journalctl -k` --dmesg 查看内核日志(不显示引用日志)
+- `journalctl -S '2019-10-18' -U '20 min ago'` --since=DATE --until=DATE 指定时间段的
+- `journalctl -u sshd.service` 指定Unit的
+- `journalctl _PID=9685` 指定进程PID的
+- `journalctl -f` 监控日志
+- `journalctl -o json-pretty` 显示为JSON格式
+- `journalctl --disk-usage` 查看日志占用磁盘空间大小
+- `journalctl --vacuum-size=1G` 指定日志文件最大空间
+
+## 硬件.内核.Shell.监测
+
+- `cat /proc/loadavg` 查看系统负载信息
+- `top` 实时动态查看系统的整体运行情况
+- `uptime` 打印系统总共运行了多长时间和系统的平均负载
+  - 显示的信息依次是：现在时间、系统已经运行了多长时间、目前有多少登录用户、系统过去1分钟、5分钟、15分钟的平均负载进程数
+  - 系统平均负载：在特定时间间隔内运行队列的平均进程数
+  - 每个CPU内核的当前活动进程数不大于3，系统的性能是良好的；每个CPU内核的任务数大于5，那么这台机器的性能有严重问题
+- `w` 显示已经登录的用户以及他们在做什么
+- `netstat` 显示网络连接，路由表，接口状态，伪装连接，网络链路信息和组播成员组
+- `cat /proc/cpuinfo` 查看CPU物理信息
+  - `physical id`：物理CPU.编号
+  - `core id`: CPU内核.编号
+  - `processor`: 逻辑CPU.编号
+  - `cpu cores`: 每个物理CPU.CPU内核数量
+  - `siblings`：每个物理CPU.逻辑CPU数量
+  - 具有相同`core id`的CPU是同一core的超线程
+- `getconf LONG_BIT` 查看CPU位数(32/64)
+- `free` 显示当前系统的内存信息
+  - `free -h -s 2` 人类可读;每2s刷新1次
+  - 返回字段
+    - total: 31G
+    - used: 7.G
+    - free: 335M 完全没被使用的
+    - shared: 1.5M 被程序之间可以(已经被)共享使用的
+    - buff/cache: 23G
+      - buffers是指用来给块设备做的缓冲大小，它只记录文件系统的metadata以及 tracking in-flight pages
+      - cached是用来给文件做缓冲
+    - avaible: 23G 可用内存
+- df 显示磁盘分区上可用的磁盘空间，默认单位KB `df -ha`
+- du 显示文件或目录的使用空间 `du -sh 文件`
+- `du -sh * .[!.]* | sort -hr` 当前文件中所有文件(包含隐藏的)按空间大小排序
+- `env` 当前环境变量
+  - `SHELL=/bin/bash` 用的哪种shell
+  - `SSH_CLIENT=1.119.148.154 65420 22` 当前建立的SSH链接
+
+## 网络管理
+
+### netstat命令 - 打印Linux中网络系统的状态信息
+- `netstat [OPTIONS...]`
+  - `-a, --all` 显示所有正在或不在侦听的套接字
+  - `-n, --numeric` 显示数字形式地址而不是去解析主机、端口或用户名
+  - `-p, --program` 显示套接字所属进程的PID和名称
+  - `-t, --tcp` 显示TCP传输协议的连线状况
+  - `-u, --udp` 显示UDP传输协议的连线状况
+- `netstat -anp` 列出所有端口
+- `netstat -r` 显示核心路由器信息, `netstat -rn` 显示核心路由器信息,不查询主机名称,等价于 `route -n`
+- `netstat -i` 显示网络接口列表, `netstat -ie` 显示详细信息 等价于 `ifconfig`

@@ -1,0 +1,31 @@
+
+## 从云计算到微服务再到云原生
+
+### 1.云计算
+- 云计算(Cloud Computing)是一种配置资源的方式，根据资源配置方式可以宏观的分为3中类型：
+- 组成
+    - IasS (Infrastructure as a Service) 基础设施即服务
+        - 2006年: Amazon Web Services
+        - 2010年开源: Openstack Cloud software
+    - PasS (Platform as a Service) 平台即服务
+        - 2009年: Heroku
+        - 2011年开源: Cloud Foundry
+    - SaaS (Software as a Service) 软件即服务
+### 2.云原生
+- 云原生(Cloud Native)是一种文化，更是一种潮流，它是云计算的一个必然导向(2015年)
+- 微服务与云原生的12因素应用法则：https://12factor.net/
+- Cloud Native开源软件生态：https://jimmysong.io/awesome-cloud-native/
+- 组成
+    - 微服务(MicroServices)
+        - 一种分布式架构设计理念
+        - 应用间通过RESTful API通信
+        - 可以被独立的部署、更新、scale和重启
+    - DevOps
+        - 一个完成的面向IT运维的工作流，以IT自动化、持续集成(CI)、持续部署(CD)为基础，优化程式开发、测试、系统运维等所有环节
+        - 软件行业研发模式阶段：瀑布开发、敏捷开发、DevOps
+        - 自动化发布管道、CI工具
+        - 快速部署到生产环境
+        - 开发、运维协同合作
+    - 持续交付
+        - 频繁发布、快速交付、快速反馈、降低发布风险
+    - 容器化

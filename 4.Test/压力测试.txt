@@ -1,0 +1,79 @@
+### 使用说明 ###
+wrk
+    -c, --connections: 保持多少个HTTP连接处于打开状态
+    -d, --duration:    测试时间, e.g. 2s, 2m, 2h
+    -t, --threads:     使用线程数
+    -s, --script:      LuaJIT脚本
+    -H, --header:      HTTP请求透, e.g. "User-Agent: wrk"
+        --latency:     打印详细延迟统计
+        --timeout:     如果在这段时间内未收到回复，则记录超时
+
+
+【开发.投注接口】
+wrk -t4 -c1000 -d60s -T5s --latency https://www.hiniu.cn/tb/plan/type502.514.527/page3/
+
+wrk -t4 -c1000 -d60s -T5s --script=IActivityApi.getMyBudsByStatus.lua --latency http://172.19.4.2/api/internal/member/
+Running 1m test @ http://172.19.4.2/api/internal/member/
+  4 threads and 1000 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.69s   540.72ms   3.10s    74.85%
+    Req/Sec   134.53     36.66   242.00     74.11%
+  Latency Distribution
+     50%    1.52s
+     75%    2.03s
+     90%    2.51s
+     99%    2.96s
+  12824 requests in 1.00m, 4.71MB read
+  Socket errors: connect 0, read 0, write 0, timeout 1000
+  Non-2xx or 3xx responses: 12824
+Requests/sec:    213.47
+Transfer/sec:     80.26KB
+
+【开发.我的竞猜列表.第1页】
+wrk -t4 -c1000 -d60s -T5s --script=IActivityApi.getMyBudsByStatus.page1.lua --latency http://172.19.4.2/api/internal/member/
+Running 1m test @ http://172.19.4.2/api/internal/member/
+  4 threads and 1000 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     4.24s   888.83ms   5.00s    88.09%
+    Req/Sec    45.69     19.61   121.00     69.65%
+  Latency Distribution
+     50%    4.48s
+     75%    4.66s
+     90%    4.86s
+     99%    4.99s
+  10842 requests in 1.00m, 266.54MB read
+  Socket errors: connect 0, read 0, write 0, timeout 5999
+Requests/sec:    180.50
+Transfer/sec:      4.44MB
+
+【开发.我的竞猜列表.第1页】
+wrk -t4 -c500 -d60s -T5s --script=IActivityApi.getMyBudsByStatus.page1.lua --latency http://172.19.4.2/api/internal/member/
+running 1m test @ http://172.19.4.2/api/internal/member/
+  4 threads and 500 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.59s   834.79ms   5.00s    64.71%
+    Req/Sec    45.43     20.09   121.00     68.96%
+  Latency Distribution
+     50%    2.56s
+     75%    3.06s
+     90%    3.84s
+     99%    4.72s
+  10800 requests in 1.00m, 265.51MB read
+  Socket errors: connect 0, read 0, write 0, timeout 269
+Requests/sec:    179.76
+Transfer/sec:      4.42MB
+
+
+wrk -t4 -c500 -d10s -T5s --script=gamble.get-my-join-buds-list.lua --latency http://h5.local.com/gamble/get-my-join-buds-list \
+    -H 'Cookie: sid=WxU5Gj04hEFCjJogfcatvrk3pVzOQE2X; sid.sig=DX0PlGOsYg-l-383HX-Hsi6Zscs; lang=zh-CN' -H 'Origin: http://h5.local.com' -H 'Accept-Encoding: gzip, deflate' -H 'Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,fr;q=0.7,zh-TW;q=0.6,ja;q=0.5' -H 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: http://h5.local.com/' -H 'X-Requested-With: XMLHttpRequest' -H 'Connection: keep-alive'
+
+
+ehAp2YGGK2YlRkDLG2PzJJU9ochnlX0HbC4FehML6DsyzLpUNt9uzUraQr6CCiyXbD/Q/7JfIvk0A1VqqRpPapZkWsx2xA8CjaLSnvcggLCOUjWyEpbxaj256l6KX+//nbPxkXGXx8qJHx0PPp7q6OdJo1UlsViw4/BnOzmSoHQ=DjsMKuFZ/McmqjWnxmUc09e5+kSJA8Zg5xMSoa21vn6R+o1pCC6XdylylU3h1nQgdGAcMEMwbfjpjMbxDF6PBQ9PTj7WhQeRE8lhmwlH2u8PwSkPvjgTZtyfXUlFLMZqtff0ZewPr+rCsnLowEyywtssmVw7DnZtSXP3yibx6UU=
+
+
+
+
+
+
+
+wrk -t4 -c1000 -d60s -T5s --script=IActivityApi.getMyBudsByStatus.lua --latency http://172.19.4.2/api/internal/member/

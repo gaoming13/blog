@@ -1,0 +1,91 @@
+## Kubernetes
+
+### Etcd 保留了整个集群的状态
+
+- Etcd是一个分布式的、一致的k-v存储，主要用途是共享配置和服务发现
+- Etcd是coreos公司旗下开源产品,rest接口,v3改成了rpc接口
+- 同类：Zookeeper是apache下产品,rpc接口,hadoop项目孵化而来
+- 同类：Consul: 以服务发现和配置变更为主要目标，同时附带kv存储
+- REST API查看版本：`curl --cacert /etc/kubernetes/pki/etcd/ca.crt --cert /etc/kubernetes/pki/etcd/server.crt --key /etc/kubernetes/pki/etcd/server.key https://127.0.0.1:2379/version`
+- 查看健：`/v2/keys`
+- 查看集群成员: `/v2/members`
+- 查看leader: `/v2/stats/leader`
+- 查看运行状态：`/v2/stats/store`
+- Etcd数据的存储路径是 `/var/lib/etcd`
+
+### controller-manager 负责维护集群的状态，比如故障检测、自动扩展、滚动更新等
+
+### scheduler 负责资源的调度，按照预订的策略将Pod调度到相应的机器上
+
+### kube-proxy 负责为Service提供Cluster内部的服务发现和负载均衡
+
+### kubelet 负责维护容器的生命周期，同时也负责Volume（CVI）和网络（CNI）的管理
+
+### container-runtime 负责镜像管理以及Pod和容器的真正运行（CRI）
+
+### API对象
+
+- 开启临时游客API：`kubectl proxy --address=0.0.0.0 --port=80 --accept-hosts='^*$'`
+- SSL直接访问API：`curl --cacert /etc/kubernetes/pki/ca.crt --cert /etc/kubernetes/pki/apiserver-kubelet-client.crt --key /etc/kubernetes/pki/apiserver-kubelet-client.key https://192.168.31.229:6443`
+- 查看所有资源对象：`kubectl api-resources`
+- 查看所有资源对象.API路径：`/api/v1/`
+- 查看所有部署并排序：`kubectl get deployments -o wide --sort-by={.spec.template.spec.containers[0].image} -A`
+
+### Node对象
+
+- 查看所有Node.API路径：`/api/v1/nodes`
+- 查看所有Node：`kubectl get nodes -A -o wide`
+- 查看Node的污点：`kubectl describe node k8s-master | grep Taints`
+- 污点(Taint)：`spec.taints`
+- Node增加污点：`kubectl taint node {nodeName} {key1}={value1}:NoSchedule`
+- Node删除污点：`kubectl taint node {nodeName} {key1}:NoSchedule-`
+- 禁止pod调度到该节点：`kubectl cordon k8s-node1`
+- 驱逐节点上的pod：`kubectl drain k8s-node1`
+- 允许调度：`kubectl uncordon k8s-node1`
+
+### POD对象
+
+- 查看所有Pod.API路径：`/api/v1/pods`
+- 查看所有Pod: `kubectl get pods -A -o wide`
+- 按照label查找Pod: `kubectl get pods -n=kube-system -l 'environment in (production, qa),tier=frontend'`
+- 查看某个Pod.API路径：`/api/v1/namespaces/{namespace}/pods/{podName}`
+- 查看某个Pod日志.API路径：`/api/v1/namespaces/{namespace}/pods/{podName}/log`
+- 查看某个Pod.JSON格式：`kubectl get pod kubernetes-dashboard-5b55887bbd-ffccq -n=kube-system -o json`
+- 查看某个Pod的描述：`kubectl describe pod kubernetes-dashboard-5b55887bbd-ffccq -n=kube-system`
+- 查看某个Pod的日志：`kubectl logs kubernetes-dashboard-5b55887bbd-ffccq -n=kube-system`
+- 查看某个Pod的交互日志：`kubectl logs -f kubernetes-dashboard-5b55887bbd-ffccq -n=kube-system`
+- 查看某个Pod的某个容器的日志：`kubectl logs -f demo-init-container-cfd6594f4-jwzdh -c init-myservice`
+- 容忍(Tolerations)即容忍该污点: `spec.tolerations`
+- 选择要待的node节点(nodeSelector): `spec.nodeSelector`
+
+### POD安全策略 PodSecurityPolicy
+
+- 获取所有安全策略.API路径：`/apis/extensions/v1beta1/podsecuritypolicies/psp.flannel.unprivileged`
+- 获取所有安全策略：`kubectl get psp -A`
+- 修改安全策略：`kubectl edit psp psp.flannel.unprivileged`
+- 删除安全策略：`kubectl delete psp psp.flannel.unprivileged`
+
+### POD生命周期
+
+- 状态(status.phase): `Pending/Running/Successed/Failed/Unkonwn`
+- 探针类型.就绪探针(spec.containers.readinessProbe) `{ httpGet: { path: "/health", port: 8080, scheme: "HTTP" }, timeoutSeconds: 1, periodSeconds: 10, successThreshold: 1, failureThreshold: 3 }`
+- 探针类型.存活探针(spec.containers.livenessProbe) `{ httpGet: { path: "/health", port: 8080, scheme: "HTTP" }, initialDelaySeconds: 60, timeoutSeconds: 5, periodSeconds: 10, successThreshold: 1, failureThreshold: 5 }`
+- 探针探测方式.ExecAction: 容器内执行指定命令，退出时返回码为0，认为诊断成功
+- 探针探测方式.TCPSocketAction: 指定端口上的容器IP进行TCP检查，端口打开，认为诊断成功
+- 探针探测方式.HTTPGetAction: HTTP Get 请求，状态码大于等于200且小于400，认为诊断成功
+- 重启策略(spec.restartPolicy): `Always/OnFailure/Never`
+
+### 身份与权限控制(RBAC)
+
+- pod对应serviceAccount: `spec.serviceAccountName`
+- pod默认serviceAccount: `default`
+- pod取消自动挂载api凭证: `automountServiceAccountToken: false`
+- 获取serviceAccount: `kubectl get serviceaccount admin-user -n kube-system`
+- 获取secret: `kubectl get secret admin-user-secret -n kube-system`
+- role只能授权单一命名空间中的资源访问权限
+- 获取role: `kubectl get role kube-proxy -n kube-system`
+- clusterRole可以授权集群范围的资源对象
+- 获取clusterRole: `kubectl get clusterRole cluster-admin`
+- 角色绑定将定义的角色授权给相关主体(即subject,包括用户-user/用户组-group/服务账户-serviceAccount)
+- 获取roleBinding: `kubectl get roleBinding kube-proxy -n kube-system`
+- 获取clusterRoleBinding: `kubectl get clusterRoleBinding admin-user`

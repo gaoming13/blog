@@ -1,0 +1,91 @@
+SMTP：简单邮件传输协议 (Simple Mail Transfer Protocol)，使用TCP端口25。
+
+### 客户端发送邮件给他域的邮箱地址
+
+例如：用户1(user@yeah.net)发送邮件给用户2(user@qq.com)
+
+1.用户1使用客户端发送邮件给yeah.net服务器
+
+1.1 查询yeah.net邮箱服务器地址. 使用yeah.net提供给客户端用的 `smtp.yeah.net`
+
+1.2 发送邮件
+```
+C: telnet smtp.yeah.net 25
+S: 220 yeah.net Anti-spam GT for Coremail System (yeah[20141016])
+C: helo yeah.net
+S: 250 OK
+
+C: MAIL FROM: <user@yeah.net>
+S: 250 Ok
+C: RCPT TO: <user@qq.com>
+S: 250 Ok
+
+C: auth login
+S: 334 dXNlcm5hbWU6
+C: {user1@yeah.net的base64编码}
+S: 334 UGFzc3dvcmQ6
+C: {user1@yeah.net密码的base64编码}
+S: 235 Authentication successful
+
+C: DATA
+S: 354 End data with <CR><LF>.<CR><LF>
+C: Subject: test message
+C:
+C: Hello,
+C: This is a test.
+C: Goodbye.
+C: .
+S: 250 Ok: queued as 12345
+C: quit
+S: 221 Bye
+```
+
+2.yeah.net服务器发送邮件给qq.com服务器
+
+1.1 查询qq.com邮箱服务器地址
+```
+dig qq.com mx
+
+;; ANSWER SECTION:
+qq.com.			3609	IN	MX	30 mx1.qq.com.
+qq.com.			3609	IN	MX	10 mx3.qq.com.
+qq.com.			3609	IN	MX	20 mx2.qq.com.
+```
+
+1.2 发送邮件
+```
+C: telnet mx3.qq.com 25
+S: 220 newxmmxszb65.qq.com MX QQ Mail Server.
+C: helo newxmmxszb65.qq.com
+S: 250 OK
+
+C: MAIL FROM: <user@yeah.net>
+S: 250 Ok
+C: RCPT TO: <user@qq.com>
+S: 250 Ok
+
+C: DATA
+S: 354 End data with <CR><LF>.<CR><LF>
+C: Subject: test message
+C:
+C: Hello,
+C: This is a test.
+C: Goodbye.
+C: .
+S: 250 Ok: queued as 12345
+C: quit
+S: 221 Bye
+```
+
+3.qq.com服务器检测邮件是否为垃圾邮件
+
+1.1 校验发送方的ip是否跟 `yeah.net` 的 `mx` 记录值一致
+
+1.2 或根据 SPF(Sender Policy Framework) 协议，检查域名 `yeah.net` 的SPF记录，来确定发件人的IP地址是否被包含在SPF记录里面
+
+```
+dig yeah.net txt
+
+;; ANSWER SECTION:
+yeah.net.		18000	IN	TXT	"v=spf1 include:spf.163.com -all"
+```

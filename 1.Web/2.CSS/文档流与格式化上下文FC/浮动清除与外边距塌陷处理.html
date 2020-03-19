@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  .box { border: 1px solid yellowgreen; max-width: 100px; }
+</style>
+</head>
+<body>
+  <h6>1-1 浮动</h6>
+  <div style="background:ivory;">
+    <div class="box" style="float: left; height: 100px;">AAA</div>
+    <div class="box">BBB</div>
+  </div>
+  <div class="box">CCC</div>
+
+  <h6>1-2 浮动清除</h6>
+  <div style="background:ivory; overflow: auto;">
+    <div class="box" style="float: left; height: 100px;">AAA</div>
+    <div class="box">BBB</div>
+  </div>
+  <div class="box">CCC</div>
+
+  <h6>2-1 外边距折叠</h6>
+  <div class="box" style="margin-bottom:10px;">AAA</div>
+  <div class="box" style="margin-top:20px;">BBB</div>
+
+  <h6>2-2 使用BFC清除外边距折叠</h6>
+  <div style="overflow: auto;"><div class="box" style="margin-bottom:10px;">AAA</div></div>
+  <div class="box" style="margin-top:20px;">BBB</div>
+</body>
+</html>

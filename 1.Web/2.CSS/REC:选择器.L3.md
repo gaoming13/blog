@@ -1,0 +1,50 @@
+### REC:选择器(Selectors) Level 3
+- 元素选择器
+  - `*` 任何元素
+  - `E` 类型E的元素
+- 层级
+  - `E F` E元素的F元素后代
+  - `E > F` E元素的F元素子元素
+  - `E + F` E元素后的第一个元素且是F元素
+  - `E ~ F` E元素后的F元素
+- ID选择器
+  - `#foo`
+- 类选择器
+  - `.foo`
+- 属性选择器
+  - `[foo]` 有 foo 属性
+  - `[foo="bar"]` foo 属性值等于 bar
+  - `[foo~="bar"]` foo 属性值空格分隔，其中一个值等于 bar
+  - `[foo^="bar"]` foo 属性值以 bar 开头
+  - `[foo*="bar"]` foo 属性值包含 bar
+  - `[foo$="bar"]` foo 属性值以 bar 结尾
+  - `[foo|="bar"]` foo 属性值-分隔，第一个值等于 bar
+- 伪类
+  - `E:root` 文件的根,优先级比html高,其它相同
+  - `E:nth-child(n)` E元素，其父亲的第n个元素
+  - `E:nth-last-child(n)` E元素, 其父亲的倒数第n个元素
+  - `E:nth-of-type(n)` E元素, 其父亲的同类型中第n个元素
+  - `E:nth-last-of-type(n)` E元素, 其父亲的同类型中倒数第n个元素
+  - `E:first-child` E元素，其父亲的第一个元素
+  - `E:last-child` E元素, 其父亲的倒数第一个元素
+  - `E:first-of-type` E元素, 其父亲的同类型中第1个元素
+  - `E:last-of-type` E元素, 其父亲的同类型中倒数第1个元素
+  - `E:only-child` E元素，其父亲的唯一1个元素
+  - `E:only-of-type` E元素，其父亲的同类型中唯一1个元素
+  - `E:empty` 没有子元素的E元素
+  - `E:active`	向被激活的元素添加样式
+  - `E:focus`	向拥有键盘输入焦点的元素添加样式
+  - `E:hover`	当鼠标悬浮在元素上方时，向元素添加样式
+  - `E:link`	向未被访问的链接添加样式
+  - `E:visited`	向已被访问的链接添加样式
+  - `E:lang(foo)`	向带有指定 lang 属性的元素添加样式
+  - `E:enabled`	带有enabled属性的元素
+  - `E:disabled` 带有disabled属性的元素
+  - `E:checked` 被勾选的元素
+  - `E:not(s)` 与简单选择器s不匹配的元素
+- 伪元素
+  - `E::first-line` 文本首行样式
+  - `E::first-letter` 文本首字母样式
+  - `E::before` 元素内容前插入新内容
+  - `E::after` 元素内容后插入新内容
+  - `E::selection` 选中的文本

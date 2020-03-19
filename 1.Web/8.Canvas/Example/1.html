@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <img style="display: none;" id="my-img" src="https://xn98qe.diary8.com/t1/191126/0dcd191c.jpg">
+  <canvas id="my-canvas" width="200" height="200" style="border: 1px solid red;">浏览器不支持canvas</canvas>
+  <script>
+    var c = document.getElementById('my-canvas');
+    var ctx = c.getContext('2d');
+
+    // 绘制填充矩形
+    ctx.fillStyle = 'antiquewhite';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.shadowColor = '#38f';
+    ctx.shadowBlur = 20;
+    ctx.lineJoin = 'bevel';
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#38f';
+    // ctx.strokeRect(100, 120, 60, 20);
+    ctx.clearRect(110, 110, 40, 20);
+
+    // 绘制直线
+    ctx.moveTo(10, 10);
+    ctx.lineTo(20, 10);
+    ctx.lineTo(20, 20);
+    ctx.lineTo(30, 20);
+    ctx.lineTo(30, 30);
+    ctx.lineTo(20, 30);
+    ctx.lineTo(20, 40);
+    ctx.lineTo(10, 40);
+    ctx.lineTo(10, 10);
+    ctx.stroke();
+
+    // 绘制圆形
+    ctx.beginPath();
+    // arc(x,y,r,start,stop)
+    ctx.arc(100, 0, 20, 1, 1*Math.PI);
+    ctx.stroke();
+
+    // 绘制文字
+    ctx.font = '12px Arial';
+    ctx.fillText('文字', 100, 100);
+    ctx.stroke();
+
+    // 绘制图片
+    var img = document.getElementById('my-img');
+    img.onload = function () {
+      ctx.drawImage(img, 50, 150, 40, 40);
+    };
+
+    // 生成DataURL
+    const dataUrl = c.toDataURL('image/jpeg', 0.95);
+    console.log(dataUrl);
+
+    // 生成BlobURL(质量为95%)
+    // 使用 `chrome://blob-internals/` 可以查看所有的BolbURL
+    c.toBlob((blob) => {
+      const blobUrl = URL.createObjectURL(blob);
+      // 创建个图片并使用BlobURL
+      const blobImg = document.createElement('img');
+      blobImg.addEventListener('load', () => {
+        // 移除BlobURL
+        URL.revokeObjectURL(blobUrl);
+      });
+      blobImg.src = blobUrl;
+      document.body.appendChild(blobImg);
+    }, 'image/jpeg', 0.95);
+  </script>
+</body>
+</html>

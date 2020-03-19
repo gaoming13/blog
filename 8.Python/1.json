@@ -1,0 +1,9 @@
+{
+  "name": "api1",
+  "verb": "GET",
+  "endpoint": "/api/config",
+  "host": "https://m.weibo.cn",
+  "headers": {
+    "Accept-Language": "en-US"
+  }
+}
