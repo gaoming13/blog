@@ -30,6 +30,19 @@
           </transition>
         </div>
       </div>
+      <div style="padding: 10px; background:silver;">
+        <div class="box3"></div>
+      </div>
+      <div style="padding: 10px; background:silver;">
+        <div class="box4"></div>
+      </div>
+      <div style="padding: 10px;">
+        <div class="box5">
+          <div><i></i><i></i><i></i><i></i></div>
+          <div><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <div class="box6"><i></i><i></i><i></i><i></i></div>
     </div>
   </div>
   <script>
@@ -174,6 +187,134 @@
     }
     .fade2-leave-active {
       animation: .3s fade2Out;
+    }
+
+    /* box3 */
+    @keyframes fade3{
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .box3 {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border: 10px solid #1da1f2;
+      border-radius: 50%;
+    }
+    .box3::after {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: -10px;
+      width: 60px;
+      height: 60px;
+      border: 10px solid #79c5f5;
+      border-bottom-color: transparent;
+      z-index: 1;
+      border-radius: 50%;
+      animation: fade3 linear .8s infinite;
+    }
+
+    /* box4 */
+    @keyframes fade4{
+      from {
+        transform: scale(0.2);
+        opacity: 1;
+      }
+      to {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+    .box4 {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: 8px solid #1da1f2;
+      border-radius: 50%;
+      animation: fade4 linear 1s infinite;
+    }
+
+    /* box5 */
+    @keyframes fade5{
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .box5 {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      animation: fade5 linear 1s infinite;
+    }
+    .box5 div {
+      top: 0;
+      left: 0;
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 10px 5px;
+    }
+    .box5 div:nth-child(2) {
+      transform: rotate(45deg);
+    }
+    .box5 i {
+      display: block;
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: yellowgreen;
+    }
+    .box5 i:nth-child(1) {
+      top: -3px;
+      left: 12px;
+    }
+    .box5 i:nth-child(2) {
+      top: 12px;
+      right: -3px;
+    }
+    .box5 i:nth-child(3) {
+      bottom: -3px;
+      right: 12px;
+    }
+    .box5 i:nth-child(4) {
+      top: 12px;
+      left: -3px;
+    }
+
+    /* box6 */
+    @keyframes fade6 {
+      from { opacity: 0; }
+      to { opacity: 0.5; }
+    }
+    .box6 {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+    }
+    .box6 i {
+      background: #000;
+      opacity: 0;
+      animation: .8s linear 0s infinite fade6;
+    }
+    .box6 i:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .box6 i:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    .box6 i:nth-child(4) {
+      animation-delay: 0.6s;
     }
   </style>
 </body>
