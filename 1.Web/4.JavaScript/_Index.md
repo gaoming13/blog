@@ -28,14 +28,14 @@
 - 变量先用，后 var 声明，不会引发异常，但用的时候变量还是为 undefined
 
 ### 变量类型(7种基本数据类型+对象)
-- Boolea, 布尔值 true 和 false
-- null, 一个表明 null 值的特殊关键字
-- undefined, 一个表明变量未定义的特殊关键字
-- Number, 整数或浮点数, 42 或 42.123 或 Infinity
-- BigInt, 任意精度整数, 可安全的存储和操作大整数, 甚至可以超过数字的安全整数限制
-- String, 字符串
-- Symbol, 代表, ES6 新加的类型, 一种实例是唯一且不可改变的数据类型
-- Object, 对象
+- `Boolea` 布尔值 true 和 false
+- `null` 一个表明 null 值的特殊关键字
+- `undefined` 一个表明变量未定义的特殊关键字
+- `Number` 整数或浮点数, 42 或 42.123 或 Infinity
+- `BigInt` 任意精度整数, 可安全的存储和操作大整数, 甚至可以超过数字的安全整数限制
+- `String` 字符串
+- `Symbol` 代表, ES6 新加的类型, 一种实例是唯一且不可改变的数据类型
+- `Object` 对象
 
 ### String 转换为 Number
 - parseInt(字符串, 进制) 只返回整数部分
@@ -47,22 +47,14 @@
 label1:
 for (var i = 0; i < 100; i++) {
   for (var j = 0; j < 100; j++) {
-    if (i === 5) {
-      // 停止本次循环,跳转到label1下的循环继续
-      continue label1;
-    }
+    if (i === 5) continue label1; // 停止本次循环,跳转到label1下的循环继续
   }
 }
-```
 
-```js
-label1:
+label2:
 for (var i = 0; i < 100; i++) {
   for (var j = 0; j < 100; j++) {
-    if (i === 5) {
-      // 停止本次循环,跳出到label1下的循环
-      break label1;
-    }
+    if (i === 5) break label2; // 停止本次循环,跳出到label1下的循环
   }
 }
 ```
