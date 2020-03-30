@@ -121,13 +121,16 @@ dog.getSex();
 ```
 
 ### 顶级内建函数(全局方法,不与任何对象有关系)
-- eval( string )
-- isFinite( testValue )
-- isNaN( value )
-- parseFloat( string )
-- parseInt( string, radix )
-- encodeURI( URI )
-- decodeURI( URI )
+- decodeURI(uri)
+- decodeURIComponent(uri)
+- encodeURI(uri) 把字符串编码为URL
+- encodeURIComponent(uri) 把字符串编码为URL组件
+- eval(str)
+- isFinite(val) 是否为有穷大数
+- isNaN(val) 是否为数字
+- Number(val) 转换为数字
+- parseFloat(val) 转换为浮点数
+- parseInt(val, radix) 转换为整数
 
 ### 原型链
 - prototype 是函数(function)的原型，定义了一类对象共有的属性
