@@ -120,6 +120,15 @@ dog.setSex('girl');
 dog.getSex();
 ```
 
+### 顶级内建函数(全局方法,不与任何对象有关系)
+- eval( string )
+- isFinite( testValue )
+- isNaN( value )
+- parseFloat( string )
+- parseInt( string, radix )
+- encodeURI( URI )
+- decodeURI( URI )
+
 ### 原型链
 - prototype 是函数(function)的原型，定义了一类对象共有的属性
 - 对象的 __proto__ 指向继承函数(function)的原型
