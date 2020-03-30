@@ -1,4 +1,42 @@
 ```js
+// Promise 实例
+(() => {
+  const f1 = async () => {
+    const res = await new Promise((resolve) => {
+      setTimeout(() => { resolve('p1'); }, 1000);
+    });
+    return [res, 'p2'];
+  };
+  f1().then(res => {
+    console.log(res);
+  }).catch(err => {
+    console.log(err)
+  });
+})();
+
+// Promise.all 实例
+(() => {
+  const p1 = new Promise((resolve, reject) => {
+    setTimeout(() => { resolve('p1'); }, 1000);
+  });
+  const p2 = new Promise((resolve, reject) => {
+    setTimeout(() => { resolve('p2'); }, 1000);
+  });
+  const f1 = async () => {
+    const res = await Promise.all([p1, p2]);
+    res.push('p3');
+    return res;
+  };
+  f1().then(res => {
+    console.log(res);
+  }).catch(err => {
+    console.log(err)
+  });
+})();
+```
+
+
+```js
 let promise1 = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve([1, 2, 3])

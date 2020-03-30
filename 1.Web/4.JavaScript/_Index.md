@@ -14,32 +14,27 @@
   - 服务端的 Node.Js 提供操作数据库,通信等对象,来对客户端的请求作出响应
 
 ## 变量
-
-### 变量声明
-- var 变量
-  - `if(true){ var x = 10; } console.log(x);` OK
-- let 块作用域变量
-  - `if(true){ let x = 10; } console.log(x);` ERROR
-- const 块作用域只读变量
-  - 对象属性 与 数组内值 不受只读保护
-
-### 变量提升
-- `console.log(x === undefined); var x = 2; => true` OK
-- 变量先用，后 var 声明，不会引发异常，但用的时候变量还是为 undefined
-
-### 变量类型(7种基本数据类型+对象)
-- `Boolea` 布尔值 true 和 false
-- `null` 一个表明 null 值的特殊关键字
-- `undefined` 一个表明变量未定义的特殊关键字
-- `Number` 整数或浮点数, 42 或 42.123 或 Infinity
-- `BigInt` 任意精度整数, 可安全的存储和操作大整数, 甚至可以超过数字的安全整数限制
-- `String` 字符串
-- `Symbol` 代表, ES6 新加的类型, 一种实例是唯一且不可改变的数据类型
-- `Object` 对象
-
-### String 转换为 Number
-- parseInt(字符串, 进制) 只返回整数部分
-- parseFloat(字符串)
+- 变量声明
+  - var 变量
+    - `if(true){ var x = 10; } console.log(x);` OK
+  - let 块作用域变量
+    - `if(true){ let x = 10; } console.log(x);` ERROR
+  - const 块作用域只读变量 (注：对象属性 与 数组内值 不受只读保护)
+- 变量提升
+  - `console.log(x === undefined); var x = 2; => true` OK
+  - 变量先用，后 var 声明，不会引发异常，但用的时候变量还是为 undefined
+- 变量类型(7种基本数据类型+对象)
+  - `Boolea` 布尔值 true 和 false
+  - `null` 一个表明 null 值的特殊关键字
+  - `undefined` 一个表明变量未定义的特殊关键字
+  - `Number` 整数或浮点数, 42 或 42.123 或 Infinity
+  - `BigInt` 任意精度整数, 可安全的存储和操作大整数, 甚至可以超过数字的安全整数限制
+  - `String` 字符串
+  - `Symbol` 代表, ES6 新加的类型, 一种实例是唯一且不可改变的数据类型
+  - `Object` 对象
+- String 转换为 Number
+  - parseInt(字符串, 进制) 只返回整数部分
+  - parseFloat(字符串)
 
 ## 循环与迭代
 - label 语句
@@ -87,11 +82,39 @@ for (var i = 0; i < 100; i++) {
     - `for (let k in obj2) { if (obj2.hasOwnProperty(k)) console.log(k); }` => `a`
 
 ## 函数
-
-### 函数提升
-- `f1(); function f1(){}` OK
-- `f1(); var f1 = function(){}` ERROR(f2 is not a function)
-- 只有函数声明会被提升到顶部，而函数表达式不会
+- 包含 函数声明 与 函数表达式
+  - 函数声明 `function f1() {}`
+  - 函数表达式 `const f1 = function f2() { console.log(f1 === f2); }` // 在函数体内 f1 与 f2 等价
+  - 函数表单式(匿名) `const f1 = function() {}`
+- 函数提升
+  - 函数声明,有函数提升 `f1(); function f1(){}` OK
+  - 函数表达式,没函数提升 `f1(); var f1 = function(){}` ERROR(f2 is not a function)
+- 函数改变外部变量值
+  - 基础数据类型作为参数传给函数，函数改变了这个参数，外部变量不变 `function f1(v){v=1;}; let a=0; f1(a);` a=0
+  - 对象作为参数传给函数，函数改变了这个参数的属性，外部变量也会变 `function f1(v){v.push(1);}; let a=[]; f1(a);` a=[1]
+- 闭包: 当内部函数以某一种方式被任何一个外部函数作用域访问时，一个闭包就产生了
+  - 内部函数只能在外部函数中访问
+  - 内部函数形成了一个闭包：内部函数可以访问外部函数的参数和变量，但外部函数却不能使用它的参数和变量
+```js
+// 闭包1
+function out(x, y) {
+  function in(x) { return x * x; }
+  return in(x) + in(y);
+}
+// 闭包2
+function pet(name) {
+  let sex = '';
+  return {
+    getSex: () => sex,
+    setSex: (sex) => { sex = sex },
+    getName: () => name,
+  };
+};
+const dog = pet('dog');
+dog.getName();
+dog.setSex('girl');
+dog.getSex();
+```
 
 
 
