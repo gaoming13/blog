@@ -240,3 +240,65 @@ const obj1 = new Array(); obj1.p1 = '123';
   - 箭头函数也可以使用闭包
     - 标准闭包函数: `function f() { var i = 0; return function() { return ++i; } }; var a = f(); a(); a();`
     - 箭头函数的闭包：`var f = (i = 0) => () => ++i; var a = f(); a(); a();`
+
+### 运算符
+- 赋值运算符(Assignment operator) `x=y` `x+=y` ...
+  - 解构 `let [v1, v2, v3]=[1, 2, 3]`
+- 比较运算符(Comparison operator) `==` `===` `!=` `!==` `>`...
+- 算术运算符(Arithmitic operator)
+  - 求余(%) `12%5`
+  - 自增(++),自减(--) `x++` `++x` `x--` `--x`
+  - 一元正值符(+),一元负值符(-) `-'3'` `+'3'` 自动转换为Number,异常返回 NaN
+  - 指数运算符(**) `2**3` 8 `10**-1` 0.1
+- 位运算符(Bitwise operator) 将操作数视为32位元的二进制串(`(1024).toString(2)`)
+  - 按位与(AND) `a&b` 对应位都为1,则返回1,否则返回0
+  - 按位或(OR) `a|b` 对应位有1个为1,则返回1,否则返回0
+  - 按位异或(XOR) `a^b` 对应位不相同则返回1,相同则返回0
+  - 按位非(NOT) `~a` 按小数点对调所有位
+  - 左移(shift) `a<<1` 所有位向左移动1位,右边补0
+  - 算术右移 `a>>1` 所有位向右移动1位
+- 逻辑运算符(Logical operator) `&&` `||` `!`
+- 字符串运算符(String operator) `'my' + ' dog'`
+- 逗号运算符(Comma operator) `for(var i=0,j=9; i<=j; i++){}`
+- 关系运算符(Relational operator)
+  - in 如果指定的属性存在于所指定的对象中,则返回true `prop1 in obj`
+  - instanceof 判断对象是否是指定的类型 `obj1 instanceof ojd`
+- 一元运算符(Unary operator)
+  - delete 删除对象属性 `delete obj.prop1`
+  - typeof
+  - void 表明一个运算没有返回值 `javascript:void(0)`
+- 条件(三元)运算符(Conditional operator) `条件 ? 值1:值2`
+
+### 数字(Number)
+- `+Infinity`(正无穷)、`-Infinity`(负无穷)、`NaN`(not-a-number非数字)
+- 二进制数字 `0b111` `0B111`
+- 八进制数字 `0o111` 8进制,ES6；`0777` 非严格模式,511; `0777` 严格模式,777; `0888` 都被当作十进制,888;
+- 十六进制数字 `0x111` `0X111` 273
+- `1E3` `2e6` 指数形式(1x10的3次方)
+- Number对象
+  - 属性
+    - `Number.MAX_VALUE` / `Number.MIN_VALUE` 可表示的最大值 / 最小值
+    - `Number.NaN` 特指"非数字"
+    - `Number.POSITIVE_INFINITY` / `Number.NEGATIVE_INFINITY` Infinity / -Infinity
+    - `Number.EPSILON` 1和最接近1且大于1的最小 Number 之间的差别
+    - `Number.MAX_SAFE_INTEGER` / `Number.MIN_SAFE_INTEGER` 最大/最小 安全整数
+  - 方法
+    - `Number.parseFloat()`
+    - `Number.parseInt()`
+    - `Number.isFinite()`
+    - `Number.isInteger()` 是否为整数。
+    - `Number.isNaN()`
+    - `Number.isSafeInteger()` 是否为安全整数
+  - 原型方法
+    - `toExponential()`	返回数字的指数形式的字符串，如：1.23e+2
+    - `toFixed()` (1e3).toFixed(2) => '1000.00'
+    - `toPrecision()` 返回指定精度的数字
+- Math数学对象
+  - 属性 `Math.PI`
+  - 方法 `Math.abs(-1)` `Math.random()` ...
+- Date对象
+  - 方法 `Date.now()` `Date.parse` ...
+  - 原型方法 `getMonth` ...
+
+
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Text_formatting
