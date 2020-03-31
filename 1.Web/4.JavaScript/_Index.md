@@ -289,7 +289,7 @@ const obj1 = new Array(); obj1.p1 = '123';
     - `Number.isInteger()` 是否为整数。
     - `Number.isNaN()`
     - `Number.isSafeInteger()` 是否为安全整数
-  - 原型方法
+  - 原型方法(Number.prototype)
     - `toExponential()`	返回数字的指数形式的字符串，如：1.23e+2
     - `toFixed()` (1e3).toFixed(2) => '1000.00'
     - `toPrecision()` 返回指定精度的数字
@@ -298,7 +298,33 @@ const obj1 = new Array(); obj1.p1 = '123';
   - 方法 `Math.abs(-1)` `Math.random()` ...
 - Date对象
   - 方法 `Date.now()` `Date.parse` ...
-  - 原型方法 `getMonth` ...
+  - 原型方法(Date.prototype) `getMonth` ...
 
+### 字符串(String) ???
+- `'我'.charCodeAt().toString(2)`
+- `'我'.charCodeAt().toString(16)`
+- `a`  `97` `0000 0000 0110 0001` `61` `\u0061`
+- `我`  `25105` `0110 0010 0001 0001` `6211` `\u6211`
+- `😁` `55357` `0001 1111 0110 0000 0001` `d83d` `\u1f601`
+
+   66245  67916
+- String方法
+  - `String.fromCharCode(int)`
+  - `String.fromCodePoint(int)`
+- String对象的原型方法(String.prototype)
+  - `charAt(index)` 字符串指定索引(`0~length-1`)处的字符
+  - `charCodeAt(index)` 字符串指定索引(`0~length-1`)处的UTF-16编码单元体现的数字，范围 `0~65536`，`0x0000~0xffff`
+  - `codePointAt(index)` 字符串指定索引(`0~length-1`)处的编码单元体现的数字
+  - `indexOf(str)` `lastIndexOf(str)` 指定子串开始/结束的位置
+  - `concat(str)` 字符串拼接
+  - `split(str)` 字符串分割成数组
+  - `slice(beginIndex, endIndex)` 返回字符串切割的一部分(支持负值)
+  - `substring(indexStart, indexEnd)`
+  - `substr(indexStart, length)`
+  - `match` `replace` `search`
+  - `normalize(form)` 按照指定一种 Unicode 正规形式将字符串正规化
+  - `toUpperCase()` `toLowerCase()`
+  - `repeat(count)` 重复指定次数
+  - `trim()` 去除开头结尾的空白字符
 
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Text_formatting
