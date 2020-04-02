@@ -12,6 +12,10 @@
 - JavaScript 内置了一些对象的标准库(Array、Date、Math等)，JavaScript 的核心部分可以通过添加对象来扩展语言以适应不同用途
   - 客户端的 JavaScript 提供控制浏览器及其文档对象模型(DOM)的对象,来改变网页(DOM)的外观与样式
   - 服务端的 Node.Js 提供操作数据库,通信等对象,来对客户端的请求作出响应
+- JavaScript是一种基于原型的语言，Java是基于类的语言
+  - 基于原型的语言具有原型对象(prototypical object)的概念
+  - 任何对象都可作为另一个对象的原型(prototype),从而允许后者共享前者的属性
+  - ES6中引入的类定义，实际上是已有原型继承方式的语法糖而已
 
 ### 标准内置对象
 - 值属性(简单值,没有自己的属性和方法)
@@ -89,5 +93,3 @@
   - WebAssembly.RuntimeError
 - 其他
   - arguments
-
-https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Working_with_Objects
