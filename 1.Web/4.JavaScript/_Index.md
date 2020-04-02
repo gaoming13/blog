@@ -16,6 +16,7 @@
   - 基于原型的语言具有原型对象(prototypical object)的概念
   - 任何对象都可作为另一个对象的原型(prototype),从而允许后者共享前者的属性
   - ES6中引入的类定义，实际上是已有原型继承方式的语法糖而已
+  - JavaScript 无法动态地从多个原型链中继承
 
 ### 标准内置对象
 - 值属性(简单值,没有自己的属性和方法)
@@ -93,3 +94,6 @@
   - WebAssembly.RuntimeError
 - 其他
   - arguments
+
+
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Using_promises
