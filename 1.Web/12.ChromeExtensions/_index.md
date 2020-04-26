@@ -1,0 +1,13 @@
+> https://www.cnblogs.com/liuxianan/p/chrome-plugin-develop.html
+// 生肖：animal: "鼠"
+// gzYear: "庚子" gzMonth: "己卯" gzDate: "甲戌"
+// lunarYear: "2020" lunarMonth: "3" lunarDate: "9" lMonth: "三" lDate: "初九"
+// year: "2020" month: "4" day: "1"
+// suit: "祭祀.动土.上梁.订盟.纳采.嫁娶.安机械.拆卸.安床.入宅.安香.入殓.移柩.破土.安葬.立碑.谢土.赴任.出行.移徙.祈福.求嗣.解除.造仓.进人口." avoid: "开光.出货财."
+// oDate: "2020-03-31T16:00:00.000Z"
+// cnDay: "三"
+desc: "愚人节"
+isBigMonth: "1"
+term: ""
+type: "i"
+value: "愚人节"

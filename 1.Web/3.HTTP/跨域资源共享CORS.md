@@ -245,3 +245,33 @@ add_header Access-Control-Allow-Credentials true;
 # A future release of Chrome will only deliver cookies with cross-site requests if they are set with `SameSite=None` and `Secure`.
 header('Set-Cookie: cross-site-cookie1=bar; SameSite=None; Secure');
 ```
+
+#### 页面接口使用其它域名，注意事项：
+
+1.浏览器端(http://192.168.31.220:8888)请求
+
+```js
+var req = new XMLHttpRequest();
+req.open('POST', 'https://a2.diary8.com/1.php', true);
+req.withCredentials = true;
+req.onreadystatechange = () => {};
+req.send();
+```
+
+2.接口端nginx配置
+
+```
+add_header Access-Control-Allow-Origin http://192.168.31.220:8888;
+add_header Access-Control-Allow-Methods GET,POST,PUT,DELETE,PATCH,OPTIONS;
+add_header Access-Control-Allow-Headers content-type;
+add_header Access-Control-Allow-Credentials true;
+```
+
+3.接口端cookie设置
+
+```php
+# 按照：chrome浏览器未来关于跨域规则的警告
+# A cookie associated with a cross-site resource at http://a1.diary8.com/ was set without the `SameSite` attribute.
+# A future release of Chrome will only deliver cookies with cross-site requests if they are set with `SameSite=None` and `Secure`.
+header('Set-Cookie: cross-site-cookie1=bar; SameSite=None; Secure');
+```
