@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas"></script>
+  <style>
+    .html { width: 300px; height: 200px; background: yellowgreen; }
+    .html > img, .html > canvas { display: block; width: 100px; height: 100px; }
+    .png { width: 300px; height: 200px; }
+    .png > img { width: 100%; }
+  </style>
+</head>
+<body>
+  <pre>
+    演示：修复 safari < 13.1 不支持（HTML element: img: crossorigin），
+         导致浏览器缓存了 img 无 crossorigin 的响应信息，
+         html2canvas 再次跨域请求的时候 直接读取了响应缓存，浏览器拦截无法跨域
+  </pre>
+  <div id="app">
+    <!-- 合成后的图片 -->
+    <div v-if="isShowPng" class="png">
+      <img :src="pngBase64">
+    </div>
+    <!-- 原始HTML -->
+    <div class="html" ref="html">
+      <h3>这是海报</h3>
+      <img v-if="crossImgBase64 !== ''" :src="crossImgBase64">
+      <canvas v-else ref="crossImg"></canvas>
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        // 合成后的图片是否显示
+        isShowPng: false,
+        // 合成后的图片Base64
+        pngBase64: '',
+        // 跨域图片的Base64编码
+        crossImgBase64: '',
+      },
+      mounted() {
+        // 1.先获取通过canvas获取跨域图片的Base64编码
+        const img = new Image();
+        img.onload = () => {
+          const c = this.$refs.crossImg;
+          const ctx = c.getContext('2d');
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+          crossImgBase64 = c.toDataURL('image/png');
+
+          // 2.绘制海报
+          html2canvas(this.$refs.html, {
+            // useCORS: true,
+          }).then((canvas) => {
+            this.pngBase64 = canvas.toDataURL('image/png');
+            this.isShowPng = true;
+          });
+        };
+        img.crossOrigin = 'anonymous';
+        img.src = 'https://secure.gravatar.com/avatar/03af4ed2fa8526e9f37c847cc4083141';
+      },
+    });
+  </script>
+</body>
+</html>
