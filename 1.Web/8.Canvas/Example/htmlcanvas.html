@@ -47,7 +47,7 @@
           const c = this.$refs.crossImg;
           const ctx = c.getContext('2d');
           ctx.drawImage(img, 0, 0, c.width, c.height);
-          crossImgBase64 = c.toDataURL('image/png');
+          this.crossImgBase64 = c.toDataURL('image/png');
 
           // 2.绘制海报
           html2canvas(this.$refs.html, {
