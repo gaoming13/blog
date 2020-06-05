@@ -1,3 +1,5 @@
+> https://docs.npmjs.com/cli-documentation/cli
+
 【NPM】
 - 安装：`curl -L https://www.npmjs.org/install.sh | sh`
 - `npm -l` 显示帮助信息概况
@@ -23,7 +25,10 @@
 - `npm adduser` 注册新用户
 - `npm login` 登录
 - `npm owner ls` 列出当前的所有者
-- `npm publish --access public` 发布
+- `npm version 1.2.2-beta.0` 更新package.json,同时创建一个git标签
+- `npm publish` 发布正式版本
+- `npm publish --tag beta` 发布测试版本
+- `npm info` 查看已发布的 beta与latest版本
 [发布的包.忽略文件]
 - 白名单方式：`package.json files字段`
 - 黑名单方式：`.npmignore` 没有该文件默认使用.gitignore文件
