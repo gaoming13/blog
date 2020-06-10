@@ -119,3 +119,26 @@ vim /etc/passwd
 
 git:x:1004:1004:git version control:/home/git:/usr/bin/git-shell
 ```
+
+### GitFlow
+- hotfix-123 热修复分支
+  - 1.`git co -b hotfix-123 master` 从master拉取分支
+  - 2.在 hotfix-123 上提交修复代码
+  - 3.`git merge hotfix-123 --no-ff` 修复完成, 合并到 master 和 develop 分支
+  - 4.`git br -D hotfix-123` 删除 hofix分支
+- master 生产环境分支, 包含了最近发布到生产环境的代码
+- release-v1.2 发版分支
+  - 1.`git co -b release-v1.2 develop` 从develop拉取分支
+  - 2.在release上测试并修改
+  - 3.`git merge release-v1.2 --no-ff` 合并到master分支,打tag上线; 合并到develop分支(如果有必要)
+  - 4.`git br -D release-v1.2` 删除release分支
+- develop 主开发分支(测试分支)
+- feature-xxx 功能分支(不协同开发的话,只为本地分支)
+  - 1.`git co -b feature-xxx` 从develop拉取功能分支
+  - 2.在feature上开发
+  - 3.`git merge feature-xxx --no-ff` 功能OK了, 合并到develop
+  - 4.`git br -D feature-xxx` 删除feature分支
+
+实际开发的思路
+- master 生产环境分支(始终为最近一期的第一次合并)
+- feature-v1.2 项目该期的开发分支
