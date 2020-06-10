@@ -54,8 +54,8 @@
 [ ] eslint-config-alloy https://alloyteam.github.io/eslint-config-alloy/?language=zh-CN&rule=vue
 [ ] Koa、Axios、Vue、React、Taro 原理
 [ ] 灰度测试
-[ ]缓存SDK: https://blog.csdn.net/qq_40109752/article/details/83009811
+[ ] 缓存SDK: https://blog.csdn.net/qq_40109752/article/details/83009811
     // 真实数据和缓存的竞争如何处理，第一次如何处理，第二次有更新如何处理
-[ ]埋点数据上报的方案 (Ajax 请求、img、script)(img 天然支持跨域；跨域友好、不占用 Ajax 请求、执行无阻塞)
-[ ]静态资源输出
-[ ]防抖机制
+[ ] 埋点数据上报的方案 (Ajax 请求、img、script)(img 天然支持跨域；跨域友好、不占用 Ajax 请求、执行无阻塞)
+[ ] 静态资源输出
+[ ] 防抖机制
