@@ -48,8 +48,6 @@
 [ ] Typescript
   [ ] interface 和 type 的区别
 [ ] Koa compose方法
-[ ] Performance Web API 网站统计相关
-[ ] NodeJS 纳秒
 [ ] eslint-config-alloy https://alloyteam.github.io/eslint-config-alloy/?language=zh-CN&rule=vue
 [ ] Koa、Axios、Vue、React、Taro 原理
 [ ] 缓存SDK: https://blog.csdn.net/qq_40109752/article/details/83009811
