@@ -1,6 +1,8 @@
 #### 概念
 - `<!DOCTYPE html>` 不是HTML标签，它告诉浏览器页面由HTML哪个版本编写，对大小写不敏感; HTML5 必须以 `<!DOCTYPE html>` 作为首行
-- `<script>` js执行结束前,阻塞HTML解析; `<script async>` js执行与HTML解析同步; `<script defer>` 等HTML解析完才执行
+- `<script>` 阻塞后面的执行;
+- `<script async>` 不阻塞后面的执行,下载完立马执行
+- `<script defer>` 不阻塞后面的执行,下载完等渲染结束才执行
 - HTTP单域名最大链接数 最大不超过8 http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/
 
 #### 怪异模式与标准模式
