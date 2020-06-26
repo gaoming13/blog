@@ -6,6 +6,8 @@ gcloud auth login
 
 # gsutil 设置index页面,默认404页面
 gsutil web set -m index.html -e 404.html gs://sieber-movie1
+# 公开数据
+gsutil iam ch allUsers:legacyObjectReader gs://sieber-movie1
 # 查看配置
 gsutil web get gs://sieber-movie1
 # 复制单个文件
