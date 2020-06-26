@@ -672,3 +672,58 @@ echo 输出命令
 - `netstat -anp` 列出所有端口
 - `netstat -r` 显示核心路由器信息, `netstat -rn` 显示核心路由器信息,不查询主机名称,等价于 `route -n`
 - `netstat -i` 显示网络接口列表, `netstat -ie` 显示详细信息 等价于 `ifconfig`
+
+
+## 远程桌面
+
+1.安装桌面环境
+
+```bash
+# 安装桌面环境 GNOME
+yum -y groups install "GNOME Desktop"
+
+# 从命令行切换到桌面环境
+startx
+```
+
+2.安装VPC
+
+```bash
+yum install -y git tigervnc-server -y
+
+# 启动服务并设置密码
+vncserver :1
+
+# 开机自启动
+chmod +x /etc/rc.d/rc.local
+echo '/usr/bin/vncserver :1' >>/etc/rc.d/rc.local
+
+# 查看日志
+cat /root/.vnc/novnc:1.log
+
+# 查看端口
+netstat -lntup|grep 59
+```
+
+3.安装noVNC(可选)
+
+```sh
+git clone https://github.com/novnc/noVNC.git
+
+cd ./noVNC/utils/
+openssl req -new -x509 -days 365 -nodes -out self.pem -keyout self.pem
+
+# 启动
+./root/noVNC/utils/launch.sh --vnc localhost:5901 &
+
+# 访问
+http://ip:6080/vnc.html
+
+# 设置开启启动
+echo './root/noVNC/utils/launch.sh --vnc localhost:5901 &' >>/etc/rc.d/rc.local
+
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --zone=public --add-port=5901/tcp --permanent
+firewall-cmd --zone=public --add-port=6080/tcp --permanent
+firewall-cmd --reload
+```
