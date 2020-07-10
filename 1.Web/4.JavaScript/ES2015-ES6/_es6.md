@@ -5,11 +5,10 @@
 arrows
 enhanced object literals
 template strings
-destructuring
+
 default + rest + spread
 iterators + for..of
 generators
-unicode
 map + set + weakmap + weakset
 proxies
 symbols
@@ -23,6 +22,14 @@ tail calls
 - let + const
   - 暂时性死区
   - 块级函数作用域/IIFE
+- destructuring(变量的解构赋值)
+  - 数组的解构赋值
+  - 对象的解构赋值
+  - 字符串的解构赋值
+  - 函数参数的解构赋值
+- unicode(字符串扩展)
+  - 字符串的unicode表示法(其它5种)
+  -
 - classes(类)
   - *语法糖,绝大部分功能,ES5都可以做到*
   - 0.继承

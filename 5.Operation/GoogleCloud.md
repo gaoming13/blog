@@ -14,6 +14,7 @@ gsutil web get gs://sieber-movie1
 gsutil cp robots.txt gs://sieber-movie1
 # 复制多个文件(递归同步)
 gsutil -m rsync -R ./* gs://sieber-movie1
+gsutil -m rsync -R 'movie-1' 'gs://sieber-movie/movie1-20200710/'
 # 删除目录
 gsutil -m rm -r gs://sieber-movie1/gcdm
 # 列出目录
