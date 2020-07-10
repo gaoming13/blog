@@ -112,5 +112,3 @@ console.log(Object.keys(p2));
 // Object.keys(Point1.prototype) // [ 'constructor', 'toString', 'getArea' ]
 // Object.getOwnPropertyNames(Point1.prototype) // [ 'constructor', 'toString', 'getArea' ]
 ```
-
-###
