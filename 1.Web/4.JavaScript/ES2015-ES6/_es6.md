@@ -2,23 +2,6 @@
 > ES6 New feature: https://github.com/lukehoban/es6features
 - 从 Node v13.2 开始, 默认打开 ESM 的支持
 
-arrows
-enhanced object literals
-template strings
-
-default + rest + spread
-iterators + for..of
-generators
-map + set + weakmap + weakset
-proxies
-symbols
-subclassable built-ins
-promises
-math + number + string + array + object APIs
-binary and octal literals
-reflect api
-tail calls
-
 - let + const
   - 暂时性死区
   - 块级函数作用域/IIFE
@@ -27,9 +10,13 @@ tail calls
   - 对象的解构赋值
   - 字符串的解构赋值
   - 函数参数的解构赋值
+- string(字符串API)
+- RegExp(正则)
 - unicode(字符串扩展)
   - 字符串的unicode表示法(其它5种)
-  -
+  - 识别4字节字符的函数与正则表达式
+- template strings(模版字符串)
+  - 变量表示、多行表示、标签模版
 - classes(类)
   - *语法糖,绝大部分功能,ES5都可以做到*
   - 0.继承
@@ -56,3 +43,19 @@ tail calls
     - import {a1, f1} from 'math'
     - import l1, {a1, f1} from 'math'
   - 浏览器中模块加载
+
+
+arrows
+enhanced object literals
+default + rest + spread
+iterators + for..of
+generators
+map + set + weakmap + weakset
+proxies
+symbols
+subclassable built-ins
+promises
+math + number + string + array + object APIs
+binary and octal literals
+reflect api
+tail calls

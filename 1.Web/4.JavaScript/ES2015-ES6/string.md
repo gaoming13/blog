@@ -1,0 +1,11 @@
+### string新增的API
+- 1.String.fromCodePoint()：Unicode码点->对应字符
+  - ES5提供 String.fromCharCode() 无法正确识别码点大于 0xFFFF 的字符
+- 2.String.prototype.codePointAt()：字符->对应的码点
+- 3.String.raw(): 还原模版字符串的处理方法
+- 4.String.prototype.normalize() 将字符串的不同表示法统一为一种形式,Unicode正规化
+- 5.字符串搜索方法, 都支持第二个参数(开始搜索的位置)
+  - String.prototype.includes()
+  - String.prototype.startsWith()
+  - String.prototype.endsWith()
+- 6.String.prototype.repeat(): 返回一个新字符串,表示将原字符串重复n次
