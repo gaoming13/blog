@@ -14,11 +14,19 @@
 - RegExp(正则)
   - 修饰符u,y,s
 - number(数值扩展)
+  - 二进制、八进制、十六进制写法
+  - 数字精度原理
+  - BigInt数据类型
 - unicode(字符串扩展)
   - 字符串的unicode表示法(其它5种)
   - 识别4字节字符的函数与正则表达式
 - template strings(模版字符串)
   - 变量表示、多行表示、标签模版
+- function(函数扩展)
+  - 参数默认值
+  - rest参数
+  - 箭头函数
+  - 尾部调用优化
 - classes(类)
   - *语法糖,绝大部分功能,ES5都可以做到*
   - 0.继承
@@ -45,19 +53,3 @@
     - import {a1, f1} from 'math'
     - import l1, {a1, f1} from 'math'
   - 浏览器中模块加载
-
-
-arrows
-enhanced object literals
-default + rest + spread
-iterators + for..of
-generators
-map + set + weakmap + weakset
-proxies
-symbols
-subclassable built-ins
-promises
-math + number + string + array + object APIs
-binary and octal literals
-reflect api
-tail calls
