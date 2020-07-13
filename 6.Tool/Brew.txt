@@ -9,7 +9,7 @@
 ### 包信息
 - `brew list --versions` 列出已安装的包
 - `brew list nginx -v` 列出已安装的某个包信息(路径)
-- `brew search nginx` 搜索某个包
+- `brew search nginx -v` 搜索某个包
 - `brew info nginx` 查看某个包的信息
 - `brew upgrade nginx` 升级某个包
 - `brew uninstall nginx` 卸载某个包
