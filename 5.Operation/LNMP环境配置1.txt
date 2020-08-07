@@ -155,20 +155,21 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '新密码';
 create user 'root'@'localhost' identified with mysql_native_password by 'W7V&wz%f0l8tvFD4';
 alter user 'root'@'localhost' identified with mysql_native_password by 'W7V&wz%f0l8tvFD4';
 
-### REDIS - 5.0.6
+### REDIS - 6.0.6
 1.编译安装
 cd /usr/local/src/
-wget http://download.redis.io/releases/redis-5.0.6.tar.gz
-tar -zxvf redis-5.0.6.tar.gz
-cd redis-5.0.6
-mkdir -p /usr/local/redis-5.0.6/bin/
-cp /usr/local/src/redis-5.0.6/src/redis-benchmark /usr/local/redis-5.0.6/bin/
-cp /usr/local/src/redis-5.0.6/src/redis-check-aof /usr/local/redis-5.0.6/bin/
-cp /usr/local/src/redis-5.0.6/src/redis-check-rdb /usr/local/redis-5.0.6/bin/
-cp /usr/local/src/redis-5.0.6/src/redis-cli /usr/local/redis-5.0.6/bin/
-cp /usr/local/src/redis-5.0.6/src/redis-sentinel /usr/local/redis-5.0.6/bin/
-cp /usr/local/src/redis-5.0.6/src/redis-server /usr/local/redis-5.0.6/bin/
-cp /usr/local/src/redis-5.0.6/redis.conf /usr/local/redis-5.0.6/redis-6379.conf
+wget http://download.redis.io/releases/redis-6.0.6.tar.gz
+tar -zxvf redis-6.0.6.tar.gz
+cd redis-6.0.6
+make
+mkdir -p /usr/local/redis-6.0.6/bin/
+cp /usr/local/src/redis-6.0.6/src/redis-benchmark /usr/local/redis-6.0.6/bin/
+cp /usr/local/src/redis-6.0.6/src/redis-check-aof /usr/local/redis-6.0.6/bin/
+cp /usr/local/src/redis-6.0.6/src/redis-check-rdb /usr/local/redis-6.0.6/bin/
+cp /usr/local/src/redis-6.0.6/src/redis-cli /usr/local/redis-6.0.6/bin/
+cp /usr/local/src/redis-6.0.6/src/redis-sentinel /usr/local/redis-6.0.6/bin/
+cp /usr/local/src/redis-6.0.6/src/redis-server /usr/local/redis-6.0.6/bin/
+cp /usr/local/src/redis-6.0.6/redis.conf /usr/local/redis-6.0.6/redis-6379.conf
 
 2.开机启动
 vim /usr/lib/systemd/system/redis.service
@@ -179,8 +180,8 @@ Description=Redis Server
 After=network.target
 
 [Service]
-ExecStart=/usr/local/redis-5.0.6/bin/redis-server /usr/local/redis-5.0.6/redis-6379.conf --daemonize no
-ExecStop=/usr/local/redis-5.0.6/bin/redis-cli -p 6379 shutdown
+ExecStart=/usr/local/redis-6.0.6/bin/redis-server /usr/local/redis-6.0.6/redis-6379.conf --daemonize no
+ExecStop=/usr/local/redis-6.0.6/bin/redis-cli -p 6379 shutdown
 Restart=always
 
 [Install]
