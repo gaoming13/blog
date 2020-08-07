@@ -42,7 +42,7 @@ or
 kill -INT `cat /usr/local/nginx-1.9.9/logs/nginx.pid`
 /usr/local/nginx-1.9.9/sbin/nginx
 [reload]
-kill -HUP `cat /usr/local/nginx-1.9.9/logs/nginx.pid` #Æ½»¬Æô¶¯,¸ü¸ÄÅäÖÃ¶ø²»ÐèÍ£Ö¹²¢ÖØÐÂÆô¶¯·þÎñ
+kill -HUP `cat /usr/local/nginx-1.9.9/logs/nginx.pid`
 or
 /usr/local/nginx-1.9.9/sbin/nginx -s reload
 [nginx.service]
@@ -69,73 +69,14 @@ WantedBy=multi-user.target
 systemctl enable nginx.service
 systemctl start nginx.service
 
-
-### PHP 7.0.19
-1.编译安装
-
-```
-brew install openssl
-
-yum install bzip2
-yum install -y openssl openssl-devel libxml2-devel autoconf zlib-devel curl-devel pcre-devel libtool-libs libjpeg-devel libpng libpng-devel freetype-devel gmp-devel
-
-/usr/sbin/groupadd -f www
-useradd -m -s /sbin/nologin -g www www;
-
-cd /usr/local/src
-wget http://cn2.php.net/distributions/php-7.0.19.tar.bz2
-tar -jxvf php-7.0.19.tar.bz2
-cd php-7.0.19
-./configure \
---prefix=/usr/local/php-7.0.19 \
---enable-fpm \
---with-fpm-user=www \
---with-fpm-group=www \
---with-config-file-path=/usr/local/php-7.0.19/etc \
---with-mysqli=mysqlnd \
---with-pdo-mysql=mysqlnd \
---with-openssl \
---with-zlib \
---with-curl \
---enable-ftp \
---with-gd \
---with-jpeg-dir \
---with-png-dir \
---with-freetype-dir \
---enable-mbstring \
---enable-zip \
---with-gmp \
---with-iconv \
---without-pear \
---disable-phar \
---disable-fileinfo \
---enable-sockets \
---enable-bcmath
-make
-make install
-
-cp /usr/local/src/php-7.0.19/php.ini-production /usr/local/php-7.0.19/etc/php.ini
-cp /usr/local/php-7.0.19/etc/php-fpm.conf.default /usr/local/php-7.0.19/etc/php-fpm.conf
-cp /usr/local/php-7.0.19/etc/php-fpm.d/www.conf.default /usr/local/php-7.0.19/etc/php-fpm.d/www.conf
-
-su /usr/local/src/php-7.0.19/sapi/fpm/init.d.php-fpm start
-```
-
-2.开机启动
-
-```
-cp /usr/local/src/php-7.0.19/sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
-systemctl enable php-fpm.service
-systemctl start php-fpm.service
-systemctl status php-fpm.service
-```
-
-### PHP 7.3.10
+### PHP 7.4.9
 0.环境依赖
 
 ```sh
 yum install bzip2
 yum install -y openssl openssl-devel libxml2-devel autoconf zlib-devel curl-devel pcre-devel libtool-libs libjpeg-devel libpng libpng-devel freetype-devel gmp-devel
+yum install sqlite-devel
+yum install oniguruma-devel
 
 /usr/sbin/groupadd -f www
 useradd -m -s /sbin/nologin -g www www;
@@ -158,25 +99,20 @@ cp /usr/local/lib/libzip/include/zipconf.h /usr/local/include/zipconf.h
 
 ```sh
 cd /usr/local/src
-wget https://www.php.net/distributions/php-7.3.10.tar.gz
-tar -zxvf php-7.3.10.tar.gz
-cd php-7.3.10
-./configure --prefix=/usr/local/php-7.3.10 \
+wget https://www.php.net/distributions/php-7.4.9.tar.gz
+tar -zxvf php-7.4.9.tar.gz
+cd php-7.4.9
+./configure --prefix=/usr/local/php-7.4.9 \
 --enable-fpm \
 --with-fpm-user=www \
 --with-fpm-group=www \
---with-config-file-path=/usr/local/php-7.3.10/etc \
+--with-config-file-path=/usr/local/php-7.4.9/etc \
 --with-mysqli=mysqlnd \
 --with-pdo-mysql=mysqlnd \
 --with-openssl \
 --with-zlib \
 --with-curl \
---with-gd \
---with-jpeg-dir \
---with-png-dir \
---with-freetype-dir \
 --enable-mbstring \
---enable-zip \
 --with-gmp \
 --with-iconv \
 --without-pear \
@@ -185,52 +121,19 @@ cd php-7.3.10
 --enable-bcmath
 make && make install
 
-cp /usr/local/src/php-7.3.10/php.ini-production /usr/local/php-7.3.10/etc/php.ini
-cp /usr/local/php-7.3.10/etc/php-fpm.conf.default /usr/local/php-7.3.10/etc/php-fpm.conf
-cp /usr/local/php-7.3.10/etc/php-fpm.d/www.conf.default /usr/local/php-7.3.10/etc/php-fpm.d/www.conf
+cp /usr/local/src/php-7.4.9/php.ini-production /usr/local/php-7.4.9/etc/php.ini
+cp /usr/local/php-7.4.9/etc/php-fpm.conf.default /usr/local/php-7.4.9/etc/php-fpm.conf
+cp /usr/local/php-7.4.9/etc/php-fpm.d/www.conf.default /usr/local/php-7.4.9/etc/php-fpm.d/www.conf
 ```
 
 2.开机启动
 
 ```sh
-cp /usr/local/src/php-7.3.10/sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
+cp /usr/local/src/php-7.4.9/sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
 systemctl enable php-fpm.service
 systemctl start php-fpm.service
 systemctl status php-fpm.service
 ```
-
-### MYSQL 5.7.18
-
-```
-yum -y install gcc gcc-c++ ncurses ncurses-devel cmake
-
-cd /usr/local/src
-wget http://downloads.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
-tar -zxvf boost_1_59_0.tar.gz
-cd boost_1_59_0
-
-https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.18.tar.gz
-
-groupadd mysql;
-useradd -s /sbin/nologin -g mysql mysql;
-
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql-5.7.18 \
--DDEFAULT_CHARSET=utf8 \
--DDEFAULT_COLLATION=utf8_general_ci \
--DWITH_EXTRA_CHARSETS=complex \
--DWITH_READLINE=1 \
--DENABLED_LOCAL_INFILE=1 \
--DWITH_BOOST=/usr/local/src/boost_1_59_0
-make & make install
-
-chmod +w /usr/local/mysql-5.7.18;
-chown -R mysql:mysql /usr/local/mysql-5.7.18;
-
-/usr/local/mysql-5.7.18/support-files/mysql.server start
-```
-
-- 命令行操作日志文件位置：`~/.mysql_history`
-- `mycli` 命令行操作mysql智能提示工具
 
 ### MYSQL8.0安装
 
@@ -251,25 +154,6 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '新密码';
 
 create user 'root'@'localhost' identified with mysql_native_password by 'W7V&wz%f0l8tvFD4';
 alter user 'root'@'localhost' identified with mysql_native_password by 'W7V&wz%f0l8tvFD4';
-
-### REDIS - 3.2.9
-
-wget http://download.redis.io/releases/redis-3.2.9.tar.gz
-make
-
-mkdir -p /usr/local/redis-3.2.9/bin/
-cp /usr/local/src/redis-3.2.9/src/redis-benchmark /usr/local/redis-3.2.9/bin/
-cp /usr/local/src/redis-3.2.9/src/redis-check-aof /usr/local/redis-3.2.9/bin/
-cp /usr/local/src/redis-3.2.9/src/redis-check-rdb /usr/local/redis-3.2.9/bin/
-cp /usr/local/src/redis-3.2.9/src/redis-cli /usr/local/redis-3.2.9/bin/
-cp /usr/local/src/redis-3.2.9/src/redis-sentinel /usr/local/redis-3.2.9/bin/
-cp /usr/local/src/redis-3.2.9/src/redis-server /usr/local/redis-3.2.9/bin/
-cp /usr/local/src/redis-3.2.9/redis.conf /usr/local/redis-3.2.9/redis-6379.conf
-
-/usr/local/redis-3.2.9/bin/
-
-src/redis-server
-src/redis-server
 
 ### REDIS - 5.0.6
 1.编译安装
@@ -333,5 +217,54 @@ grep "password" /var/log/mysqld.log
 # 修改密码
 ALTER USER 'root'@'localhost' IDENTIFIED BY '1r5AKq*U!oR9M#8X';
 
+### 调优
 
+centos7
 
+```sh
+# 允许等待中的监听
+echo 50000 >/proc/sys/net/core/somaxconn
+# tcp连接快速回收
+echo 1 >/proc/sys/net/ipv4/tcp_tw_recycle
+# tcp连接重用
+echo 1 >/proc/sys/net/ipv4/tcp_tw_reuse
+# 不抵御洪水攻击
+echo 0 >/proc/sys/net/ipv4/tcp_syncookies
+```
+
+nginx
+
+```sh
+# worker_process 修改为内核数的1-2倍, 一般是4或8, 8以上优化不大
+worker_process 2
+# 高并发下设为0,但是文件上传需要保持连接, 开发时需注意, 做好业务拆分
+keepalive_timeout 0
+# 设置worker进程最大打开的连接数, 建议尽量高,比如20480
+worker_connections 20480
+# 将此值增加到大于worker_processes * worker_connections的值。 应该是增加当前worker运行用户的最大文件打开数值
+worker_rlimit_nofile 20480*2
+```
+
+php-fpm
+
+```sh
+# 60秒内有10次子进程中断,则重启php-fpm, 防止因php垃圾代码造成的中断问题
+emergency_restart_threshold =10
+emergency_restart_interval =60
+# 允许的最大进程数, 一个php-fpm进程大约占用15-40m的内从, 具体设置值需要根据实际情况得出 我这里设为 512
+process.max
+# 允许的最大请求 ,设置2048
+pm.max_requests
+# 关掉慢请求日志
+;request_slowlog_timeout = 0
+;slowlog = var/log/slow.log
+```
+
+### 常用指令
+
+```sh
+# 计算正在使用的worker进程，正在处理的请求
+netstat -anp | grep 'php-fpm'|grep -v 'LISTENING'|grep -v 'php-fpm.conf'|wc -l
+# PHP内存开销
+ps auxf | grep php | grep -v grep | grep -v master | awk '{sum+=$6} END {print sum}'
+```
