@@ -114,6 +114,9 @@ verb 3
 ;mute 20
 ;explicit-exit-notify 1
 
+#所有流量都走vpn
+push "redirect-gateway def1 bypass-dhcp"
+
 2.3启动openvpn
 
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
@@ -130,25 +133,159 @@ sysctl -p   #使修改的参数生效
 systemctl start openvpn@server
 systemctl status openvpn@server
 
-
 3.4 客户端配置
 
+```
 client
 dev tun
 proto tcp
-remote 121.40.80.46 1194
+remote 202.61.128.111 8080
 resolv-retry infinite
 nobind
 persist-key
 persist-tun
-ca ca.crt
-cert zhaoliming.crt
-key zhaoliming.key
 compress lz4-v2
 remote-cert-tls server
 rcvbuf 65536
 verb 3
+<ca>
+-----BEGIN CERTIFICATE-----
+MIIDHjCCAgagAwIBAgIJALCETll5zMccMA0GCSqGSIb3DQEBCwUAMA8xDTALBgNV
+BAMMBEdNMTMwHhcNMjAwODA3MDIxNzA1WhcNMzAwODA1MDIxNzA1WjAPMQ0wCwYD
+VQQDDARHTTEzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2kPk/nAu
+BAz0k0VCQsrFmIXnQiCAOcVIbclPseaV88AMsAi7ii5+hogEK0KbwFRO2HbFe0mM
+lhPP4O5RdUMMXfUiKxVUU61lCseMZWR/Mo3kVDC2tWOvHA8kbktUM/Or9Dxdbwom
+0abXJBpov7b+ptO2uDc0Ji6IUdhPRLLnLbwR72sSxWiBDCim7Vg4IKCn5JkCjeCD
+12MDtDioF4bMW4ZHDnBmO3t1Zkl2lYcBz0RAX3estaBEN64j3oMYKXmQ8dTXycaH
+A9t7PBLDqD94ni9WwvvtCTGvY5CRDqP29y8YdCBpMt5ppLzk2/CDk7xGQwvj2FNT
+lCRLng6B0a0OnQIDAQABo30wezAdBgNVHQ4EFgQUCID4/MxC2JtL5grKbEYs3a9+
+0gcwPwYDVR0jBDgwNoAUCID4/MxC2JtL5grKbEYs3a9+0gehE6QRMA8xDTALBgNV
+BAMMBEdNMTOCCQCwhE5ZeczHHDAMBgNVHRMEBTADAQH/MAsGA1UdDwQEAwIBBjAN
+BgkqhkiG9w0BAQsFAAOCAQEAJmlOjpfTK7Mtc2U3xcrZiOjLGUWlDNzazj2W6Zl8
+3dn2K+uy7EOBzceRt4lciQFDchtbW7oyaNkfjvwqeVz22OtWR6oRNDqKXyidCF52
+w5UPblpHmMvagqWlfLyABuuNYEtxCtQuXeST52fgKCfcMqtVXW/OgIiCiawvG4c8
+lhRFtthL3dtiF/6nfZdkxs0Xe3tZvfS409NcVu0hj26ueNGkWpI3RDscBdB+6bMU
+0pfV5WGsqzcxPs3xJ7J0t+WcnmuCS40Ghv5Jf4usng+4m5aNP2SJNBIE7sX3xfDA
+3Gu5RM+IaBc5/qjTXEvfRjK9CkCQjDz9aOi4VHHsNx2Ryw==
+-----END CERTIFICATE-----
+</ca>
+<cert>
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            4f:11:15:ab:9b:10:6d:5b:3b:0a:ae:58:62:46:48:8b
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=GM13
+        Validity
+            Not Before: Aug  7 03:00:12 2020 GMT
+            Not After : Nov 10 03:00:12 2022 GMT
+        Subject: CN=GM13
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:c5:fa:1c:e5:f4:cb:27:4b:79:dd:a8:bc:8f:15:
+                    99:d2:56:68:71:5a:a7:e1:60:1e:4a:6f:ea:24:bc:
+                    d4:2e:c9:c3:1d:03:8f:75:84:a2:1d:2e:ef:7f:b6:
+                    bd:31:31:c5:79:7e:55:23:87:5e:fb:fd:fd:e8:d5:
+                    bb:e7:1a:4f:63:25:b1:7b:00:39:56:f6:ae:96:29:
+                    01:52:c7:a9:38:ea:67:68:ba:25:c0:5d:39:e9:52:
+                    7a:32:95:a8:6d:eb:85:6c:3a:9e:bf:91:02:40:d3:
+                    03:a8:38:8b:0b:24:99:3d:cc:c8:94:a9:a8:ae:79:
+                    93:86:fd:92:e9:fb:e0:90:be:51:5e:b2:0e:6f:37:
+                    61:84:e1:63:78:ba:a4:da:5f:2d:40:16:f1:e0:cb:
+                    fd:59:48:ab:25:f4:52:3e:e9:a1:b9:19:8d:e2:91:
+                    ba:dc:2f:59:91:9c:c4:f9:5b:b6:e3:0d:85:9a:fd:
+                    89:f7:70:b4:48:7a:24:a1:ac:31:b8:c5:13:1f:eb:
+                    47:d7:52:46:a2:77:4d:5f:c9:bd:27:76:78:35:33:
+                    2d:c9:a3:3c:c7:ca:1c:4c:ec:39:37:07:e4:8d:b9:
+                    0c:c4:92:d9:2c:b0:7c:84:4a:79:42:79:19:4d:ec:
+                    d2:4c:59:cd:21:d9:4d:9f:8e:ae:cf:0a:87:8f:c4:
+                    27:4d
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints:
+                CA:FALSE
+            X509v3 Subject Key Identifier:
+                DF:E1:CF:6B:6E:86:E6:86:61:B8:9B:71:05:8B:18:87:02:8A:BB:24
+            X509v3 Authority Key Identifier:
+                keyid:08:80:F8:FC:CC:42:D8:9B:4B:E6:0A:CA:6C:46:2C:DD:AF:7E:D2:07
+                DirName:/CN=GM13
+                serial:B0:84:4E:59:79:CC:C7:1C
 
+            X509v3 Extended Key Usage:
+                TLS Web Client Authentication
+            X509v3 Key Usage:
+                Digital Signature
+    Signature Algorithm: sha256WithRSAEncryption
+         9a:56:cd:6d:95:e9:c6:d7:db:3c:f8:e8:90:cb:ff:68:b3:4c:
+         6d:48:b4:b7:0d:6e:6f:d1:40:9f:1c:9e:ca:7e:33:9d:75:04:
+         49:97:64:4a:b2:7d:8d:a3:7b:d3:de:dd:fe:42:4e:8b:17:98:
+         6e:94:8d:f3:af:bc:d4:d4:92:5a:2f:65:6e:df:68:13:8e:3c:
+         24:72:50:78:d5:83:5a:9a:f1:8c:3b:68:69:71:58:ca:2a:d8:
+         9d:24:40:ea:cd:4d:8d:33:68:c9:da:ec:ac:e6:cb:e6:34:96:
+         83:68:2a:f8:b1:4d:ce:b4:0d:23:96:04:9c:59:8f:06:f9:c7:
+         a5:d4:e1:cd:dc:90:3e:db:42:46:e3:9b:d8:21:39:e1:07:58:
+         85:54:4b:e5:85:51:c5:cb:9c:70:82:2f:c2:f7:af:35:d2:65:
+         83:82:b4:0f:80:1d:11:80:04:f3:72:a1:e8:8c:5b:d7:52:05:
+         97:f0:31:5e:9d:04:93:b8:7a:6d:66:f4:b7:97:69:aa:07:dc:
+         3a:ca:3b:cd:99:ed:02:51:ce:19:e5:31:df:8b:67:4b:a0:ab:
+         c2:db:37:4a:6f:07:4d:15:d1:82:5a:12:05:5f:c5:d7:60:ae:
+         bf:0c:93:6b:00:49:e7:9f:68:8b:dd:c3:60:3d:08:35:7e:6e:
+         b4:79:2f:5a
+-----BEGIN CERTIFICATE-----
+MIIDOTCCAiGgAwIBAgIQTxEVq5sQbVs7Cq5YYkZIizANBgkqhkiG9w0BAQsFADAP
+MQ0wCwYDVQQDDARHTTEzMB4XDTIwMDgwNzAzMDAxMloXDTIyMTExMDAzMDAxMlow
+DzENMAsGA1UEAwwER00xMzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
+AMX6HOX0yydLed2ovI8VmdJWaHFap+FgHkpv6iS81C7Jwx0Dj3WEoh0u73+2vTEx
+xXl+VSOHXvv9/ejVu+caT2MlsXsAOVb2rpYpAVLHqTjqZ2i6JcBdOelSejKVqG3r
+hWw6nr+RAkDTA6g4iwskmT3MyJSpqK55k4b9kun74JC+UV6yDm83YYThY3i6pNpf
+LUAW8eDL/VlIqyX0Ut7pobkZjeKRutwvWZGcxPlbtuMNhZr9ifdwtEh6JKGsMbjF
+Ex/rR9dSRqJ3TV/JvSd2eDUzLcmjPMfKHEzsOTcH5I25DMSS2SywfIRKeUJ5GU3s
+0kxZzSHZTZ+Ors8Kh4/EJ00CAwEAAaOBkDCBjTAJBgNVHRMEAjAAMB0GA1UdDgQW
+BBTf4c9rbobmhmG4m3EFixiHAoq7JDA/BgNVHSMEODA2gBQIgPj8zELYm0vmCsps
+Rizdr37SB6ETpBEwDzENMAsGA1UEAwwER00xM4IJALCETll5zMccMBMGA1UdJQQM
+MAoGCCsGAQUFBwMCMAsGA1UdDwQEAwIHgDANBgkqhkiG9w0BAQsFAAOCAQEAmlbN
+bZXpxtfbPPjokMv/aLNMbUi0tw1ub9FAnxyeyn4znXUESZdkSrJ9jaN7097d/kJO
+ixeYbpSN86+81NSSWi9lbt9oE448JHJQeNWDWprxjDtoaXFYyirYnSRA6s1NjTNo
+ydrsrObL5jSWg2gq+LFNzrQNI5YEnFmPBvnHpdThzdyQPttCRuOb2CE54QdYhVRL
+5YVRxcuccIIvwvevNdJlg4K0D4AdEYAE83Kh6Ixb11IFl/AxXp0Ek7h6bWb0t5dp
+qgfcOso7zZntAlHOGeUx34tnS6Crwts3Sm8HTRXRgloSBV/F12CuvwyTawBJ559o
+i93DYD0INX5utHkvWg==
+-----END CERTIFICATE-----
+</cert>
+<key>
+-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDF+hzl9MsnS3nd
+qLyPFZnSVmhxWqfhYB5Kb+okvNQuycMdA491hKIdLu9/tr0xMcV5flUjh177/f3o
+1bvnGk9jJbF7ADlW9q6WKQFSx6k46mdouiXAXTnpUnoylaht64VsOp6/kQJA0wOo
+OIsLJJk9zMiUqaiueZOG/ZLp++CQvlFesg5vN2GE4WN4uqTaXy1AFvHgy/1ZSKsl
+9FLe6aG5GY3ikbrcL1mRnMT5W7bjDYWa/Yn3cLRIeiShrDG4xRMf60fXUkaid01f
+yb0ndng1My3JozzHyhxM7Dk3B+SNuQzEktkssHyESnlCeRlN7NJMWc0h2U2fjq7P
+CoePxCdNAgMBAAECggEAXxcRBkqbwVX5RMQlPTyM04B5TejTNecq5Wn3tomUCJ0U
+QD1TjIiWLRo8IsWs/ZIAXaiWUChXMQYADPOL+yah9udF5eRnpiN6G9m6Lv6Dgzjj
+TmQKeejNRgo9c0p6ycEUJrXJRg3qXSR9XzE5Z7K+f/Z6aR1MTfFLMM1e4U//vsUw
++UxTgXrkX6E6Sox3zKwZV3FBjj+HSyaHs9fJE3vRG+1AOzx4ypUrCCGK9nAxrcyS
+H3tm0VNqVWjIVaPwQB5yRQYJux4Ml27vTsJ1wqBxUNCr7bb13RHH+RAaoPcnWmjC
+JER9ZtRPU/L9lkDU06unDkNim8gDjoS/5C2Wu4hFaQKBgQD+vKILIojSzwWANaWQ
+lt/CD0TRwNNcHOgqBaXNw1SVkUFyfKep5AudUOVek3362fryIqlA7jhN0PtYrhm9
+mBT0AkQDkFWPnmbYcC1cBJ7JGHRUpdOyNnB002Plr/cUfPDV2L4uXVqPamCN5/U2
+CUmB8niWDKVf1TwRibTb3tAqwwKBgQDG9W2UrjzyAYdK25RzOkavZRvlmzRsxk7y
+eeqks3G/NNp/Kmj32NhuFltYeZYqhp9iuPBhlzsitwjshwgFMptQpefRUiF17R4l
+atKWaZhUv4dtGjkjo/oWQEL9XIias9t8BjU8tybFjuAIp1EQ67pOoK3bwoE+TKNV
++OyjVoakrwKBgGrR+zmkH7AW8/2RgX4iZm5gLMGwlHE6BfkpKSAh2uRlZwZ1U3Gg
+mWY8uBJy0w9QPTUwZ708qAupqNzFFTI2BgNUt+Sur9Jr4EC+uaauoU8+m/mrGBzR
+S1MSGgAFTB0hT3S9UPLsXr9pIlgffupL9rExVnPFlcucBXZtQpQ42R41AoGBAMFL
+Ok4jxXQ9Bes1T5FvQbMvoR2+Xv164MJ0rgGbkNv6Bnlbg6WfmA3ETLS1U643Imxw
+TqIRolNEzje1rJYYJ4r/1CuqBnYii5JAqR2Ws3dKqNDXlEHLErJBdpPeLZ1XNdrV
+0S0Op21yNLhTjc/JpTS0qJSD8LrNDDb/YzABZUhjAoGBAMHxjc4YW+tXU1rnCMX6
+HRY7adt7MlSqMHcnmaSyc/K9eADya/N45LiflPzccLL7wnJziDIFlTSQJNc1tnnW
+SRBNxxht0SAnbC0vJZRTSiiiwTZ37sc2rreAEOgL6smmgl6uqv4NJ1FQ8eLW6Wqb
+9E+yM8E/ZHjvOPG8HYTQlJ/X
+-----END PRIVATE KEY-----
+</key>
+```
 
 # 报错
 openvpn --genkey --secret /etc/openvpn/ta.key
