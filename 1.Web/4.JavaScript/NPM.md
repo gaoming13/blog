@@ -8,6 +8,7 @@
 - `npm install -g <package>@ver` 安装全局包
 - `npm uninstall -g <package>` 卸载全局包
 - `npm view lodash@4.17.13`、`npm view lodash@4.17.13 keywords` 显示某个包的详情
+- npm view lodash versions 查看某个包的所有版本
 - `npm outdated` 查看哪些包需要更新
 - `^1.5.1` 限制主版本号，允许安装 大于`1.5.1`且小于`2.0.0`
 - `~1.5.1` 限制次版本号，允许安装 大于`1.5.1`且小于`1.6.0`
