@@ -83,6 +83,7 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 git config --global alias.lga "log --color --stat --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 git config --global user.name 'zhaoliming'
 git config --global user.email 'zhaoliming@ogmall.com'
+git config core.ignorecase false
 ```
 
 ### git服务器配置
