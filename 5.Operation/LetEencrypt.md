@@ -10,6 +10,8 @@ certbot-auto certonly --manual --agree-tos --no-bootstrap --manual-public-ip-log
 
 ### nginx开启ocsp装订
 
+- 1.本地hosts写死：`104.109.129.57 ocsp.int-x3.letsencrypt.org`
+- 2.nginx配置
 ```
 ssl on;
 ssl_certificate     /etc/letsencrypt/live/diary8.com/fullchain.pem;
@@ -19,6 +21,8 @@ ssl_trusted_certificate /etc/letsencrypt/live/diary8.com/fullchain.pem;
 ssl_stapling on;
 ssl_stapling_verify on;
 
-resolver 8.8.8.8 valid=86400;
-resolver_timeout 10;
+# resolver 8.8.8.8 valid=86400;
+# resolver_timeout 10;
 ```
+- 3.测试服务器能否获取到ocsp `ping ocsp.int-x3.letsencrypt.org`
+- 4.检测证书状态 `openssl s_client -connect www.diary8.com:443 -status`
