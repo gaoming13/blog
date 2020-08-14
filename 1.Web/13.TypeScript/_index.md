@@ -1,0 +1,2 @@
+- https://ts.xcatliu.com/introduction/what-is-typescript.html
+- https://ts.xcatliu.com/basics/declaration-files.html
