@@ -64,3 +64,72 @@ function printPoint(p: Point<number>) {
   console.log(`${p.x}, ${p.y}`);
 }
 ```
+
+### 3.接口(interface)
+- 可选属性 `?`
+- 只读属性 `readonly` (作为变量使用const,作为属性使用readonly)
+```js
+// 可选属性 / 只读属性
+interface Size {
+  readonly pi?: number;
+  width?: number;
+  height?: number;
+}
+// 函数类型
+interface GetArea {
+  (x: number, y: number): number;
+}
+// 可索引类型
+interface StringArray {
+  readonly [index: number]: string;
+}
+const arr1: StringArray = ['a', 'b'];
+// 类类型
+interface Animal {
+  name: string;
+  getName(): string;
+}
+class Dog implements Animal {
+  name: 'Dog'
+  getName() {
+    return this.name;
+  }
+}
+// 继承接口
+interface Runer {
+  speed: number;
+}
+interface Cat extends Animal, Runer {
+  miao(): string;
+}
+// let cat1 = <Cat>{};
+// 接口继承类
+class Color {
+  name: string;
+}
+interface Red extends Color {
+  getRed(): string;
+}
+class Red1 implements Red {
+  name: 'red1'
+  getRed() {
+    return this.name;
+  }
+}
+```
+
+### 4.函数
+- 重载
+```js
+function pick(x: object): 1;
+function pick(x: number): {};
+function pick(x: any): true;
+function pick(x): any {
+  if (typeof x === 'object') {
+    return 1;
+  } else if (typeof x === 'number') {
+    return {};
+  }
+  return true;
+}
+```
