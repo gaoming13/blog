@@ -1,4 +1,4 @@
-> https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
+> https://zhongsp.gitbooks.io/typescript-handbook/content/doc/handbook/Interfaces.html
 
 ### 1.类型推论(Type by Inference)
 - TypeScript会在许多情况下依照类型推论的规则推断出类型
@@ -10,6 +10,20 @@
 - 因此,TS支持JS语言扩展,以告知具体的类型
 - JS中可直接使用的(boolean,bigint,null,number,string,symbol,object,undefined)
 - TS新增的(any,unknow,never,void)
+- `let isDone: boolean = false;`
+- `let count: number = 6;`
+- `let big: bigint = 100n;`
+- `let color: string = 'red';`
+- `let list: number[] = [1, 2, 3];`
+- `let list: Array<number> = [1, 2, 3];`
+- 原组 `let x: [string, number] = ['a', 1];`
+- 枚举 `enum Color { Red, Blue, Green }; let c: Color = Color.Blue;`
+- unknow `let x: unknow = 4; x = '123';`
+- any `declare function getName() :any; let x: string = getName();`
+- void `function go(): void {}`
+- undefined `let x: undefined = undefined;`
+- null `let n: null = null;`
+- 类型断言 `(x as string).length; (<string>x).length`
 ```js
 type User = { name: string; }
 // interface User { name: string; };
