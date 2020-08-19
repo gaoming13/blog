@@ -53,9 +53,32 @@ function getLength(obj: string | string[] | true) {
 
 #### 2-2.泛型(Generics)
 - 泛型为类型声明提供了变量支持
-- `type StringArray = Array<string>;`
-- `type ObjectWidthNameArray = Array<{name: string}>;`
 ```js
+// 1.使用 any类型使函数可以接收任何类型的参数,但丢失了一些信息：
+// 传入的类型和返回的类型应该是相同的
+function getName<T>(name: T): T { return name; }
+getName<string>('abc');
+getName(123);
+// 2.指定参数的类型
+function getLength<T>(list: Array<T>): T[] {
+  console.log(list.length);
+  return list;
+}
+// 3.泛型接口
+interface GenericF1 {
+  <T>(list: Array<T>): T[];
+}
+function F1<T>(list: Array<T>): T[] {
+  return list;
+}
+let f1: GenericF1 = F1;
+// 4.泛型类
+class C1<T> {
+  x: T;
+  add: (x: T, y: T) => T;
+}
+let c1 = new C1<number>();
+// 4.
 type Point<type> = {
   x: type;
   y: type;
