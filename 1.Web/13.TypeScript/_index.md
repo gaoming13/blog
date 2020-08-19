@@ -415,3 +415,51 @@ var x = require('B');
 // 11. /node_modules/B/@types/B.d.ts
 // 12. /node_modules/B/index.ts、index.tsx、index.d.ts
 ```
+
+### 9.声明合并
+
+#### 9-1.合并接口
+```js
+// 各组接口之间的顺序,后面的排在靠前的为止
+interface Box { height: number; width: number; }
+interface Box { height: number; scale: number; }
+let box:Box = { height: 1, width: 2, scale: 3 }
+
+interface Day { getDay(s: number): string; }
+interface Day { getDay(s: string): number; }
+```
+
+#### 9-2.合并命名空间
+- 同名接口合并
+```js
+namespace Animals {
+  export class Zebra {}
+}
+namespace Animal {
+  export interface Legged { numberOfLegs: number; }
+  export class Dog {}
+}
+```
+
+#### 9-3.模块扩展
+```js
+// Animal.ts
+export class Animal {
+  name: string = 'animal';
+}
+// AnimalPlus.js
+import { Animal } from './Animal';
+declare module './Animal' {
+  interface Animal {
+    getName(): string;
+  }
+}
+Animal.prototype.getName = function() {
+  return '哈哈哈';
+}
+// 1.ts
+import { Animal } from './Animal';
+import './AnimalPlus';
+(new Animal()).getName();
+```
+
