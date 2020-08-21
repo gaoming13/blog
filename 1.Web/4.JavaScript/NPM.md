@@ -46,6 +46,10 @@ sudo n stable
 # 查看当前版本
 node -v
 ```
+
+[发npm包,更新npm包]
+> https://docs.github.com/cn/packages/publishing-and-managing-packages/about-github-packages#about-tokens
+
 [NPM的CDN]
 - https://unpkg.com/
 - 知乎：unpkg.zhimg.com
