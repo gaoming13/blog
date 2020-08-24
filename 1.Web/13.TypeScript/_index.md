@@ -1,13 +1,12 @@
 > https://zhongsp.gitbooks.io/typescript-handbook/content/doc/handbook/Interfaces.html
 
 ### 1.类型推论(Type by Inference)
-- TypeScript会在许多情况下依照类型推论的规则推断出类型
-- 这样就无需添加额外标识明确类型
-- `let hello = 'nihao';` // 会推断为字符串
+- TypeScript许多情况下依照类型推论的规则推断出类型,无需添加额外标识明确类型
+- `let hello = 'nihao';` // 会推断为string
+- `function(a = 1, b = 2) return a + b;` // 会推断为number
 
 ### 2.定义类型(Defining Types)
-- 某些设计模式使自动推断类型变得困难(例如使用动态编程的模式)
-- 因此,TS支持JS语言扩展,以告知具体的类型
+- 某些设计模式使自动推断类型变得困难(例如使用动态编程的模式),因此,TS支持JS语言扩展,以告知具体的类型
 - JS中可直接使用的(boolean,bigint,null,number,string,symbol,object,undefined)
 - TS新增的(any,unknow,never,void)
 - `let isDone: boolean = false;`
@@ -24,25 +23,10 @@
 - undefined `let x: undefined = undefined;`
 - null `let n: null = null;`
 - 类型断言 `(x as string).length; (<string>x).length`
-```js
-type User = { name: string; }
-// interface User { name: string; };
-class UserAccount {
-  name: string;
-  constructor(opt: User) {
-    this.name = opt.name;
-  }
-  getName(id: number): User {
-    return {name: ''};
-  }
-}
-const user1 = new UserAccount({name: 'wang'});
-user1.getName(1);
-```
 - 可通过组合简单类型来创建复杂类型
 
 #### 2-0.交叉类型(且)
-```js
+```ts
 class Student {
   sId: number
   sName: string
@@ -76,26 +60,18 @@ console.log(user.rName);
 #### 2-1.联合类型(Unions)(或)
 - 可以声明一个类型是多选一
 - 区分具体是哪种类型,只能使用 `typeof`
-```js
-type LockState = 'locked' | 'unlocked';
-function getLength(obj: string | string[] | true) {
-  return typeof obj === 'boolean' ? 0 : obj.length;
-}
-```
+- `type LockState = 'locked' | 'unlocked';`
+- `function f1(obj: string | string[] | true) return typeof obj === 'boolean' ? 0 : obj.length;`
 
 #### 2-2.泛型(Generics)(变量)
 - 泛型为类型声明提供了变量支持
 ```js
-// 1.使用 any类型使函数可以接收任何类型的参数,但丢失了一些信息：
-// 传入的类型和返回的类型应该是相同的
+// 1.any类型使函数可以接收任何类型的参数,但丢失了一些信息：传入的类型和返回的类型应该是相同的
 function getName<T>(name: T): T { return name; }
 getName<string>('abc');
 getName(123);
 // 2.指定参数的类型
-function getLength<T>(list: Array<T>): T[] {
-  console.log(list.length);
-  return list;
-}
+function getLength<T>(list: Array<T>): T[] { return list };
 // 3.泛型接口
 interface GenericF1 {
   <T>(list: Array<T>): T[];
@@ -136,6 +112,7 @@ function printPoint(p: Point<number>) {
   console.log(`${p.x}, ${p.y}`);
 }
 ```
+
 #### 索引类型
 ```js
 // keyof 索引类型查询操作符
@@ -150,8 +127,8 @@ getVal({a: '13'}, ['a']);
 ```
 
 ### 3.接口(interface)
-- 可选属性 `?`
-- 只读属性 `readonly` (作为变量使用const,作为属性使用readonly)
+- TS的核心原则之一是对值所具有的结构进行类型检查
+- 接口的作用是为这些类型命名和为你的代码或第三方代码定义契约
 ```js
 // 可选属性 / 只读属性
 interface Size {
@@ -282,62 +259,141 @@ type T1 = Extract<string | number | (() => void), Function>; // ()=>void
 - 命名空间在使用模块时没有价值,模块具有自己的作用域,只有导出声明才会在模块外可见
 - 命名空间对解决全局作用域里命名冲突来说很重要,比如 App.Customer.Add,App.Order.Add -- 两个类型的名字相同
 - 然而,对于模块来说却不是一个问题,没有理由2个模块重名
-```ts
-// node.d.ts
-declare module 'student' {
-  interface Student {
-    id: number;
-    name: string;
-    sex?: number;
+- `export =` 和 `import = require()`
+  - export default 语法并不兼容 CommonJs 和 AMD 的 exports
+  - 为了支持CommonJs和AMD的exports,TS提供了 export= 语法
+  - export= 语法定义一个模块的导出对象,对象可以是(类、接口、命名空间、函数、枚举)
+  - 若使用 `export=` 导出一个模块,则必须使用 TS 的特定语法 `import ZipCodeValidator = require('./one');` 来导入此模块
+  - 需要依赖 `@types/node`
+  ```ts
+  // node.d.ts
+  declare module 'student' {
+    interface Student { id: number; name: string; sex?: number; }
+    export function getInfo(id: number): Student;
   }
-  export function getInfo(id: number): Student;
-}
-declare module 'teacher' {
-  interface Teacher {
-    id: number;
-    name: string;
-  }
-  export function getInfo(id: number): Teacher;
-}
-declare module '*!text' {
-  const content: string;
-  export default content;
-}
-// 1.ts
-/// <reference path='node.d.ts' />
-import * as Student from 'student';
-import * as Teacher from 'teacher';
-import * as Text from './1.txt!text';
+  // 1.ts
+  /// <reference path='node.d.ts' />
+  import * as Student from 'student';
+  ```
+- 使用其它的JavaScript库
+  - 要想描述非TS编写的类库的类型,需要用 .d.ts 声明类库暴露出的API
+  - 我们叫它声明因为它不是外部程序的具体实现,类似与C/C++的 .h 文件
+  - 1.外部模块(eg:修改Vue的定义)
+    ```ts
+    // a.d.ts
+    declare module 'desk' {
+      export interface Info {
+        x?: number;
+        y?: number;
+      }
+      export function getSize(info: Info): number;
+    }
+    // 1.ts
+    /// <reference path="node.d.ts"/>
+    import { Info, getSize } from 'desk';
+    ```
+  - 2.外部模块简写(不去费劲去声明第三方的库)
+    - 所有导出的类型都是 any
+    ```ts
+    // a.d.ts
+    declare module 'aliyun-sdk';
+    // 1.ts
+    import x, {y, z} from aliyun-sdk';
+    ```
+  - 3.模块声明通配符(导入.vue类型)
+    - 某些模块加载器如(SystemJs,AMD)导入支持非Javacript内容
+    - 通常会使用前缀或后缀表示特殊的加载语法
+    ```ts
+    // a.d.ts
+    declare module '*.vue' {
+      export * from 'vue';
+    }
+    // b.d.ts
+    declare module '*.json' {
+      const str: string;
+      export default str;
+    }
+    // 1.ts
+    import App from './App.vue';
+    import Text from './1.json';
+    ```
+  - 4.各种导出
+    ```ts
+    // 默认导出单个 class
+    // c1.ts
+    export default class C1 { constructor() { } }
+    // types/c1/index.d.ts
+    export default class C1 { }
+    // 使用
+    import C1 from './c1.ts'; new C1();
+    import C1 from 'c1'; new C1();
 
-Student.getInfo(1);
-Teacher.getInfo(2);
-console.log(Text);
-```
+    // 默认导出单个 function
+    // c1.ts
+    export default function f1() { return '123'; }
+    // types/c1/index.d.ts
+    export default function f1(): void;
+    // 使用
+    import c1 from './c1.ts'; c1();
+    import c1 from 'c1'; c1();
+
+    // 导出多个 class 或 function
+    // c1.ts
+    export class C1 {}
+    export function f1() {}
+    // types/c1/index.d.ts
+    export class C1 {}
+    export function f1(): void;
+    // 使用
+    import { C1, f1 } from './c1';
+    import { C1, f1 } from 'c1';
+    ```
+  - 5.使用重新导出扩展模块
+    - import 老的, extend 老的, import 新的
 
 ### 7.命名空间(内部模块)
+- 命名空间是位于全局命名空间下的一个普通的带有名字的 JavaScript 对象
+  - 但使用没有在头部声明,很难去识别组件之间的依赖的关系
+- 模块和命名空间不同,它可以声明依赖(import)
+  - 模块会把依赖添加到模块加载器上(如 CommonJs / Require.js)
+  - 模块也提供了更好的代码重用,更强的封闭性以及更好的实用工具进行优化
+  - 对于 Node.js 应用来说, 模块是默认并推荐的组织代码方式
 ```js
 // Animal.ts
 namespace Animal {
-  export interface Animal {
-    name: string;
-    getName(): string;
-  }
+  export interface Animal { name: string; getName(): string; }
 }
 // Dog.ts
 /// <reference path='Animal.ts' />
 namespace Animal {
-  export class Dog implements Animal {
-    name = 'Dog';
-    getName() {
-      return this.name;
-    }
-  }
+  export class Dog implements Animal { name = 'Dog'; getName() { return this.name; } }
 }
 // 1.ts
 /// <reference path='Animal.ts' />
 /// <reference path='Dog.ts' />
 new Animal.Dog();
 ```
+- 别名
+  - 简化命名空间操作的方法是使用 `import q = x.y.z` 给常用的对象起个短的名字
+  - 不要和用来加载模块的 `import x = require('name')` 语法弄混了
+  ```ts
+  // types/c1/index.d.ts
+  export default _;
+  declare namespace _ {
+    export namespace Two {
+      export class A1 {}
+      export class A2 {}
+    }
+  }
+  declare namespace _ {
+    export function A(s: string): void;
+    export const s: string;
+  }
+  // 使用
+  import One from 'animal';
+  new One.Two.A1();
+  One.A(One.s);
+  ```
 
 ### 8.模块解析
 - 相对导入 是以 `/, ./, ../` 开头的
@@ -462,4 +518,3 @@ import { Animal } from './Animal';
 import './AnimalPlus';
 (new Animal()).getName();
 ```
-
