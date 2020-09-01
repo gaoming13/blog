@@ -12,3 +12,11 @@
 - debug: 是否开启调试模式
 [core-js]
 - ECMAScript垫片
+
+### babel-standalone
+- Babel的独立版本,可在非Node.js环境(包括浏览器)中使用
+- 直接加载：https://unpkg.com/babel-standalone@6/babel.min.js
+- 暴露 Babel.transform 等接口
+  - `Babel.transform('class C1 extends React.Component {);', { presets: ['react'] }).code`
+- 自动转换 script 标签内容
+  - `<script type="text/jsx" src="./app.js"></script>`
