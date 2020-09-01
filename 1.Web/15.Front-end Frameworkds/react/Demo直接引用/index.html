@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- 定义React组件所需的功能 -->
+  <script src="https://unpkg.com/react@16.13.1/umd/react.production.min.js"></script>
+  <!-- React的DOM和服务器渲染的入口点 -->
+  <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js"></script>
+  <!-- 对jsx实时转码 -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+<h3>Hi Hi</h3>
+<div style="border: 1px solid red;" id='dom1'></div>
+<div style="border: 1px solid red;" id='dom2'></div>
+<script type="text/jsx">
+  class C1 extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { s: 0 };
+    }
+    componentDidMount() {
+      this.interval = setInterval(() => {
+        this.setState(state => ({
+          s: state.s + 1
+        }));
+      }, 1000);
+    }
+    componentWillUnmount() {
+      clearInterval(this.interval);
+    }
+    render() {
+      return React.createElement('div', null, 'Hello', this.props.name, this.state.s);
+    }
+  }
+
+  ReactDOM.render(
+    [
+      React.createElement('ul', {
+        key: 1,
+        a1: 'aaa',
+        onClick: () => console.log(this),
+      }, [
+        React.createElement('li', { key: 1 }, 'a1'),
+        React.createElement('li', { key: 2 }, 'a2'),
+      ]),
+      React.createElement(C1, { key: 2, name: '王2傻' }),
+      <C1 key="3" name="王3傻" />,
+      <C1 key="4" name="王4傻" />,
+      <C1 key="5" name="王5傻" />,
+    ],
+    document.getElementById('dom1')
+  );
+</script>
+</body>
+</html>
