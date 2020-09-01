@@ -3,6 +3,7 @@
   - react-dom
   - next 静态化和服务端渲染应用
   - gatsby 静态网站
+  - react-window / react-virtualized 虚拟滚动库
   - 现成的工具链
     - Neutrino 把 webpack 的强大功能和简单预设结合在一起。并且包括了 React 应用和 React 组件的预设。
     - Nx 是针对全栈 monorepo 的开发工具包，其内置了 React，Next.js，Express 等。
