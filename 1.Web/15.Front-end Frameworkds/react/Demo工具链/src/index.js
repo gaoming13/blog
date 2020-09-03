@@ -63,18 +63,17 @@ ReactDOM.render([
 ], document.getElementById('root'));
 
 // root2
-function Comp1(props) {
-  return <h1>Hello, {props.name}</h1>;
-}
-class Comp2 extends React.Component {
+class Comp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { input: '这是文本内容' };
+    this.handelInputChange = this.handelInputChange.bind(this);
+  }
+  handelInputChange(e) {
+    this.setState({ input: e.target.value });
+  }
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <input type="text" value={this.state.input} onChange={this.handelInputChange} />;
   }
 }
-ReactDOM.render(
-  [
-    <Comp1 key="1" name="中" />,
-    <Comp2 key="2" name="你" />,
-  ],
-  document.getElementById('root2'),
-);
+ReactDOM.render(<Comp />, document.getElementById('root2'));
