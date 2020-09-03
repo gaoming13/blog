@@ -61,3 +61,20 @@ ReactDOM.render([
   ]),
   <Footer color="red" key="5"></Footer>
 ], document.getElementById('root'));
+
+// root2
+function Comp1(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+class Comp2 extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+ReactDOM.render(
+  [
+    <Comp1 key="1" name="中" />,
+    <Comp2 key="2" name="你" />,
+  ],
+  document.getElementById('root2'),
+);
