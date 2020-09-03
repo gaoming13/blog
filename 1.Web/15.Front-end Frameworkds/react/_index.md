@@ -34,6 +34,10 @@
     - HTML 中,表单元素 input 之类的通常自己维护state, 并根据用户输入进行更新
     - React 中,可变状态(mutable state)保存在组件的state属性中,只通过setState()来更新
     - 把2者结合起来,使React的state成为唯一数据源,被这种方式控制取值的表单输入元素叫受控组件
+- 状态提升
+  - 多个组件需要反应相同的变化数据,可以将共享状态提升到最近的共同父组件中
+- 组合(vue的插槽) vs 继承
+  - 并没有发现需要使用继承来构建组件层次的清空
 - 避免调停
   - 当一个组件的 props 或 state 变更, React会将最新返回的元素与之前渲染的元素进行对比,以此决定是否有有必要更新真实的DOM
   - 可以通过覆盖声明周期方法 shouldComponentUpdate 来进行提速,默认实现总是返回true,让 React 执行更新
@@ -138,16 +142,23 @@ ReactDOM.render(<Comp />, document.getElementById('root2'));
 class Comp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { input: 'a' };
+    this.state = {
+      input: 'a',
+      checkbox: false,
+    };
     this.handelInputChange = this.handelInputChange.bind(this);
   }
   handelInputChange(e) {
     this.setState({ input: e.target.value });
   }
+  handelCheckboxChange() {
+    this.setState({ checkbox: ! this.state.checkbox });
+  }
   render() {
     return (
       <div>
         <input type="text" value={this.state.input} onChange={this.handelInputChange} />
+        <input type="checkbox" defaultChecked={this.state.checkbox} onChange={this.handelCheckboxChange} />
         <textarea value={this.state.input} onChange={this.handelInputChange}></textarea>
         <select value={this.state.input} onChange={this.handelInputChange}>
           <option value='a'>A</option>
@@ -159,4 +170,24 @@ class Comp extends React.Component {
   }
 }
 ReactDOM.render(<Comp />, document.getElementById('root2'));
+```
+
+#### 组合(插槽)
+```js
+function PopBox(props) {
+  return <div style={{color: props.color}}>
+    <div className="head">{props.head}</div>
+    <div className="content">{props.children}</div>
+    <div className="foot">{props.foot}</div>
+  </div>;
+}
+ReactDOM.render(
+  <PopBox color="blue"
+    head={ <div>这是头部</div> }
+    foot={ <div>这是底部</div> }
+  >
+    <p>这是主内容</p>
+  </PopBox>,
+  document.getElementById('root2')
+);
 ```

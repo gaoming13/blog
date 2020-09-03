@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { render } from 'react-dom';
 
 // 头部
 class PartHead extends React.Component {
@@ -63,27 +63,41 @@ ReactDOM.render([
 ], document.getElementById('root'));
 
 // root2
+const data = [
+  {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+  {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
+  {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
+  {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
+  {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
+  {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
+];
 class Comp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { input: 'a' };
-    this.handelInputChange = this.handelInputChange.bind(this);
+    this.state = {key: '', filter: ''};
+    this.dealInputChange = this.dealInputChange.bind(this);
+    this.dealCheckboxChange = this.dealCheckboxChange.bind(this);
   }
-  handelInputChange(e) {
-    this.setState({ input: e.target.value });
+  dealInputChange(e) {
+    this.setState({ key: e.target.value });
+  }
+  dealCheckboxChange() {
+    this.setState({ filter: ! this.state.filter });
   }
   render() {
-    return (
+    return <div>
+      <input type="text" value={this.state.key} onChange={this.dealInputChange} />
+      <label>
+        <input type="checkbox" defaultChecked={this.state.filter} onChange={this.dealCheckboxChange} /> Only show products in stock
+      </label>
       <div>
-        <input type="text" value={this.state.input} onChange={this.handelInputChange} />
-        <textarea value={this.state.input} onChange={this.handelInputChange}></textarea>
-        <select value={this.state.input} onChange={this.handelInputChange}>
-          <option value='a'>A</option>
-          <option value='b'>B</option>
-          <option value='c'>C</option>
-        </select>
+        {data.map(v => {
+          if (this.state.filter && ! v.stocked) return '';
+          if (! v.name.toLowerCase().includes(this.state.key.toLowerCase())) return '';
+          return <div key={v.name}>{v.name}</div>
+        })}
       </div>
-    );
+    </div>;
   }
 }
 ReactDOM.render(<Comp />, document.getElementById('root2'));
