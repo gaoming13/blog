@@ -66,14 +66,24 @@ ReactDOM.render([
 class Comp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { input: '这是文本内容' };
+    this.state = { input: 'a' };
     this.handelInputChange = this.handelInputChange.bind(this);
   }
   handelInputChange(e) {
     this.setState({ input: e.target.value });
   }
   render() {
-    return <input type="text" value={this.state.input} onChange={this.handelInputChange} />;
+    return (
+      <div>
+        <input type="text" value={this.state.input} onChange={this.handelInputChange} />
+        <textarea value={this.state.input} onChange={this.handelInputChange}></textarea>
+        <select value={this.state.input} onChange={this.handelInputChange}>
+          <option value='a'>A</option>
+          <option value='b'>B</option>
+          <option value='c'>C</option>
+        </select>
+      </div>
+    );
   }
 }
 ReactDOM.render(<Comp />, document.getElementById('root2'));

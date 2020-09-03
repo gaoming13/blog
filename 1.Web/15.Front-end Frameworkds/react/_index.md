@@ -34,7 +34,6 @@
     - HTML 中,表单元素 input 之类的通常自己维护state, 并根据用户输入进行更新
     - React 中,可变状态(mutable state)保存在组件的state属性中,只通过setState()来更新
     - 把2者结合起来,使React的state成为唯一数据源,被这种方式控制取值的表单输入元素叫受控组件
-
 - 避免调停
   - 当一个组件的 props 或 state 变更, React会将最新返回的元素与之前渲染的元素进行对比,以此决定是否有有必要更新真实的DOM
   - 可以通过覆盖声明周期方法 shouldComponentUpdate 来进行提速,默认实现总是返回true,让 React 执行更新
@@ -129,6 +128,34 @@ class Comp extends React.Component {
     return <ul>
       {numArr.map(v => v % 2 === 0 ? <li key={v}>{v}</li> : '')}
     </ul>;
+  }
+}
+ReactDOM.render(<Comp />, document.getElementById('root2'));
+```
+
+#### 表单
+```js
+class Comp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { input: 'a' };
+    this.handelInputChange = this.handelInputChange.bind(this);
+  }
+  handelInputChange(e) {
+    this.setState({ input: e.target.value });
+  }
+  render() {
+    return (
+      <div>
+        <input type="text" value={this.state.input} onChange={this.handelInputChange} />
+        <textarea value={this.state.input} onChange={this.handelInputChange}></textarea>
+        <select value={this.state.input} onChange={this.handelInputChange}>
+          <option value='a'>A</option>
+          <option value='b'>B</option>
+          <option value='c'>C</option>
+        </select>
+      </div>
+    );
   }
 }
 ReactDOM.render(<Comp />, document.getElementById('root2'));
