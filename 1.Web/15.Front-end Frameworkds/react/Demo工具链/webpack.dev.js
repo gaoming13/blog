@@ -10,7 +10,7 @@ module.exports = {
     index: pathRoot + '/src/index.js',
   },
   output: {
-    path: pathRoot + '/public/dist',
+    path: pathRoot + '/dist',
     filename: '[name].js'
   },
   module: {
@@ -36,8 +36,7 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
     disableHostCheck: true,
-    contentBase: pathRoot + '/public/',
-    publicPath: '/dist/',
+    contentBase: pathRoot + '/dist',
   },
   plugins: [new webpack.HotModuleReplacementPlugin()]
 };

@@ -10,7 +10,7 @@ module.exports = {
     index: pathRoot + '/src/index.js',
   },
   output: {
-    path: pathRoot + '/public/dist',
+    path: pathRoot + '/dist',
     filename: '[name].js'
   },
   module: {
