@@ -1,5 +1,9 @@
 > https://react.docschina.org/
 - JSX
+  - JSX只是 React.createElement(component, props, ...children) 函数的语法糖
+  - `<button color="blue" key="1">按钮</button>` 会编译为
+  - `React.createElement('button', {color: 'blue', key:'1'}, '按钮')`
+  - 由于 JSX 会编译为 React.createElement 调用形式,所以 React 库必须包含在 JSX 代码作用域内
   - 渲染逻辑与UI逻辑耦合,比如,在UI中绑定处理事件,状态改变通知到UI,在UI展示数据
   - React没有采用将标记和逻辑分离到不同文件这种人为的分离方式
   - 而是将两者共同存放在称为'组件'的松散耦合单元中 `React.Component`
@@ -45,6 +49,30 @@
   - 2.React.lazy 动态引入组件
   - 3.基于路由的代码分割(React.lazy + React Router)
 - Context(vue的vuex)
+  - Context设计目的是为了共享那些对于一个组件树而言是全局的数据
+  - 例如：当前用户信息，主题或语言
+- 错误边界(Error Boundaries)
+  - 错误边界是一种 React 组件,可以捕获其子组件树的错误,并渲染出备用UI
+  - 错误边界无法捕获的错误：事件处理、异步代码、服务端渲染、自身抛出的错误
+  - 定义了 getDerivedStateFromError 和 componentDidCatch 任意一个,就成了错误边界
+  - getDerivedStateFromError 渲染备用UI, componentDidCatch 打印错误信息
+- Refs 转发给子组件
+  - 通过 ref、React.forwardRef 向下引用子组件
+- Fragments 空标签(类似vue template)
+  - 一个组件返回多个元素,而无需添加额外父节点
+  - <React.Fragment> 或 <>
+  - key是唯一可以传递给 Fragment 的属性,而 vue 不支持
+- 高阶组件(HOC)(有点类似继承或装饰器,但差别很大)
+  - 自身不是 React API 的一部分,是基于 React 的组合特性而形成的设计模式
+  - 高阶组件是参数为组件,返回值为新组件的函数 `const 新组件 = HOC(组件);`
+  - 约定：HOC应该透传与自身无关的props
+  - 不要在 render 方法中使用 HOC
+  - 静态方法可以通过第三方hoist-non-react-statics自动拷贝
+  - 虽然高阶组件是将所有props传递给被包装的组件,但对于refs并不适用
+- 第三方库协同
+  - 集成带有DOM操作的插件(jquery)
+    - 避免冲突最简单的方式就是你负责你的,我负责我的区域
+    - 比如给 jquery分配一个空的 div
 - 避免调停
   - 当一个组件的 props 或 state 变更, React会将最新返回的元素与之前渲染的元素进行对比,以此决定是否有有必要更新真实的DOM
   - 可以通过覆盖声明周期方法 shouldComponentUpdate 来进行提速,默认实现总是返回true,让 React 执行更新
@@ -197,4 +225,29 @@ ReactDOM.render(
   </PopBox>,
   document.getElementById('root2')
 );
+```
+
+#### React 与 jquery 协同
+```jsx
+import React from 'react';
+import $ from 'jquery';
+
+export default class PageAbout extends React.Component {
+  componentDidMount() {
+    this.$el = $(this.el);
+    this.timer1 = setInterval(() => {
+      this.$el.html(Date.now())
+    }, 1000);
+    this.$el.on('click', (e) => {
+      console.log($(e.target).html());
+    });
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer1);
+    this.$el.unbind('click');
+  }
+  render() {
+    return <div ref={el => this.el = el} />;
+  }
+}
 ```

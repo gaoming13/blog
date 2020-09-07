@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default () => (
-  <div>这是关于我们的内容了</div>
-);
+export default class PageAbout extends React.Component {
+  render() {
+    return <button color={'red'} key="2">{'red'}</button>;
+  }
+}

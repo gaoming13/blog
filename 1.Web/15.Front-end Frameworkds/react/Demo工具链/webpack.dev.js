@@ -7,7 +7,7 @@ module.exports = {
   target: 'web',
   mode: 'development',
   entry: {
-    index: pathRoot + '/src/index.js',
+    index: pathRoot + '/src/index.jsx',
   },
   output: {
     path: pathRoot + '/dist',
