@@ -1,4 +1,5 @@
 > https://react.docschina.org/
+- React提供了声明式的解决方案,使 DOM 与 数据 保持同步
 - JSX
   - JSX只是 React.createElement(component, props, ...children) 函数的语法糖
   - `<button color="blue" key="1">按钮</button>` 会编译为
@@ -38,6 +39,10 @@
     - HTML 中,表单元素 input 之类的通常自己维护state, 并根据用户输入进行更新
     - React 中,可变状态(mutable state)保存在组件的state属性中,只通过setState()来更新
     - 把2者结合起来,使React的state成为唯一数据源,被这种方式控制取值的表单输入元素叫受控组件
+  - 非受控组件
+    - 表单数据交由 DOM 节点来处理
+    - 默认值 defaultValue
+    - `<input type="file" />` 始终是一个非受控组件
 - 状态提升
   - 多个组件需要反应相同的变化数据,可以将共享状态提升到最近的共同父组件中
 - 组合(vue的插槽) vs 继承
@@ -296,5 +301,27 @@ export default class PageAbout extends React.Component {
     );
   }
 }
+```
 
+#### 非受控组件
+```jsx
+import React from 'react';
+
+export default class PageAbout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {input: ''};
+    this.input = React.createRef();
+    this.handelInputChange = this.handelInputChange.bind(this);
+  }
+  handelInputChange(e) {
+    this.setState({input: e.target.value});
+  }
+  render() {
+    return <React.Fragment>
+      <input type="text" ref={this.input} onChange={this.handelInputChange} />
+      <span>{this.state.input}</span>
+    </React.Fragment>;
+  }
+}
 ```

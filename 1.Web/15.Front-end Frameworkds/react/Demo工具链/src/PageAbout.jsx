@@ -1,35 +1,20 @@
 import React from 'react';
 // import ReactDom from 'react-dom';
 
-class Mouse extends React.Component {
+export default class PageAbout extends React.Component {
   constructor(props) {
     super(props);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.state = {x: 0, y:0};
+    this.state = {input: ''};
+    this.input = React.createRef();
+    this.handelInputChange = this.handelInputChange.bind(this);
   }
-  handleMouseMove(e) {
-    this.setState({
-      x: e.clientX,
-      y: e.clientY,
-    });
+  handelInputChange(e) {
+    this.setState({input: e.target.value});
   }
   render() {
-    return (
-      <div style={{width:'100%', height:'100%'}} onMouseMove={this.handleMouseMove}>
-        {this.props.child(this.state)}
-      </div>
-    );
-  }
-}
-
-export default class PageAbout extends React.Component {
-  render() {
-    return (
-      <div style={{background:'#e8e8e8',width:'100px',height:'100px'}}>
-        <Mouse child={mouse =>
-          <div>{mouse.x}, {mouse.y}</div>
-        } />
-      </div>
-    );
+    return <React.Fragment>
+      <input type="text" ref={this.input} onChange={this.handelInputChange} />
+      <span>{this.state.input}</span>
+    </React.Fragment>;
   }
 }
