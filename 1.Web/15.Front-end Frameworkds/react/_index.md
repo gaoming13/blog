@@ -56,8 +56,13 @@
   - 错误边界无法捕获的错误：事件处理、异步代码、服务端渲染、自身抛出的错误
   - 定义了 getDerivedStateFromError 和 componentDidCatch 任意一个,就成了错误边界
   - getDerivedStateFromError 渲染备用UI, componentDidCatch 打印错误信息
+- Refs 和 DOM
+  - React提供了一种方式,允许访问DOM节点或在redner方法中创建的React元素
+  - 误过度使用 Refs
 - Refs 转发给子组件
   - 通过 ref、React.forwardRef 向下引用子组件
+- Render Props
+  - 一种在React组件之间使用一个值为函数的prop共享代码的技巧
 - Fragments 空标签(类似vue template)
   - 一个组件返回多个元素,而无需添加额外父节点
   - <React.Fragment> 或 <>
@@ -76,9 +81,12 @@
 - 避免调停
   - 当一个组件的 props 或 state 变更, React会将最新返回的元素与之前渲染的元素进行对比,以此决定是否有有必要更新真实的DOM
   - 可以通过覆盖声明周期方法 shouldComponentUpdate 来进行提速,默认实现总是返回true,让 React 执行更新
-
-
-
+- Portals `ReactDOM.createPartal(child, container)`
+  - Portals提供了一种将子节点渲染到父组件以外的DOM节点的方案
+  - 渲染一个 `<Model/>`,无论是否采用portal实现,父组件都能捕获其事件
+- Profiler
+  - 测量多久渲染一次,渲染一次的代价
+  - 识别出应用中渲染较慢的部分
 
 #### 函数组件 vs class组件
 ```js
@@ -250,4 +258,43 @@ export default class PageAbout extends React.Component {
     return <div ref={el => this.el = el} />;
   }
 }
+```
+
+#### Render Props
+```jsx
+import React from 'react';
+
+class Mouse extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.state = {x: 0, y:0};
+  }
+  handleMouseMove(e) {
+    this.setState({
+      x: e.clientX,
+      y: e.clientY,
+    });
+  }
+  render() {
+    return (
+      <div style={{width:'100%', height:'100%'}} onMouseMove={this.handleMouseMove}>
+        {this.props.child(this.state)}
+      </div>
+    );
+  }
+}
+
+export default class PageAbout extends React.Component {
+  render() {
+    return (
+      <div style={{background:'#e8e8e8',width:'100px',height:'100px'}}>
+        <Mouse child={mouse =>
+          <div>{mouse.x}, {mouse.y}</div>
+        } />
+      </div>
+    );
+  }
+}
+
 ```
