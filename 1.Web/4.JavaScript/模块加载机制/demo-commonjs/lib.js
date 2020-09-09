@@ -1,5 +1,9 @@
-let count = 0;
+const obj = {
+  num: 0,
+};
 setTimeout(() => {
-  count = 10;
+  obj.num = 10;
 }, 1000);
-module.exports = { count }
+module.exports = obj;
+
+console.log(module);

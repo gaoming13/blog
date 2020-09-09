@@ -423,30 +423,8 @@ import { b } from 'B';
 // 8. /B.d.ts
 ```
 
-#### 8-2. Node.js模块原始策略
-```js
-// /root/src/moduleA.js
-var x = require("./B");
-// 1. /root/src/B.js
-// 2. /root/src/B/package.json {"main":"B.js"}
-// 3. /root/src/B/index.js
-
-var x = require('B');
-// 1. /root/src/node_modules/B.js
-// 2. /root/src/node_modules/B/package.json {"main":"B.js"}
-// 3. /root/src/node_modules/B/inde.js
-
-// 4. /root/node_modules/B.js
-// 5. /root/node_modules/B/package.json {"main":"B.js"}
-// 6. /root/node_modules/B/inde.js
-
-// 7. /node_modules/B.js
-// 8. /node_modules/B/package.json {"main":"B.js"}
-// 9. /node_modules/B/inde.js
-```
-
-#### 8-3. TS的Node解析策略
-- 在 Node解析基础上,增加了扩展名(.ts, .tsx, .d.ts)
+#### 8-2. TS的Node解析策略
+- 在 Node.js模块原始策略 基础上,增加了扩展名(.ts, .tsx, .d.ts)
 - 在package.json中使用字段 types 表示类似 main 的意义
 ```js
 // /root/src/moduleA.js

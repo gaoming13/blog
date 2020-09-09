@@ -12,12 +12,33 @@
 - 加载模块：`const m1 = require('./m1.js')`
 - 模块可以多次加载,但只在第一次加载时运行,之后结果就被缓存了
 - 将模块名解析到一个绝对路径：`require.resolve('lodash')`
-- require发现参数字符串是一个目录,会自动加载package.json的main字段,否则index.js或index.node
 - `require.extentsions` 根据文件后缀,调用不同的函数
 - `require.cache` 指向所以缓存模
 - 删除模块缓存： `Object.keys(require.cache).forEach(key => { delete require.cache[key] })`
 - 发送模块循环加载,即A加载B,B又加载A,则B将加载A的不完整版本
 - `require.main` 指向主模块, `moudle` 表示当前模块
+
+#### CommonJs 模块解析顺序
+```
+// /root/src/moduleA.js
+var x = require("./B");
+// 1. /root/src/B.js
+// 2. /root/src/B/package.json {"main":"B.js"}
+// 3. /root/src/B/index.js
+
+var x = require('B');
+// 1. /root/src/node_modules/B.js
+// 2. /root/src/node_modules/B/package.json {"main":"B.js"}
+// 3. /root/src/node_modules/B/inde.js
+
+// 4. /root/node_modules/B.js
+// 5. /root/node_modules/B/package.json {"main":"B.js"}
+// 6. /root/node_modules/B/inde.js
+
+// 7. /node_modules/B.js
+// 8. /node_modules/B/package.json {"main":"B.js"}
+// 9. /node_modules/B/inde.js
+```
 
 #### UMD
 - https://github.com/umdjs/umd
