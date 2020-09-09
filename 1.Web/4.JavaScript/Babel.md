@@ -20,3 +20,19 @@
   - `Babel.transform('class C1 extends React.Component {);', { presets: ['react'] }).code`
 - 自动转换 script 标签内容
   - `<script type="text/jsx" src="./app.js"></script>`
+
+### @babel/register 实时编译转码原理
+- 1.使用第三方库 `pirates(海盗)` 给NodeJS的reuqire增加钩子Hook,自定义了require函数
+- 2.将require内容交给 `@babel/core` transform(code, opts) 转码处理
+
+### pirates requier Hook的原理
+```js
+const Module = require('module');
+
+Module._extensions['.js'] = (mod, filename) => {
+  mod._compile('console.log("这是编译后的内容了");', filename);
+  mod.exports = {a: 123};
+};
+
+console.log(require('./build.js'));
+```
