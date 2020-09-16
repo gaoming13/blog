@@ -7,9 +7,6 @@ const PageAbout = React.lazy(() => import('./PageAbout'));
 const PageHelp = React.lazy(() => import('./PageHelp'));
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const ref = React.createRef();
     setTimeout(() => {
