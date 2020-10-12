@@ -54,12 +54,12 @@ After=network.target remote-fs.target nss-lookup.target
 
 [Service]
 Type=forking
-PIDFile=/usr/local/nginx-1.16.1/logs/nginx.pid
-ExecStartPre=/usr/local/nginx-1.16.1/sbin/nginx -t -c /usr/local/nginx-1.16.1/conf/nginx.conf
-ExecStart=/usr/local/nginx-1.16.1/sbin/nginx -c /usr/local/nginx-1.16.1/conf/nginx.conf
-ExecReload=/usr/local/nginx-1.16.1/sbin/nginx -s reload
-ExecStop=/usr/local/nginx-1.16.1/sbin/nginx -s stop
-ExecQuit=/usr/local/nginx-1.16.1/sbin/nginx -s quit
+PIDFile=/usr/local/nginx-1.18.0/logs/nginx.pid
+ExecStartPre=/usr/local/nginx-1.18.0/sbin/nginx -t -c /usr/local/nginx-1.18.0/conf/nginx.conf
+ExecStart=/usr/local/nginx-1.18.0/sbin/nginx -c /usr/local/nginx-1.18.0/conf/nginx.conf
+ExecReload=/usr/local/nginx-1.18.0/sbin/nginx -s reload
+ExecStop=/usr/local/nginx-1.18.0/sbin/nginx -s stop
+ExecQuit=/usr/local/nginx-1.18.0/sbin/nginx -s quit
 PrivateTmp=true
 
 [Install]
@@ -268,4 +268,17 @@ pm.max_requests
 netstat -anp | grep 'php-fpm'|grep -v 'LISTENING'|grep -v 'php-fpm.conf'|wc -l
 # PHP内存开销
 ps auxf | grep php | grep -v grep | grep -v master | awk '{sum+=$6} END {print sum}'
+```
+
+### 防火墙配置
+
+```sh
+# 获取所有可用的服务
+firewall-cmd --get-services
+# 获取可以通过防火墙的服务
+firewall-cmd --list-services
+# 加入防火墙
+firewall-cmd --add-service=http
+firewall-cmd --add-service=https
+systemctl restart firewalld.service
 ```
