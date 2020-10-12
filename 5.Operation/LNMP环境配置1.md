@@ -272,6 +272,28 @@ netstat -anp | grep 'php-fpm'|grep -v 'LISTENING'|grep -v 'php-fpm.conf'|wc -l
 ps auxf | grep php | grep -v grep | grep -v master | awk '{sum+=$6} END {print sum}'
 ```
 
+### 安装ImageMagick
+
+```sh
+# 安装ImageMagick
+cd /usr/local/src/
+wget http://www.imagemagick.org/download/ImageMagick.tar.gz
+cd ImageMagick-7.0.10-34
+./configure --prefix=/usr/local/src/ImageMagick-7.0.10-34
+make
+make install
+
+# 安装PHP扩展
+cd /usr/local/src/
+wget http://pecl.php.net/get/imagick-3.4.4.tgz
+tar -zxvf imagick-3.4.4.tgz
+cd imagick-3.4.4
+/usr/local/php-7.4.9/bin/phpize
+./configure  --with-php-config=/usr/local/php-7.4.9/bin/php-config --with-imagick=/usr/local/src/ImageMagick-7.0.10-34
+make
+make install
+```
+
 ### 防火墙配置
 
 ```sh
