@@ -139,9 +139,11 @@ systemctl status php-fpm.service
 
 1.安装
 yum localinstall https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
-yum list mysql-community-server --showduplicates
+yum list s --showduplicates
+yum install mysql-server
 
 2.启动
+systemctl enable mysqld.service
 systemctl start mysqld.service
 systemctl status mysqld.service
 
