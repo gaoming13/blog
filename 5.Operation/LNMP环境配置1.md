@@ -135,6 +135,16 @@ systemctl start php-fpm.service
 systemctl status php-fpm.service
 ```
 
+```
+ERROR: failed to open error_log (/usr/local/php/var/log/php-fpm.log): Read-only file system (30)
+此时，selinux是关闭状态，普通用户对这个文件也可写，问题就迷离了。
+解决方法：
+打开 /usr/lib/systemd/system/php-fpm.service 把
+ProtectSystem=true
+改成
+ProtectSystem=false
+```
+
 ### MYSQL8.0安装
 
 1.安装
