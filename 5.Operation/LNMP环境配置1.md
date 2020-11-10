@@ -302,7 +302,7 @@ firewall-cmd --get-services
 # 获取可以通过防火墙的服务
 firewall-cmd --list-services
 # 加入防火墙
-firewall-cmd --add-service=http
-firewall-cmd --add-service=https
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https
 systemctl restart firewalld.service
 ```
