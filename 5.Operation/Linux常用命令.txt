@@ -311,8 +311,8 @@ cd /Users/zhaoliming/Documents/HiniuOss/hiniu-i0
 tar czf - ./ | split -b 1000m - hiniu-i0.tar.bz2.
 
 cd /Users/zhaoliming/Documents/HiniuOss/hiniu-i0
-tar cjfv - ./ | split -b 1000m - hiniu-i0.tar.bz2.
-cat hiniu-i0.tar.bz2.* | tar xj
+tar cjfv - ./ | split -b 1000m - hiniu-i0.tar.gz.
+cat hiniu-i0.tar.gz.* | tar xj
 
 
 ## 关机与重启命令
