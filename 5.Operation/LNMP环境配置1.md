@@ -260,6 +260,7 @@ worker_rlimit_nofile 20480*2
 
 php-fpm
 
+/usr/local/php-7.4.9/etc/php-fpm.d/www.conf
 ```sh
 # 60秒内有10次子进程中断,则重启php-fpm, 防止因php垃圾代码造成的中断问题
 emergency_restart_threshold =10
