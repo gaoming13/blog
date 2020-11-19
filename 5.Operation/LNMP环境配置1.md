@@ -305,6 +305,21 @@ make
 make install
 ```
 
+### 安装php-zbarcode
+
+```sh
+# 安装zbar
+yum install zbar-devel
+
+# 安装php-zbarcode
+cd /usr/local/src
+wget https://github.com/mkoppanen/php-zbarcode/archive/master.zip
+unzip master.zip
+cd php-zbarcode-master
+/usr/local/php-7.4.9/bin/phpize
+./configure --with-php-config=/usr/local/php-7.4.9/bin/php-config
+```
+
 ### 防火墙配置
 
 ```sh
