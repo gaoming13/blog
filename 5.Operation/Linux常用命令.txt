@@ -6,6 +6,20 @@
 - `man -k git` = `man --apropos git` = `apropos git` 在 whatis 数据库中查找字符串
 
 
+## less
+```sh
+less 1.txt
+输入: G跳转到文件末尾
+b: 向上翻页
+f: 向下翻页
+j: 向下一行
+k: 向上一行
+?关键词 来检索, n向上查找下一个关键词
+```
+
+## tac
+与cat相反,从最后一行到第一行的方式查看
+
 ### help
 
     # shell内部命令帮助
@@ -730,3 +744,5 @@ firewall-cmd --zone=public --add-port=5901/tcp --permanent
 firewall-cmd --zone=public --add-port=6080/tcp --permanent
 firewall-cmd --reload
 ```
+
+
