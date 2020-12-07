@@ -7,13 +7,21 @@
 show variables like '%slow%';
 
 * slow_query_log 是否开启慢查询(默认OFF)
-    set global slow_query_log = ON;
+  set global slow_query_log = ON;
 * long_query_time 慢查询时间(默认10, 范围0 and 10)
-    MySQL5.5可以追踪到微秒的查询
-    设置后在当前窗口无效，需要新开窗口session
-    set global long_query_time = 0.5;
+  MySQL5.5可以追踪到微秒的查询
+  设置后在当前窗口无效，需要新开窗口session
+  set global long_query_time = 0.5;
 * slow_query_log_file 慢查询日志位置(默认host_name-slow.log)
-    set global slow_query_log_file = '/var/lib/mysql/localhost-slow.log';
+  set global slow_query_log_file = '/var/lib/mysql/localhost-slow.log';
 * log_queries_not_using_indexes 是否记录没有使用索引的查询(默认OFF)
-    ! 将记录所有没有索引的查询，不管有没有超过阀值
-    set global log_queries_not_using_indexes = ON;
+  ! 将记录所有没有索引的查询，不管有没有超过阀值
+  set global log_queries_not_using_indexes = ON;
+
+### 常用命令
+- `show processlist` 查看哪些线程在运行（最多100条）
+  - id 系统分配的connection_id，可以通过 connection_id() 查看
+  - command 当前连接执行的命令(休眠sleep / 查询query / 连接connect)
+- `show full processlist` 查看哪些线程在运行（全部）
+- `show create table user1` 查看注释
+- `show full columns from user1` 参看注释
