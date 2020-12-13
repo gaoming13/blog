@@ -260,7 +260,14 @@ chown -R mysql:mysql /usr/local/mysql-5.7.18;
 
 1.安装
 yum localinstall https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
-yum list mysql-community-server --showduplicates
+yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
+
+rpm -ivh http://repo.mysql.com//mysql57-community-release-el7-7.noarch.rpm
+yum list mysql-community --showduplicates
+mysql-community
+yum localinstall mysql57-community-release-el7-8.noarch.rpm
+
+yum list community
 
 2.启动
 systemctl start mysqld.service
