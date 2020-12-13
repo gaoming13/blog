@@ -25,3 +25,7 @@ show variables like '%slow%';
 - `show full processlist` 查看哪些线程在运行（全部）
 - `show create table user1` 查看注释
 - `show full columns from user1` 参看注释
+- `show engines;` 查看支持的数据库引擎
+- `show create table user1` 查看表的数据库引擎
+- `alter table w2011_post engine=MyISAM` 修改表的存储引擎
+- myisam和innodb 单列索引长度限制分别为 1000 bytes 和 767 bytes
