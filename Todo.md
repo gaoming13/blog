@@ -1,12 +1,3 @@
-- `npm、yarn` Javascript 包管理器
-  - `svgo` SVG优化,调整属性(压缩svg,去除fill属性)
-  - `plop` 新建项目引导生成
-  - `js-yaml` yaml格式转换(svgo读取yaml配置文件)
-  - `Commander、coa、argparse` 命令行接口框架(./node_modules/.bin/svgo)
-  - `Karma` 在真实的浏览器中执行JS(指定执行哪些files,启动哪些browsers,使用哪些测试框架frameworks,执行结果报告给谁reporters)
-  - `Mocha`、`Jasmine`、`AVA`、`Tape`、`Jest` 单元测试框架
-  - `Istanbul` 测试覆盖率
-  - `Codecov` 测试结果展示(展示成html,lcovonly格式,文本格式)
 - `Travis CI` 持续集成工具
 - `OpenAPI` 规范(OAS)为REST API定义了标准的、与编程语言无关的接口说明。
   - [格式说明](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md)
@@ -14,18 +5,9 @@
     - `Swagger UI` 读取OpenApi文件,生成在线接口文档,在线调试
     - `Swagger Editor` 接口在线编辑工具
     - `Swagger Codegen` 通过代码注释生成接口文档
-- `Electron` 使用前端技术构建跨平台桌面应用程序(https://electronjs.org/)
-- `MPX` 小程序开发框架
-- `WePY` `mpvue` `Taro` 小程序开发框架(转译型)
+- `Electron` 使用前端技术构建跨平台桌面应用程序(https://electronjs.org/
 - [前端技术使用率统计](https://stateofjs.com/)
-- [code转流程图](https://code2flow.com/)
 
-- AngularJS
-- Vue.js
-- Backbone
-- AvalonJs
-
-- 谷歌开发文档
 - 命令行 https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md
 - https://hackernoon.com/tagged/ai
 - https://huangxuan.me/2017/07/12/upgrading-eleme-to-pwa/?lang=en
