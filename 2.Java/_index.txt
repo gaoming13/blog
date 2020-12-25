@@ -10,6 +10,14 @@
 - 2019.3 Java SE12
 - Java SE = jdk(开发工具) + jre(运行环境)
 
+#### 数据集合
+- 集合(Collection) 存储元素集合
+  - java.util.ArrayList(集合)
+  - java.util.LinkedList(链表)
+  - java.util.HashSet(哈希)(不允许重复;无序)
+- 图(Map) 存储k/v映射
+  - java.util.HashMap(散列表)
+
 #### java 命令
 
 ```sh
