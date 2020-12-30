@@ -4,7 +4,16 @@
 - JavaME(J2ME)(Java 2 Platform Micro Edition，java平台微型版) 手机端
 - 2011.7 Java SE7
 - 2014.3 Java SE8(人多)
+  - Lambda表达式(箭头函数)
+  - 方法引用
+  - 函数式接口
+  - 接口默认方法(可不实现)
+  - Stream
+  - Optional类(解决null)
+  - 时间日期API
+  - Base64
 - 2017.9 Java SE9
+  - 模块系统
 - 2018.3 Java SE10
 - 2018.9 Java SE11(人多)
 - 2019.3 Java SE12
@@ -29,6 +38,7 @@
 #   -verbose:[class|module|gc|jni]  查看详细输出
 #   --show-module-resolution        在启动过程中显示模块解析
 #   -version, --version             版本信息
+#   --list-modules                  列出所有模块
 
 java
 ```
