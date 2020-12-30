@@ -12,10 +12,13 @@ public class Lambda {
   }
 }
 
+// 函数式接口
+@FunctionalInterface
 interface Add {
   int f1(int a, int b);
 }
 
+// 函数式接口
 interface Say {
   void say(String s);
 }
