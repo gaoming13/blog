@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import ReactDom from 'react-dom';
+import PageFluentUi from './PageFluentUi';
 
 const PageIndex = React.lazy(() => import('./PageIndex'));
 const PageAbout = React.lazy(() => import('./PageAbout'));
@@ -19,6 +20,7 @@ class App extends React.Component {
         <li><Link to="/">首页</Link></li>
         <li><Link to="/about">关于</Link></li>
         <li><Link to="/help">帮助</Link></li>
+        <li><Link to="/fluent-ui">Fluent UI</Link></li>
       </ul>
       <Suspense fallback={<div>loading..</div>}>
         <Switch>
@@ -27,6 +29,7 @@ class App extends React.Component {
           <Route path="/help">
             <PageHelp ref={ref} a="1" b="2" c="3"></PageHelp>
           </Route>
+          <Route path="/fluent-ui" component={PageFluentUi} />
         </Switch>
       </Suspense>
     </Router>;

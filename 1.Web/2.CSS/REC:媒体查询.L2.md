@@ -23,3 +23,10 @@
   - monochrome 黑白(灰度)设备每个像素的比特数，如果不是黑白设备，值为0；接受最小最大前缀
   - resolution 分辨率，可以用 dpi(每英寸点数) / dpcm(每厘米点数) / dppx(每像素点数)；接受最小最大前缀；window.devicePixelRatio
   - grid 网格 判断是网格设备(1)还是为位图设备(0)
+- Breakpoint Range(fluentui)
+  - 320px - 479px (small)
+  - 480px - 639px (medium)
+  - 640px - 1023px (large	)
+  - 1024px - 1365px (extra large)
+  - 1366px - 1919px (extra extra large)
+  - 1920px and up (extra extra extra large)
