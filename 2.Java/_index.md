@@ -17,15 +17,31 @@
 - 2018.3 Java SE10
 - 2018.9 Java SE11(人多)
 - 2019.3 Java SE12
-- Java SE = jdk(开发工具) + jre(运行环境)
+- Java SE = jdk + jre
+  - Java SE Development Kit(开发工具)
+  - Java SE Runtime Environment(运行环境)
 
-#### 数据集合
+#### 语法知识点
+- 1.Java主函数main写法
+- 2.Java的两大数据类型(内置数据类型/引用数据类型)
 - 集合(Collection) 存储元素集合
   - java.util.ArrayList(集合)
   - java.util.LinkedList(链表)
   - java.util.HashSet(哈希)(不允许重复;无序)
 - 图(Map) 存储k/v映射
   - java.util.HashMap(散列表)
+
+#### 环境变量配置
+
+```sh
+vim ~/.bash_profile
+
+export PATH=$PATH:/Library/apache-tomcat-9.0.41/bin
+
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-14.jdk/Contents/Home
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CATALINA_HOME/lib/servlet-api.jar:$CATALINA_HOME/lib/jsp-api.jar:$JAVA_HOME/selflib/fastjson-1.2.75.jar:$JAVA_HOME/selflib/mysql-connector-java-8.0.22.jar
+export PATH=$JAVA_HOME/bin:$CLASSPATH:$PATH:
+```
 
 #### java 命令
 
