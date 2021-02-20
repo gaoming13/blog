@@ -4,6 +4,7 @@ wrk
     -d, --duration:    测试时间, e.g. 2s, 2m, 2h
     -t, --threads:     使用线程数
     -s, --script:      LuaJIT脚本
+    -T, --timeout:     超时时间
     -H, --header:      HTTP请求透, e.g. "User-Agent: wrk"
         --latency:     打印详细延迟统计
         --timeout:     如果在这段时间内未收到回复，则记录超时
@@ -11,6 +12,8 @@ wrk
 
 【开发.投注接口】
 wrk -t4 -c1000 -d60s -T5s --latency https://www.hiniu.cn/tb/plan/type502.514.527/page3/
+
+wrk -t4 -c100 -d60s -T5s --latency 'http://t1.diary8.com/tk?0=c00000&2=popads&3=[IMPRESSIONID]&t2=[CAMPAIGNID]&t3=[CAMPAIGNNAME]&t5=[BID]&s1=[WEBSITEID]&s2=[CATEGORYID]&s3=[CATEGORYNAME]&s4=[QUALITY]&c1=[COUNTRY]&c2=[ISPID]&c3=[ISPNAME]&d1=[OSID]&d2=[OSNAME]&d3=[DEVICEID]&d4=[DEVICENAME]&d5=[BROWSERID]&d6=[BROWSERNAME]&d7=[FORMFACTORID]&d8=[FORMFACTORNAME]&d9=[SCREENRESOLUTION]&d10=[ADBLOCK]'
 
 wrk -t4 -c1000 -d60s -T5s --script=IActivityApi.getMyBudsByStatus.lua --latency http://172.19.4.2/api/internal/member/
 Running 1m test @ http://172.19.4.2/api/internal/member/
