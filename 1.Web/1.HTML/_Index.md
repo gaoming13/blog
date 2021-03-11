@@ -25,6 +25,27 @@
 - 1.`rel='preload'` 优先级最高,在浏览器的主渲染机制介入前就进行预加载
 - 1.`rel='prefetch'` 优先级低,供之后的页面使用
 
+#### 图片懒加载
+- `<img src="demo.jpg" loading="lazy" />`
+
+#### 输入提示
+```html
+<input list="countries" name="country">
+<datalist id="countries">
+  <option value="选项1">
+  <option value="选项2">
+</datalist>
+```
+
+#### 图片适配
+```html
+<picture>
+  <source media="(min-width:768px)" srcset="middle.jpg">
+  <source media="(min-width:495px)" srcset="small.jpg">
+  <img style="width: auto;" />
+</picture>
+```
+
 #### 全局属性
 - accesskey 表示聚焦当前元素的快捷键`control+option+accesskey` `HTMLElement.accesskey`
 - class 元素类型
