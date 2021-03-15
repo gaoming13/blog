@@ -1,14 +1,5 @@
-- `Travis CI` 持续集成工具
-- `OpenAPI` 规范(OAS)为REST API定义了标准的、与编程语言无关的接口说明。
-  - [格式说明](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md)
-  - `Swagger` 实现OpenAPI规范最受欢迎的工具之一
-    - `Swagger UI` 读取OpenApi文件,生成在线接口文档,在线调试
-    - `Swagger Editor` 接口在线编辑工具
-    - `Swagger Codegen` 通过代码注释生成接口文档
-- `Electron` 使用前端技术构建跨平台桌面应用程序(https://electronjs.org/
 - [前端技术使用率统计](https://stateofjs.com/)
-
-- 命令行 https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md
+[_] 命令行 https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md
 - https://hackernoon.com/tagged/ai
 - https://huangxuan.me/2017/07/12/upgrading-eleme-to-pwa/?lang=en
 - 博客 https://jakearchibald.com/2016/caching-best-practices/
