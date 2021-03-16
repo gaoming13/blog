@@ -1,0 +1,64 @@
+### 常用命令
+- 查看哪些线程在运行(100条) `show processlist`
+- 查看哪些线程在运行(全部) `show full processlist`
+- 查看表结构 `desc user1`
+- 查看表结构 `show create table user1`
+- 查看表结构 `show full columns from user1`
+- 查看支持的数据库引擎 `show engines`
+- 修改表的存储引擎 `alter table w2011_post engine=MyISAM`
+  - myisam和innodb 单列索引长度限制分别为 1000 bytes 和 767 bytes
+- 创建普通索引 `ALTER TABLE post ADD INDEX index_name(column1, column2)`
+- 删除普通索引 `ALTER TABLE post DROP INDEX index_name`
+- 创建 UNIQIUE 索引 `ALTER TABLE post ADD UNIQUE index_name(column1, column2)`
+- 删除 UNIQIUE 索引 `ALTER TABLE post DROP INDEX index_name`
+- 创建 PRIMARY KEY 索引 `ALTER TABLE post ADD PRIMARY KEY (column1, column2)`
+- 删除 PRIMARY KEY 索引 `ALTER TABLE post DROP PRIMARY KEY`
+- 查看索引 `SHOW INDEX FROM post`
+
+### 索引概念
+> https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&mid=2651961494&idx=1&sn=34f1874c1e36c2bc8ab9f74af6546ec5&chksm=bd2d0d4a8a5a845c566006efce0831e610604a43279aab 03e0a6dde9422b63944e908fcc6c05
+- 哈希(hash)比树(tree)更快，索引结构为什么要设计成树型?
+  - 虽然单行查询，哈希索引是O(1)，树索引是O(log(n))
+  - 但SQL有很多`有序`需求(order group 比大小)，获取多行数据
+  - 哈希索引时间复杂度会退化为O(n)，而树型依然是O(log(n))，故数据库使用树形索引
+- 磁盘预读
+  - 磁盘读写并不是`按需读取`,而是`按页读取`,一次读取一页的数据(4k)
+  - 如果未来要读取的数据在这一页中,可以避免未来的磁盘IO,提高效率
+  - 局部性原理：软件设计要尽量遵循`数据读取集中`与`使用到的一个数据,大概率会使用其附近的数据`,这样磁盘预读才能充分提交磁盘IO
+- 数据库的索引最常用B+树
+  - 1.适合磁盘存储,充分利用局部性原理,磁盘预读
+  - 2.很低的树高度,索引本身占用的内存很少,能够存储大量的数据
+  - 3.能够很好的支持`单点查询`,`范围查询`,`有序性查询`
+- 数据库索引分为`主键索引(Primary Index)`和`普通索引(Secondary Index)`
+- `MyISAM`
+  - `索引`与`行记录`是分开存储的,叫做`非聚集索引(UnClustered Index)`
+  - 其`主键`与`普通索引`没有本质差异
+    - 1.有连续聚集的区域`单独存储行记录`
+    - 2.主键索引的叶子节点,存储`主键`+`对应含记录的指针`
+    - 3.普通索引的叶子节点,存储`索引列`+`对应含记录的指针`
+    - 4.MyISAM的表可以没有主键
+  - `主键索引`和`普通索引`是两颗独立的索引B+树,通过索引列查找叶子节点,再通过指针定位到行记录
+- `InnoDB`
+  - `主键索引`和`行记录`是存储在一起的,叫`聚集索引(Clustered Index)`
+    - 没有独立的区域存储行记录
+    - 主键索引的叶子节点,存储`主键`+`对应行的记录(不是指针)`
+    - PK查询是非常快的
+  - 必须要有聚集索引
+    - 1.如果表定义了PK,则PK就是聚集索引
+    - 2.否则,第一个非空的unique列就是聚集索引
+    - 3.否则,创建一个隐藏的row-id作为聚集索引
+  - 普通索引的叶子节点,存储`索引列`+`主键(而不是指针)`
+    - 建议使用`趋势递增整数作为PK`,不宜使用`较长的列作为PK`
+
+### 联合索引
+- 2个或更多列上的索引被称作联系索引，又叫复合索引
+- 索引命名规则：表名_字段1_字段2
+- 最左原则：index(a,b,c) 可以支持 a | a,b | a,b,c 3种组合进行查找
+- MySQL一个查询只能使用一个索引
+- 如果where条件中是`OR`关系，加索引不起作用
+- 数据量少的字段不需要加索引，例如性别只有2个值，建索引不仅没有优势，还会影响更新速度
+- 索引不会包含有NULL值的列
+- 短索引：对串列索引，如果可能应该指定一个前缀长度
+  - 例如，char(250)的列，前面10个字符，多数是唯一的，那么就不要对整个列进行索引
+  - 短索引不仅可以提高查询速度，还可以节省磁盘空间和I/O操作
+- `like "%word%"` 不会使用索引，而 `like "word%"` 可以使用索引
