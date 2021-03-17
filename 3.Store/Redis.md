@@ -36,11 +36,41 @@
 - 负载均衡
 
 ### 常见的5种数据类型
-- 1.String：缓存、计数器、分布式锁等 -> (简单动态字符)
-- 2.List：链表、队列、微博关注人时间轴列表等 -> (压缩列表 / 双端列表)
-- 3.Hash：用户信息、Hash表等 -> (压缩列表 / 哈希表)
-- 4.Set：去重、赞、踩、共同好友等 -> (intSet / 哈希表)
-- 5.Zset：访问量排行榜、点击量排行榜等 -> (压缩列表 / 跳跃表)
+- 1.String 字符串：
+  - `set key val EX 10`
+  - 场景：缓存、计数器、分布式锁等
+  - 数据结构：简单动态字符
+- 2.List 列表：
+  - 头部插入 `lpush mylist val1 val2 val3` / 尾部插入 `rpush mylist val1 val2 val3`
+  - 取出最后一个元素，插入另一列表头部 `brpoplpush mylist mylist2 0`
+  - 某个元素前插入一个元素 `LINSERT mylist before 'val2' 'val3'` / 某个元素前 `LINSERT mylist after 'val2' 'val3'`
+  - 列出index 0到9的元素 `lrange mylist 0 9`
+  - 通过索引获取列表中的元素 `LINDEX mylist 1`
+  - 列表长度 `llen mylist`
+  - 移除+列表第一个元素 `blpop mylist 1` / 移除+获取最后元素 `brpop mylist 1`
+  - 移除与参数相同的元素 `rrem mylist 0 'val1'`
+  - 场景：文章评论列表分页
+  - 数据结构：压缩列表 / 双端列表
+- 3.Hash 字典：
+  - 场景：用户信息、Hash表等
+  - 新建 `hmset user01 no 123456 age 23`
+  - 更改 `hset user01 age 33`
+  - 获取 `hgetall user01`
+  - 数据结构：压缩列表 / 哈希表
+- 4.Set 集合：
+  - 没有重复，无序集合，集合中的元素没有先后顺序
+  - 集合中添加新元素 `sadd myset 'one'`
+  - 列出集合中所有元素 `smembers myset`
+  - 判断元素是否在集合中 `sismember myset 'one'`
+  - 对2个集合求并集 `sunion myset myset2`
+  - 场景：去重、赞、踩、共同好友等
+  - 数据结构：intSet / 哈希表
+- 5.Zset
+  - 没有重复，有序集合，每个元素都关联了一个序号(score)，这便是排序的依据
+  - 添加元素 `zadd myzset1 999 baidu.com`
+  - 列出所有元素 `zrange myzset1 0 -1`
+  - 场景：有序集合：访问量排行榜、点击量排行榜等
+  - 数据结构：压缩列表 / 跳跃表
 
 ### 底层6中种数据结构
 - 1.SDS 简单动态字符
