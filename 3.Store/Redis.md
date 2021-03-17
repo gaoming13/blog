@@ -56,6 +56,7 @@
   - 新建 `hmset user01 no 123456 age 23`
   - 更改 `hset user01 age 33`
   - 获取 `hgetall user01`
+  - 获取 `hget user01 age`
   - 数据结构：压缩列表 / 哈希表
 - 4.Set 集合：
   - 没有重复，无序集合，集合中的元素没有先后顺序
