@@ -31,6 +31,7 @@ https://infosec.mozilla.org/guidelines/web_security
   - 301 Moved Permanently 永久重定向
   - 302 Found 临时重定向
   - 304 Not Modified 文档内容(自上次访问以来或者根据请求条件)并没有改变
+  - 307 Internal Redirect
 - 客户端错误(400-499)
   - 400 Bad Request 语义有误或请求参数有误
   - 401 Unauthorized 当前请求需要用户验证
