@@ -1,7 +1,27 @@
-let obj1 = { a: 1 };
-let obj2 = { b: 2 };
-let obj3 = { c: 3 };
-obj1.__proto__ = obj2;
-obj2.__proto__ = obj3;
-console.log(obj1);
+function cloneShallow(source) {
+  if (source == null) return source;
+  var to = Array.isArray(source) ? [] : {};
+  for (var key in source) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      to[key] = source[key];
+    }
+  }
+  return to;
+}
 
+function cloneDeep(source) {
+  if (source == null) return source;
+  var to = Array.isArray(source) ? [] : {};
+  for (var key in source) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      if (typeof source[key] === 'object' && source[key] !== null) {
+        to[key] = cloneDeep(source[key]);
+      } else {
+        to[key] = source[key];
+      }
+    }
+  }
+  return to;
+}
+
+console.log(cloneShallow(undefined));
