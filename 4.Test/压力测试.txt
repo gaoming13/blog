@@ -75,6 +75,9 @@ ehAp2YGGK2YlRkDLG2PzJJU9ochnlX0HbC4FehML6DsyzLpUNt9uzUraQr6CCiyXbD/Q/7JfIvk0A1Vq
 
 
 
+wrk -t4 -c1000 -d60s -T5s --latency https://box.gangzhilian.com/manage/mini-server.php \
+--data-raw '{"method":"newUser","deviceMac":"6a:c6:3a:b6:ea:97","openId":"1231313"}' \
+--compressed
 
 
 
