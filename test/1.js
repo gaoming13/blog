@@ -1,3 +1,6 @@
+
+
+
 (() => {
   function A(list) {
     this.list = list;
@@ -50,7 +53,7 @@
   console.log(b2);
 
   console.log(B.prototype.__proto__ === A.prototype);
-})();
+});
 
 console.log('------------------------------');
 
@@ -76,9 +79,4 @@ console.log('------------------------------');
 
   const b2 = new B([1, 2]);
   console.log(b1);
-})();
-
-function G() {}
-const g = new G();
-
-console.log(Object.prototype.toString.call(g));
+});
