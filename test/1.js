@@ -1,5 +1,23 @@
+function A(color) {
+  this.color = color;
+  this.name = [];
+}
+A.prototype.getColor = function() {
+  return this.color;
+}
+function B() {}
 
+const a = new A('red');
+B.prototype = a;
+B.prototype.constructor = B;
 
+const b = new B();
+console.log(b.color);
+b.color = 'yellow';
+b.name.push('a');
+console.log(b);
+const b1 = new B();
+console.log(b1);
 
 (() => {
   function A(list) {
@@ -55,7 +73,6 @@
   console.log(B.prototype.__proto__ === A.prototype);
 });
 
-console.log('------------------------------');
 
 (() => {
   class A {
