@@ -2,9 +2,6 @@
 > ES6 New feature: https://github.com/lukehoban/es6features
 - 从 Node v13.2 开始, 默认打开 ESM 的支持
 
-- let + const
-  - 暂时性死区
-  - 块级函数作用域/IIFE
 - destructuring(变量的解构赋值)
   - 数组的解构赋值
   - 对象的解构赋值

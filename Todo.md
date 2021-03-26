@@ -1,3 +1,27 @@
+(角色列表+关注列表) -> 存储
+-> userInfo.gAuthStarId
+-> [指数ID,'']
+
+[管理员1,'']
+- 指数信息authG
+[空间1,'']
+
+角色
+上次浏览记录
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [前端技术使用率统计](https://stateofjs.com/)
 [_] 命令行 https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md
 - https://hackernoon.com/tagged/ai
