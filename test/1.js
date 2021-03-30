@@ -1,34 +1,9 @@
 class A {
-  i = 1;
-  count = 10;
-
-  *[Symbol.iterator]() {
-    for (let j = 0; j < 10; j++) {
-      yield new Promise((resovle) => {
-        setTimeout(() => {
-          resovle(true);
-        }, 1000);
-      });
-    }
-  }
-
-  fly () {
-    console.log('fly');
+  foo() { return 1; }
+  get [Symbol.unscopables]() {
+    return { foo: true };
   }
 }
-let a = new A();
-
-async function* asyncGenerator() {
-  var i = 0;
-  while (i < 3) {
-    yield i++;
-  }
+with (A.prototype) {
+  console.log(foo());
 }
-
-(async () => {
-  for (num of a) {
-    console.log(await num);
-  }
-})();
-
-console.log('1213');
