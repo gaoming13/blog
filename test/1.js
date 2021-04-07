@@ -1,6 +1,4 @@
 function getSum() {
-  console.log(arguments);
+  console.log(new.target);
 }
-let arr = [1, 2, 3, 4];
-getSum(...arr);
-getSum.apply(this, arr);
+const f1 = new getSum();
