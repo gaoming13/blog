@@ -4,9 +4,3 @@
 - CSS规格说明：https://www.w3.org/Style/CSS/current-work
 - CSS浏览器兼容性查询: http://caniuse.com/
 
-#### TODO
-- CR:取值与单位(Values and Units) L3
-- CR:级联与继承(Cascading and Inheritance) L3
-- CR:计数样式(Counter Styles) L3
-- WD:动画API(Web Animation)
-
