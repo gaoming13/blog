@@ -1,26 +1,25 @@
-const wokerScriptBlobUrl = URL.createObjectURL(new Blob([`
-self.onmessage = ({data}) => {
-  const view = new Uint32Array(data);
-  for (let i = 0; i < 10000; i++) {
-    view[0] += 1;
+async function* chars() {
+  for (const u8 of [240, 159, 152, 132, 102, 228, 184, 173]) {
+    yield await new Promise((resolve) => setTimeout(resolve, 100, Uint8Array.of(u8)));
   }
-  console.log(view[0]);
-  self.postMessage(null);
-};
-`]));
-
-const woker1 = new Worker(wokerScriptBlobUrl);
-woker1.onmessage = () => {
-  console.log('worker1 => ' + view[0]);
-};
-const woker2 = new Worker(wokerScriptBlobUrl);
-woker2.onmessage = () => {
-  console.log('worker2 => ' + view[0]);
-};
-
-const sharedArrayBuffer = new SharedArrayBuffer(4);
-const view = new Uint32Array(sharedArrayBuffer);
-view[0] = 0;
-woker1.postMessage(sharedArrayBuffer);
-woker2.postMessage(sharedArrayBuffer);
-
+}
+// 文本流
+const textStream = new ReadableStream({
+  async start(constroller) {
+    for await (const u8 of chars()) {
+      constroller.enqueue(u8);
+    }
+    constroller.close();
+  }
+});
+// 流过管道解码
+const decodeTextStream = textStream.pipeThrough(new TextDecoderStream());
+// 读取
+const reader = decodeTextStream.getReader();
+(async () => {
+  while(true) {
+    const res = await reader.read();
+    if (res.done) break;
+    console.log(res);
+  }
+})();
