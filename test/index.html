@@ -3,9 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    .pop { display: flex; height: 200px; border: 1px solid red; }
+    .pop > ul { border: 1px solid green; }
+  </style>
 </meta>
 <body>
-  <div id="drag1" style="width: 200px; height: 200px; border: 1px solid red;">放到这里</div>
+  <div class="pop">
+    <ul>
+      <li draggable="true">条目1</li>
+      <li draggable="true">条目2</li>
+      <li draggable="true">条目3</li>
+      <li draggable="true">条目4</li>
+      <li draggable="true">条目5</li>
+    </ul>
+    <ul>
+      <li draggable="true">条目6</li>
+    </ul>
+  </div>
   <input id="file1" type="file" name="file1" />
   <iframe src="./2.html" width="100" height="100"></iframe>
   <div class="a1">
