@@ -1,49 +1,51 @@
 > 参考：[HTTP访问控制（CORS）](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
+- 当页面与页面请求的资源 不在 `同一域/协议/端口` 时，会发起一个 `跨域HTTP请求`。
+- 出于安全原因，浏览器会限制从脚本内发起的跨源HTTP请求或响应。
+- 通过跨域资源共享 CORS(cross-origin share standard) 机制，可使跨域数据传输安全进行。
 
-当页面与页面请求的资源 不在 `同一域/协议/端口` 时，会发起一个 `跨域HTTP请求`。
+### 替代性跨域技术(老)
+- 图片探测
+  - 任何页面都可以加载图片而不必担心限制,可以动态创建图片
+  - 通过 onload 和 onerror 事件得知何时收到响应
+  - 缺点: 但无法获取服务器响应的内容
+- JSONP(JSON with padding)
+  - 相比于图片探测,JSONP可以直接访问响应
+  - 缺点: 不好确定JSONP请求是否失败,通常使用计时器来决定是否放弃等待响应
 
-出于安全原因，浏览器会限制从脚本内发起的跨源HTTP请求或响应。
+### 跨域的请求类型
+- HTTP请求头部字段
+  - `Origin` 源站域名,XMLHttpRequest跨域才发送
+    - Image需标明 `crossOrigin=anonymous/use-credentials`
+    - 有些服务通过判断有没有Origin来决定是否展示授权相关的响应头部字段，例如阿里云OSS
+  - `Access-Control-Request-Method` 实际请求的 HTTP 方法
+  - `Access-Control-Request-Headers` 实际请求的携带的自定义头部字段名字
+- HTTP响应头部字段
+  - `Access-Control-Allow-Origin` 允许访问该资源的URI
+    - `*` 或 `http://example.com`; 若为附带身份凭证的请求，此处不能为 `*`
+  - `Access-Control-Allow-Credentials` 是否允许附带身份凭证的请求 `true`
+    - 若允许则请求与响应资源互通cookie
+  - `Access-Control-Expose-Headers` 允许客户端读取的响应头部
+    - `x-server-one,x-server-two`
+  - `Access-Control-Max-Age` 预检请求的结果缓存多少秒
+    - `3600`; 缓存时间内不进行 options 请求
+  - `Access-Control-Allow-Methods` 预检请求：实际请求允许的 HTTP 方法
+  - `Access-Control-Allow-Headers` 预检请求：实际请求允许的自定义头部
+- 1.简单请求
+  - 非预检请求都是简单请求。
+- 2.预检请求
+  - 当请求满足下述任一条件时，将首先使用 `OPTIONS` 方法发起一个预检请求到服务器，以获知服务器是否允许该实际请求。
+    - 1.使用了下面任一 HTTP 方法:
+      - `PUT` / `DELETE` / `CONNECT` / `OPTIONS` / `TRACE` / `PATCH`
+    - 2.人为设置了对 CORS 安全的首部字段集合之外的其他首部字段,该集合为：
+      - `Accept` / `Accept-Language` / `Content-Language` / `Content-Type` / `DPR` / `Downlink` / `Save-Data` / `Viewport-Width` / `Width`
+    - 3.Content-Type 的值不属于下列之一:
+      - `application/x-www-form-urlencoded` / `multipart/form-data` / `text/plain`
+- 3.附带身份凭证的请求
+  - 默认情况下,跨域请求不提供凭据(cookie、HTTP认证、客户端SSL证书)
+  - 可以在客户端将 withCredentials 设置为true 表明请求会发送凭证
+  - 如果服务器允许带凭证的请求,那么可以在响应头中包含：`Access-Control-Allow-Credentials: true`
 
-通过跨域资源共享 CORS(cross-origin share standard) 机制，可使跨域数据传输安全进行。
-
-### 1.跨域的请求类型
-
-HTTP请求头部字段
-
-| 头部 | 名称 | 说明 |
-| - | - | - |
-| `Origin` | 源站域名 | XMLHttpRequest跨域才发送<br>Image需标明 `crossOrigin=anonymous/use-credentials`<br>有些服务通过判断有没有Origin来决定是否展示授权相关的响应头部字段，例如阿里云OSS |
-| `Access-Control-Request-Method` | 实际请求的 HTTP 方法 | |
-| `Access-Control-Request-Headers` | 实际请求的携带的自定义头部字段名字 | |
-
-HTTP响应头部字段
-
-| 头部 | 名称 | 说明 |
-| - | - | - |
-| `Access-Control-Allow-Origin` | 允许访问该资源的URI | `*` 或 `http://example.com`; 若为附带身份凭证的请求，此处不能为 `*` |
-| `Access-Control-Allow-Credentials` | 是否允许附带身份凭证的请求 | `true`; 若允许则请求与响应资源互通cookie |
-| `Access-Control-Expose-Headers` | 允许客户端读取的响应头部 | `x-server-one,x-server-two` |
-| `Access-Control-Max-Age` | 预检请求的结果缓存多少秒 | `3600`; 缓存时间内不进行 options 请求 |
-| `Access-Control-Allow-Methods` | 预检请求：实际请求允许的 HTTP 方法 | |
-| `Access-Control-Allow-Headers` | 预检请求：实际请求允许的自定义头部 | |
-
-
-#### 1.简单请求
-
-非预检请求都是简单请求。
-
-#### 2.预检请求
-
-当请求满足下述任一条件时，将首先使用 `OPTIONS` 方法发起一个预检请求到服务器，以获知服务器是否允许该实际请求。
-
-- 使用了下面任一 HTTP 方法: `PUT` / `DELETE` / `CONNECT` / `OPTIONS` / `TRACE` / `PATCH`
-- 人为设置了对 CORS 安全的首部字段集合之外的其他首部字段。该集合为：`Accept` / `Accept-Language` / `Content-Language` / `Content-Type` / `DPR` / `Downlink` / `Save-Data` / `Viewport-Width` / `Width`
-- Content-Type 的值不属于下列之一: `application/x-www-form-urlencoded` / `multipart/form-data` / `text/plain`
-
-#### 3.附带身份凭证的请求
-
-
-### 2.可使用CORS的场景
+### 可使用CORS的场景
 
 #### 1.XMLHttpRequest 或 Fetch 发起的跨域 HTTP 请求
 
@@ -101,7 +103,6 @@ Access-Control-Expose-Headers: x-server-one,x-server-two
 x-server-one: hello
 x-server-two: hihi
 ```
-
 
 #### 2.CSS 中通过 @font-face 使用跨域字体资源
 
