@@ -4,31 +4,33 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body {
-      color: red;
+    div {
+      box-sizing: border-box;
     }
-    ul {
-      padding-left: 0;
-      list-style: none;
+    .head {
+      border: 1px solid red;
     }
-    ul li {
-      display: inline;
+    .container {
+      border: 1px solid red;
+      overflow: auto;
     }
-    ul li a {
-      color: initial;
-      background-color: #13a4a4;
-      padding: 5px;
-      border-radius: 2px;
-      text-decoration: none;
+    .main {
+      border: 1px solid blue;
+      float: left;
+      width: calc(100% - 200px);
+    }
+    .slide {
+      border: 1px solid green;
+      float: right;
+      width: 200px;
     }
   </style>
 </meta>
 <body>
-  <div class="div1">abcdefg</div>
-  <ul>
-    <li><a href="">文字1</a></li>
-    <li><a href="">文字2</a></li>
-    <li><a href="" style="background-color: orange;">文字3</a></li>
-  </ul>
+  <div class="head">这是头部</div>
+  <div class="container">
+    <div class="main">这是主内容</div>
+    <div class="slide">这是右侧边栏</div>
+  </div>
 </body>
 </html>
