@@ -4,39 +4,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    .pop { display: flex; height: 200px; border: 1px solid red; }
-    .pop > ul { border: 1px solid green; }
+    body {
+      color: red;
+    }
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+    ul li {
+      display: inline;
+    }
+    ul li a {
+      color: initial;
+      background-color: #13a4a4;
+      padding: 5px;
+      border-radius: 2px;
+      text-decoration: none;
+    }
   </style>
 </meta>
 <body>
-  <div id="div1"></div>
-  <template id="tpl1">
-    <p>这是内置的模板</p>
-  </template>
-  <button>点我</button>
-  <div class="pop">
-    <ul>
-      <li draggable="true">条目1</li>
-      <li draggable="true">条目2</li>
-      <li draggable="true">条目3</li>
-      <li draggable="true">条目4</li>
-      <li draggable="true">条目5</li>
-    </ul>
-    <ul>
-      <li draggable="true">条目6</li>
-    </ul>
-  </div>
-  <input id="file1" type="file" name="file1" />
-  <iframe src="./2.html" width="100" height="100"></iframe>
-  <div class="a1">
-    <div id="div1">
-      <input type="text" name="aaa" >
-      <button id="btn1"></button>
-    </div>
-    <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128">
-      <path d="M217.536 489.216a29.632 29.632 0 0 0-9.792 22.272c0 8.64 3.2 16.384 9.792 23.296l361.216 352.96a34.432 34.432 0 0 0 45.824-1.024 29.056 29.056 0 0 0 0-43.52L284.096 512l340.48-331.264a29.056 29.056 0 0 0 0-43.456 34.432 34.432 0 0 0-45.824-1.024L217.6 489.216z" fill="#727272" p-id="763"></path>
-    </svg>
-  </div>
-  <script src="./1.js"></script>
+  <div class="div1">abcdefg</div>
+  <ul>
+    <li><a href="">文字1</a></li>
+    <li><a href="">文字2</a></li>
+    <li><a href="" style="background-color: orange;">文字3</a></li>
+  </ul>
 </body>
 </html>
