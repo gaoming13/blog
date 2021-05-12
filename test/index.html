@@ -4,33 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
+    *,
+    ::before,
+    ::after {
+      box-sizing: border-box;
+    }
     div {
       box-sizing: border-box;
     }
     .head {
       border: 1px solid red;
+      font-size: 14px;
+      vertical-align: middle;
     }
-    .container {
-      border: 1px solid red;
-      overflow: auto;
-    }
-    .main {
-      border: 1px solid blue;
-      float: left;
-      width: calc(100% - 200px);
-    }
-    .slide {
-      border: 1px solid green;
-      float: right;
-      width: 200px;
+    .head b {
+      font-size: 40px;
     }
   </style>
 </meta>
 <body>
-  <div class="head">这是头部</div>
-  <div class="container">
-    <div class="main">这是主内容</div>
-    <div class="slide">这是右侧边栏</div>
-  </div>
+  <div class="head"><span>这是头部</span><b>这是打字</b></div>
 </body>
 </html>
