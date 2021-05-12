@@ -9,20 +9,25 @@
     ::after {
       box-sizing: border-box;
     }
-    div {
-      box-sizing: border-box;
+    .box {
+      background: gray;
     }
-    .head {
-      border: 1px solid red;
-      font-size: 14px;
-      vertical-align: middle;
+    .line {
+      background: khaki;
     }
-    .head b {
-      font-size: 40px;
+    .line + .line {
+      margin-top: 10px;
     }
   </style>
 </meta>
 <body>
-  <div class="head"><span>这是头部</span><b>这是打字</b></div>
+  <div></div>
+  <div class="wrap">
+    <div class="box">
+      <div class="line">第一列</div>
+      <div class="line">第二列<br>第二列</div>
+      <div class="line">第三列<br>第三列<br>第三列</div>
+    </div>
+  </div>
 </body>
 </html>
