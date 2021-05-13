@@ -4,30 +4,102 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
+    :root {
+      box-sizing: border-box;
+    }
     *,
     ::before,
     ::after {
-      box-sizing: border-box;
+      box-sizing: inherit;
     }
-    .box {
-      background: gray;
+    .clearfix::before {
+      display: table;
+      content: ' ';
     }
-    .line {
-      background: khaki;
+    .clearfix::after {
+      display: block;
+      content: ' ';
+      clear: both;
     }
-    .line + .line {
+    body {
+      background-color: #eee;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    header {
+      padding: 10px;
+      color: #fff;
+      background-color: #0072b0;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .main {
       margin-top: 10px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 10px;
+    }
+    .media {
+      float: left;
+      width: 50%;
+      padding: 10px;
+      background: #eee;
+      border-radius: 10px;
+    }
+    .media:nth-child(odd) {
+      clear: left;
+    }
+    .media-image {
+      width: 60px;
+      height: 60px;
+      background: green;
+      float: left;
+    }
+    .media-body {
+      overflow: auto;
     }
   </style>
 </meta>
 <body>
-  <div></div>
-  <div class="wrap">
-    <div class="box">
-      <div class="line">第一列</div>
-      <div class="line">第二列<br>第二列</div>
-      <div class="line">第三列<br>第三列<br>第三列</div>
-    </div>
+  <div class="container">
+    <header>
+      <h1>Franklin Running Club</h1>
+    </header>
+    <main class="main clearfix">
+      <h2>Running tips</h2>
+      <div>
+        <div class="media">
+          <div class="media-image"></div>
+          <div class="media-body">
+            <h4>A</h4>
+            <p>Strength training is an important part ofinjury prevention. Focus on your core&mdash;especially your abs and glutes.</p>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-image" ></div>
+          <div class="media-body">
+            <h4>B</h4>
+            <p>Check your stride turnover. The most efficient runners take about 180 steps per minute.</p>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-image" ></div>
+          <div class="media-body">
+            <h4>C</h4>
+            <p>Don't run the same every time you hit the road. Vary your pace, and vary the distance of your runs.</p>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-image"  ></div>
+          <div class="media-body">
+            <h4>D</h4>
+            <p>Run tall but relaxed. Your feet should hit the ground beneath your hips, not out in front of you.</p>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
 </body>
 </html>
