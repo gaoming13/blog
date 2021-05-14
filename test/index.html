@@ -1,5 +1,7 @@
 <!doctype html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     :root {
       box-sizing: border-box;
@@ -9,77 +11,26 @@
     ::after {
       box-sizing: inherit;
     }
-    body {
-      min-height: 1000px;
+    .list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-auto-rows: 1fr;
     }
-    /* .main {
-      width: 1000px;
-      margin: 0 auto;
-    } */
-    .box {
-      position: sticky;
-      bottom: 30px;
-      width: 20px;
-      height: 20px;
-      background: red;
+    .item {
+      padding: 10px;
+      background: yellowgreen;
+      border-radius: 10px;
     }
   </style>
 </head>
-
 <body>
-  <div class="main">
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p><p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p><p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p><p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <div class="box"></div>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
-    <p>asdfasfdasf</p>
+  <div class="list">
+    <div class="item">苹果</div>
+    <div class="item">栗子</div>
+    <div class="item">梨</div>
+    <div class="item">香蕉</div>
+    <div class="item">石榴</div>
+    <div class="item">火腿肠</div>
   </div>
 </body>
+</html>
