@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <div class="box1">transition 事件</div>
+  <div class="box1">过渡 transition 事件</div>
   <style>
     .box1 {
       width: 100px;
@@ -38,7 +38,7 @@
   </script>
 
   <hr>
-  <div class="box2">transition steps</div>
+  <div class="box2">过渡 transition steps</div>
   <style>
     .box2 {
       width: 100px;
@@ -54,5 +54,25 @@
       border-color: blue;
     }
   </style>
+
+  <hr>
+  <div class="box3">变换 transform 旋转</div>
+  <style>
+    @keyframes over-and-back {
+      0% { background-color: hsl(0, 50%, 50%); transform: translate(0); }
+      50% { transform: translate(50px); }
+      100% { background-color: hsl(270, 50%, 90%); transform: translate(0); }
+    }
+    .box3 {
+      width: 100px;
+      height: 100px;
+      font-size: 12px;
+      color: red;
+      border: 1px solid red;
+      animation: 1.5s linear 1s 3 both over-and-back;
+    }
+  </style>
+
+  <hr>
 </body>
 </html>
