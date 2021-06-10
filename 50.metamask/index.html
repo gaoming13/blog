@@ -5,16 +5,267 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>测试</title>
+  <style>
+  body { font-size: 12px; }
+  #dom-log { background: #000;color: #fff;padding: 10px; }
+  </style>
 </head>
 <body>
-
+<pre id="dom-log"></pre>
+<button id="dom-btn1">request:eth_chainId - 获取网络ID</button><br>
+<button id="dom-btn2">request:eth_requestAccounts - 请求授权获取用户账户</button><br>
+<button id="dom-btn3">request:eth_accounts - 获取用户账号</button><br>
+<button id="dom-btn4">request:eth_signTransaction - 签名交易(不支持)</button><br>
+<button id="dom-btn5">request:eth_sendTransaction - 交易</button><br>
+<button id="dom-btn6">request:eth_getBalance - 获取账户余额</button><br>
+<button id="dom-btn7">request:eth_sign - 签名(没返回值)</button><br>
+<button id="dom-btn8">request:eth_signTypedData_v4 - 签名</button><br>
+<button id="dom-btn11">交易：查看交易信息(ethereum.sendAsync-eth_getTransactionByHash) => 0x01403cf7463808f04c4e5f9b953b74a5edbf666c1ae0ea97c8ec787894834726</button><br>
+<div>文档：<a href="https://docs.metamask.io/guide/" target="_blank">https://docs.metamask.io/guide/</a></div>
+<pre>
+  > ethereum 检测以太坊提供商
+  > ethereum.isConnected() 当前是否可向 MetaMask 发送RPC请求
+  > ethereum.networkVersion：网络ID (1：以太坊主网 / 2：Morden测试链 / 3：Ropsten测试链 / 4：Rinkeby测试链 / 42：Kovan测试链)
+  > ethereum.isMetaMask: 检测是否使用MetaMask
+  > ethereum.request() 通过 MetaMask 向以太坊提交 RPC 请求
+    // 获取网络ID
+    {
+      method: 'eth_chainId'
+    }
+    // 请求授权获取用户账户
+    {
+      method: 'eth_requestAccounts'
+    }
+    // 获取用户账号
+    {
+      method: 'eth_accounts'
+    }
+    // 签名交易
+    {
+      method: 'eth_signTransaction',
+      params: [{
+        "from": "0xb60e8dd61c5d32be8058bb8eb970870f07233155", // 发送方地址
+        "to": "0xd46e8dd67c5d32be8058bb8eb970870f07244567", // 接收方地址
+        "gas": "0x76c0", // 30400
+        "gasPrice": "0x9184e72a000", // 10000000000000
+        "value": "0x9184e72a", // 2441406250
+        "data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"
+      }],
+      from: '发送方地址',
+    }
+    // 交易
+    {
+      method: 'eth_sendTransaction',
+      params: [{
+        "from": "0xb60e8dd61c5d32be8058bb8eb970870f07233155", // 发送方地址
+        "to": "0xd46e8dd67c5d32be8058bb8eb970870f07244567", // 接收方地址
+        "gas": "0x76c0", // 30400
+        "gasPrice": "0x9184e72a000", // 10000000000000
+        "value": "0x9184e72a", // 2441406250
+        "data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"
+      }],
+      from: '发送方地址',
+    }
+    // 获取账户余额
+    {
+      method: 'eth_getBalance'
+    }
+    // 签名
+    {
+      method: 'eth_sign',
+      params: ['0xb60e8dd61c5d32be8058bb8eb970870f07233155', '哇哈哈'],
+    }
+    // 查看交易信息
+    {
+      method: 'eth_getTransactionByHash',
+      params: ['0x01403cf7463808f04c4e5f9b953b74a5edbf666c1ae0ea97c8ec787894834726'], // 交易HASH
+    }
+</pre>
 <script>
-ethereum.enable()
-  .catch((reason) => {
-    console.log('获取用户地址失败==>' + reason);
-  })
-  .then((accounts) => {
-    console.log('获取用户地址成功==> 接入的网络：' + ethereum.networkVersion + ' 地址： ' + JSON.stringify(accounts));
+  // 当前用户地址
+  let userAddress = '';
+
+  // 写入日志
+  function log(str) {
+    document.querySelector('#dom-log').append(str + '\n\r');
+  }
+
+  // 获取网络ID
+  document.querySelector('#dom-btn1').addEventListener('click', function() {
+    ethereum.request({method: 'eth_chainId'}).then((res) => {
+      log('res => ' + JSON.stringify(res));
+    }).catch((err) => {
+      log('err => ' + JSON.stringify(err));
+    });
+  });
+
+  // 请求授权获取用户账户
+  document.querySelector('#dom-btn2').addEventListener('click', function() {
+    ethereum.request({method: 'eth_requestAccounts'}).then((res) => {
+      log('res => ' + JSON.stringify(res));
+      if (res.length) userAddress = res[0];
+    }).catch((err) => {
+      log('err => ' + JSON.stringify(err));
+    });
+  });
+
+  // 获取用户账号
+  document.querySelector('#dom-btn3').addEventListener('click', function() {
+    ethereum.request({method: 'eth_accounts'}).then((res) => {
+      log('res => ' + JSON.stringify(res));
+      if (res.length) userAddress = res[0];
+    }).catch((err) => {
+      log('err => ' + JSON.stringify(err));
+    });
+  });
+
+  // 签名交易
+  document.querySelector('#dom-btn4').addEventListener('click', function() {
+    ethereum.request({
+      method: 'eth_signTransaction',
+      params: [{
+        from: userAddress,
+        to: '0x83C32c199676F23Ca3E2eB7dA41cef6caed09119',
+        value: '0xde0b6b3a7640000',
+      }],
+      from: userAddress,
+    }).then((res) => {
+      log('res => ' + JSON.stringify(res));
+    }).catch((err) => {
+      log('err => ' + JSON.stringify(err));
+    });
+  });
+
+  // 交易
+  document.querySelector('#dom-btn5').addEventListener('click', function() {
+    ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{
+        from: userAddress,
+        to: '0x83C32c199676F23Ca3E2eB7dA41cef6caed09119',
+        value: '0xde0b6b3a7640000',
+      }],
+      from: userAddress,
+    }).then((res) => {
+      log('res => ' + JSON.stringify(res));
+    }).catch((err) => {
+      log('err => ' + JSON.stringify(err));
+    });
+  });
+
+  // 获取账户余额
+  document.querySelector('#dom-btn6').addEventListener('click', function() {
+    ethereum.request({
+      method: 'eth_getBalance',
+      params: [userAddress, 'latest'],
+    }).then((res) => {
+      log('res => ' + JSON.stringify(res));
+    }).catch((err) => {
+      log('err => ' + JSON.stringify(err));
+    });
+  });
+
+  // 签名
+  document.querySelector('#dom-btn7').addEventListener('click', function() {
+    ethereum.request({
+      method: 'eth_sign',
+      params: [userAddress, '哇哈哈'],
+    }).then((res) => {
+      log('res => ' + JSON.stringify(res));
+    }).catch((err) => {
+      log('err => ' + JSON.stringify(err));
+    });
+  });
+
+  // 签名
+  document.querySelector('#dom-btn8').addEventListener('click', function() {
+    ethereum.request({
+      method: 'eth_signTypedData_v4',
+      params: [userAddress,  JSON.stringify({
+        domain: {
+          chainId: 1,
+          name: '王二傻哈哈哈',
+          verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+          version: '1',
+        },
+        message: {
+          contents: 'Hello, Bob!',
+          attachedMoneyInEth: 4.2,
+          from: {
+            name: 'Cow',
+            wallets: [
+              '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+              '0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF',
+            ],
+          },
+          to: [
+            {
+              name: 'Bob',
+              wallets: [
+                '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+                '0xB0BdaBea57B0BDABeA57b0bdABEA57b0BDabEa57',
+                '0xB0B0b0b0b0b0B000000000000000000000000000',
+              ],
+            },
+          ],
+        },
+        primaryType: 'Mail',
+        types: {
+          // TODO: Clarify if EIP712Domain refers to the domain the contract is hosted on
+          EIP712Domain: [
+            { name: 'name', type: 'string' },
+            { name: 'version', type: 'string' },
+            { name: 'chainId', type: 'uint256' },
+            { name: 'verifyingContract', type: 'address' },
+          ],
+          // Not an EIP712Domain definition
+          Group: [
+            { name: 'name', type: 'string' },
+            { name: 'members', type: 'Person[]' },
+          ],
+          // Refer to PrimaryType
+          Mail: [
+            { name: 'from', type: 'Person' },
+            { name: 'to', type: 'Person[]' },
+            { name: 'contents', type: 'string' },
+          ],
+          // Not an EIP712Domain definition
+          Person: [
+            { name: 'name', type: 'string' },
+            { name: 'wallets', type: 'address[]' },
+          ],
+        },
+      })],
+    }).then((res) => {
+      log('res => ' + JSON.stringify(res));
+    }).catch((err) => {
+      log('err => ' + JSON.stringify(err));
+    });
+  });
+
+  // 查看某个交易信息
+  document.querySelector('#dom-btn11').addEventListener('click', function() {
+    ethereum.sendAsync({
+      method: 'eth_getTransactionByHash',
+      params: ['0x01403cf7463808f04c4e5f9b953b74a5edbf666c1ae0ea97c8ec787894834726'],
+    }, function (err, res) {
+      log('err => ' + JSON.stringify(err));
+      log('res => ' + JSON.stringify(res));
+    })
+  });
+
+  // 监听MetaMask事件
+  ethereum.on('connect', function(res) {
+    log('监听到MetaMask事件 connect(当 MetaMask 提供程序首次能够向链提交 RPC 请求时，它会发出此事件): ' + JSON.stringify(res));
+  });
+  ethereum.on('disconnect', function(res) {
+    log('监听到MetaMask事件 disconnect(如果 MetaMask 提供程序变得无法向任何链提交 RPC 请求，则会发出此事件): ' + JSON.stringify(res));
+  });
+  ethereum.on('chainChanged', function (res) {
+    log('监听到MetaMask事件: chainChanged(当当前连接的链发生变化时，MetaMask 提供程序会发出此事件):' + JSON.stringify(res));
+  });
+  ethereum.on('accountsChanged', function (res) {
+    log('监听到MetaMask事件: accountsChanged(每当用户公开的帐户地址发生变化时都会发出): ' + JSON.stringify(res));
   });
 </script>
 </body>
