@@ -17,6 +17,9 @@ apt-get install libxml2-dev libssl-dev libsqlite3-dev libz-dev libcurl4-openssl-
 1.编译安装
 
 ```sh
+/usr/sbin/groupadd -f www
+useradd -m -s /sbin/nologin -g www www
+
 cd /usr/local/src
 wget https://www.php.net/distributions/php-7.4.9.tar.gz
 tar -zxvf php-7.4.9.tar.gz
@@ -62,4 +65,12 @@ ERROR: failed to open error_log (/usr/local/php/var/log/php-fpm.log): Read-only 
 ProtectSystem=true
 改成
 ProtectSystem=false
+```
+
+3.PHP环境变量
+
+```
+vi /etc/profile
+# 添加 export PATH=$PATH:/usr/local/php-7.4.9/bin
+source /etc/profile
 ```
