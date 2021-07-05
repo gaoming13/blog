@@ -5,10 +5,22 @@
 - `<script defer>` 不阻塞后面的执行,下载完等渲染结束才执行
 - HTTP单域名最大链接数 最大不超过8 http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/
 
+#### XHTML与HTML
+- XHTML、HTML、SVG、MathML 都是命名空间规范
+- XHTML重写了HTML规范，比HTML更加严格
+  - 标记必须有结束标签
+  - 元素和属性的名字必须小写
+  - 属性必须用双引号
+  - 元素必须正确嵌套
+  - 所有特殊符号"<&"用编码表示
+  - 不能在注释中使用"--"
+
 #### 怪异模式与标准模式
 - 1.怪异模式(Quirks mode) 排版会模拟 Navigator 4 与 Internet Explorer 5 的非标准行为
 - 2.接近标准模式(Almost standards mode) HTML标准,只有少数的怪异行为被实现
 - 3.标准模式(Standards mode) HTML标准
+- 标准盒模型与怪异盒模型(低版本ie)
+  - 怪异盒模型的内容区 padding 和 border 会包进去
 
 #### 跨域属性 crossOrigin
 `<audio>、<img>、<link>、<script>、<video>` 均有一个跨域属性，允许你配置元素获取数据的 CORS 请求。
@@ -61,3 +73,7 @@
 - style 表示元素的样式 `HTMLElement.style` => `CSSStyleDeclaration`
 - tabindex 表示元素获取焦点的顺序值
 - title 表示元素的咨询信息文本 `HTMLElement.title`
+
+#### b/strong、i/em区别
+- 都可加粗，strong强调语义
+- 都可倾斜，em强调语义

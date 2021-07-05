@@ -1,7 +1,23 @@
 ## HTML5 (HTML最新修订版本,2014年10月由W3C完成标准制定)
 - 必须以 `<!DOCTYPE html>` 作为首行
 
-### HTML5 语义元素、输入类型、表单元素、表单属性
+### 语义化理解
+- 让页面的结构便于浏览器和搜索引擎解析
+- 在没有CSS情况下，也能阅读
+
+### HTML5 新增的标签
+- header/section/nav/main/article/aside/footer 文档的部分
+- video(source)
+- audio(source)
+- canvas/svg
+- code 源码或机器阅读的语言
+- figure(figcaption) 文档中插图的图像 `<figure><figcaption>这是蜻蜓</figcaption><img src="1.jpg" /></figure>`
+- time 时间或日期 `现在是 <time>22:33</time>`
+- mark 高亮引用的文字 `现在是 <mark>22:33</mark>`
+- datalist 描述input可能的值 `<input list="cars" /><datalist id="cars"><option value="自行车"><option value="汽车"></datalist>`
+- process 进度条 `<progress value="22" max="100" />`
+- embed 嵌入插件 `<embed src="helloworld.swf" />`
+- template HTML模板
 
 ### HTML5 视频 (支持video标签)
 - `<video><source src="1.ogg" type="video/ogg"><source src="1.mp4" type="video/mp4">不支持video</video>`

@@ -3,3 +3,16 @@
 - CSS3模块状态：W3C会定期发布 CSS 标准的快照，列出 CSS 2.1 和 成熟的模块
 - CSS规格说明：https://www.w3.org/Style/CSS/current-work
 - CSS浏览器兼容性查询: http://caniuse.com/
+
+### 浏览器的内核
+- Chrome(谷歌): webkit(新版后变成了blink,与Opera)
+  - -webkit-xxx
+- IE: Trident内核
+  - -ms-xxx
+- Edge: Webkit内核->Blink内核
+- Firefox(火狐): Gecho内核
+  - -moz-xxx
+- Safari: Webkit内核
+  - -webkit-xxx
+- Opera(欧朋): Presto(改为blink)
+  - -o-xxx
