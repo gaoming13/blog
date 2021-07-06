@@ -1,5 +1,6 @@
 > https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API
 
+### HTMLCanvasElement
 - Canvas `Prototype：HTMLCanvasElement > HTMLElement > Element > Node > EventTarget > Object`
   - `c.width` 元素所占空间的宽度
   - `c.height` 元素所占空间的高度
@@ -14,7 +15,10 @@
     - `getContext('webgl')` 返回 `WebGLRenderingContext` 对象
 - `CanvasRenderingContext2D` `Prototype：CanvasRenderingContext2D > Object`
   - `ctx.fillStyle` 填充色,默认值 `#000`
-    -
   - `ctx.cleanRect(x, y, width, height)` 擦除指定矩形区域内容
   - `ctx.fillRect(x, y, width, height)` 绘制填充矩形
     - `fillStyle`
+
+### canvas 在标签中设置宽高与在style中设置宽高的区别
+- 标签中的宽高是canvas原始画布的宽高，未设置会有默认值
+- style中的宽高会对canvas整体进行拉伸

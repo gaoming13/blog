@@ -7,20 +7,27 @@
 
 #### XHTML与HTML
 - XHTML、HTML、SVG、MathML 都是命名空间规范
+- 语言基础不同
+  - XHTML基于可扩展标记语言(XML)
+  - HTML基于标准通用语言(SGML)
 - XHTML重写了HTML规范，比HTML更加严格
+  - 存在DTD定义规则
   - 标记必须有结束标签
   - 元素和属性的名字必须小写
   - 属性必须用双引号
   - 元素必须正确嵌套
   - 所有特殊符号"<&"用编码表示
   - 不能在注释中使用"--"
+- HTML5只需写 `<!DOCTYPE html>`，不需要对DTD进行引用
+  - 因为HTML5不是基于SGML的，因此不需要对DTD进行引用
+  - 而HTML4是基于SGML的，因此需要对DTD进行引用
 
 #### 怪异模式与标准模式
 - 1.怪异模式(Quirks mode) 排版会模拟 Navigator 4 与 Internet Explorer 5 的非标准行为
 - 2.接近标准模式(Almost standards mode) HTML标准,只有少数的怪异行为被实现
 - 3.标准模式(Standards mode) HTML标准
 - 标准盒模型与怪异盒模型(低版本ie)
-  - 怪异盒模型的内容区 padding 和 border 会包进去
+  - 怪异盒模型的内容区 padding 和 border 会包进去(box-sizing:border-box;)
 
 #### 跨域属性 crossOrigin
 `<audio>、<img>、<link>、<script>、<video>` 均有一个跨域属性，允许你配置元素获取数据的 CORS 请求。
@@ -77,3 +84,7 @@
 #### b/strong、i/em区别
 - 都可加粗，strong强调语义
 - 都可倾斜，em强调语义
+
+#### 为什么img是行内元素确还能设置高属性
+- img是行内元素，也同时是置换元素，置换元素一般内置宽高属性
+- 置换元素会根据标签属性来显示元素，繁殖就是非置换元素了
