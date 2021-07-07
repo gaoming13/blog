@@ -1,0 +1,46 @@
+> 手册：https://jquery.cuishifeng.cn/
+> CDN: `https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js`
+
+## jQeruy
+- 三大版本
+  - 1.x：兼容ie678，最终版本：1.12.4，使用最广泛的
+  - 2.x：不兼容ie678，最终版本：2.2.4，很少有人使用
+  - 3.x：不兼容ie678，最新版本：3.6.0
+- 效果
+  - 基本动画：show / hide / toggle
+  - 滑动动画：slideUp / slideDown / slideToggle
+  - 淡入淡出动画：fadeIn / fadeOut / fadeTo / fadeToggle
+  - 自定义动画：animate / stop / delay / finish
+- 节点操作
+  - children 所有子节点
+  - find 查找后代元素
+  - next / prev 上下一个
+  - parent 父级
+  - siblings 同级元素
+  - closest 往上最近的
+- width()、innerWidth()、outerWidth() 区别
+  - width：content宽
+  - innerWidth：content宽+padding宽
+  - outerWidth：content宽+padding宽+border宽
+- offset()、position()、scrollTop() 区别
+  - offset：距离视口的距离
+  - position：距离定位父元素的偏移量
+  - scrollTop：滚动条滚动的距离
+- $(document).height() 与 $(window).height() 区别
+  - $(document).height()：整个页面的高度，类似于 document.body.clientHeight
+  - $(window).height()：可视区的高度，类似于 document.documentElement.clientHeight
+- 事件绑定、委托中 bind() live() delegate() on() 的区别
+  - bind() / unbind()：无法对未来元素实现事件绑定
+  - live() / die()：未来元素实现事件绑定；1.7版本后不再支持该方法；阻止事件冒泡不管用；全部绑定在document上；
+  - delegate() / undelegate()：添加一个或多个事件处理函数；可决定绑定在哪
+  - on() / off()：整合 bind/live/delegate 都通过 on 来实现
+- 如何对一个jquery对象扩展方法
+  - 扩展jquery对象本身
+  - $.extend({ f1: function(a, b) { return a + b; } });
+  - $.min(1, 2);
+- 如果对一个jquery元素扩展方法
+  - $.fn.extend({ f1: function() { this.innerHtml = '123' } });
+  - $('p').f1();
+- $(this) 和 this 在jquery中的不同
+  - this代表当前元素,表示上下文中当前的DOM元素
+  - $(this) 返回一个jquery对象

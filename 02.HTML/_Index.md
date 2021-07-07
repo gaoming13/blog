@@ -3,6 +3,11 @@
 - `<script>` 阻塞后面的执行;
 - `<script async>` 不阻塞后面的执行,下载完立马执行
 - `<script defer>` 不阻塞后面的执行,下载完等渲染结束才执行
+- 实现js延迟加载的方式
+  - 将 script 标签放在 `</body>` 前后
+  - 使用 defer/async，但不完美，不是所有浏览器都支持
+  - window.onload
+  - 动态添加js
 - HTTP单域名最大链接数 最大不超过8 http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/
 
 #### XHTML与HTML

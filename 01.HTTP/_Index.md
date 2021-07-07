@@ -26,30 +26,36 @@ https://infosec.mozilla.org/guidelines/web_security
   - 102 Processing 服务器已收到并在处理该请求，但没有响应可用
   - 103 Early Hints 与 Link 链接头一起使用，以允许用户代理在服务器仍在准备响应时开始预加载资源
 - 成功响应(200-299)
-  - 200 OK 请求成功
+  - 200 OK 请求成功 🔥
   - 201 Created 请求已成功，并因此创建了一个新的资源
 - 重定向(300-399)
   - 300 Multiple Choice 被请求的资源有一系列可供选择的回馈信息，用户或浏览器自行选择一个后重定向
-  - 301 Moved Permanently 永久重定向
-  - 302 Found 临时重定向
-  - 304 Not Modified 文档内容(自上次访问以来或者根据请求条件)并没有改变
+  - 301 Moved Permanently 永久重定向 🔥
+  - 302 Found 临时重定向 🔥
+  - 304 Not Modified 文档内容(自上次访问以来或者根据请求条件)并没有改变 🔥
   - 307 Internal Redirect
 - 客户端错误(400-499)
-  - 400 Bad Request 语义有误或请求参数有误
-  - 401 Unauthorized 当前请求需要用户验证
-  - 403 Forbidden 服务器已经理解请求，但是拒绝执行它
-  - 404 Not Found 请求失败，请求的资源在服务器上未发现
-  - 405 Method Not Allowed 请求中指定的请求方法不能被用于请求相应的资源
+  - 400 Bad Request 语义有误或请求参数有误 🔥
+  - 401 Unauthorized 当前请求需要用户验证 🔥
+  - 403 Forbidden 服务器已经理解请求，但是拒绝执行它 🔥
+  - 404 Not Found 请求失败，请求的资源在服务器上未发现 🔥
+  - 405 Method Not Allowed 请求中指定的请求方法不能被用于请求相应的资源 🔥
   - 406 Not Acceptable 请求资源的内容特性无法满足请求头中的条件
   - 408 Request Timeout 请求超时，客户端没有在服务器预备等待的时间内完成一个请求的发送
   - 410 Gone 永久404
-  - 413 Payload Too Large 请求提交的实体数据大小超出了服务器愿意或者能够处理的范围
-  - 414 URI Too Long 长度超过了服务器能够解释的长度
-  - 429 Too Many Requests 用户在给定时间内发送了太多请求
+  - 413 Payload Too Large 请求提交的实体数据大小超出了服务器愿意或者能够处理的范围 🔥
+  - 414 URI Too Long 长度超过了服务器能够解释的长度 🔥
+  - 429 Too Many Requests 用户在给定时间内发送了太多请求 🔥
 - 服务器错误(500-599)
-  - 500 Internal Server Error 服务器遇到了不知道如何处理的情况
+  - 500 Internal Server Error 服务器遇到了不知道如何处理的情况 🔥
   - 501 Not Implemented 此请求方法不被服务器支持且无法被处理。只有 GET 和 HEAD 是要求服务器支持的，它们必定不会返回此错误代码
-  - 502 Bad Gateway 服务器作为网关需要得到一个请求的响应，但是得到了一个错误的响应
+  - 502 Bad Gateway 服务器作为网关需要得到一个请求的响应，但是得到了一个错误的响应 🔥
   - 503 Service Unavailable 服务器没有准备好处理请求。常见原因是服务器因维护或重载而停机。
-  - 504 Gateway Timeout 服务器作为网关需要的得到一个请求的响应，但该请求超时
+  - 504 Gateway Timeout 服务器作为网关需要的得到一个请求的响应，但该请求超时 🔥
   - 505 HTTP Version Not Supported 服务器不支持请求中使用的HTTP协议版本
+
+#### URL的组成
+- `http:// baidu.com :80 /path ?q=a #hash`
+- 协议 + 主机名 + 端口号 + 资源位置 + QueryString + HashTag
+- 请求行(Request URL) + 请求头(Request Header) + 请求体(Payload)
+- 响应头(Response Headers) + 响应体(Response)

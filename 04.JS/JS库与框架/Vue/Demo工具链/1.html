@@ -2,28 +2,14 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <meta name="description" content="这是描述内容">
-  <meta name="keywords" content="这是描述内容">
-  <meta name="renderer" content="webkit">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 </head>
 <body>
-  <div><a class="a" href=""></a></div></div>
-  <style>
-    .a {
-      color: blue; max-width: 100px; line-height: 20px; height: 60px;
-      display: inline-block;
-      position: relative;
-      overflow: hidden;
-    }
-    .a::after {
-      content: "...";
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      padding-left: 40px;
-      background: linear-gradient(to right, transparent, #fff 55%);
-    }
-  </style>
+  <div>我是内容了</div>
+  <script>
+    $(function() {
+      $('div').slideDown();
+    });
+  </script>
 </body>
 </html>
