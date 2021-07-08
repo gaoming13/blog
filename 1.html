@@ -5,9 +5,21 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 </head>
 <body>
-  <div>我是内容了</div>
+  <button id="btn1">1</button>
+  <button id="btn2">2</button>
+  <button id="btn3">3</button>
   <script>
-
+    function setTimeInterval1(callback, time) {
+      console.log([...arguments]);
+      // setTimeout(function() {
+      //   console.log(typeof callback);
+      //   callback();
+      //   setTimeInterval1(callback, time);
+      // }, time);
+    }
+    setTimeInterval1(function() {
+      console.log(1);
+    }, 1000);
   </script>
 </body>
 </html>
