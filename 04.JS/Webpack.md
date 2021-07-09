@@ -1,4 +1,7 @@
 ## Webpack4
+- hash 所有文件相同
+- chunkhash 跟chunk走
+- contenthash 跟单文件走
 
 ```js
 module.exports = {
