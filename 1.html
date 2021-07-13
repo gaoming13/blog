@@ -14,29 +14,7 @@
   <div id="ele3"></div>
   <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/18pn/1907/f90388.png"></div><div>轰轰烈烈撒地方</div>
   <script>
-    document.querySelector('button').addEventListener('click', function() {
-      let ele1 = document.getElementById('ele1');
-      let ele2 = document.getElementById('ele2');
-      let ele3 = document.getElementById('ele3');
 
-      // Read
-      var h1 = ele1.clientHeight;
-
-      // Read (triggers layout)
-      var h2 = ele2.clientHeight;
-
-      // Read (triggers layout)
-      var h3 = ele3.clientHeight;
-
-      // Write (invalidates layout)
-      ele1.style.height = (h1 * 2) + 'px';
-
-      // Write (invalidates layout)
-      ele2.style.height = (h2 * 2) + 'px';
-
-      // Write (invalidates layout)
-      ele3.style.height = (h3 * 2) + 'px';
-    });
   </script>
 </body>
 </html>
