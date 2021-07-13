@@ -21,8 +21,60 @@
       }
     },
     mounted() {
-      this.todoArr.push({ text: '许西搜索' });
-      console.log(this.todoArr);
+      // this.todoArr.push({ text: '许西搜索' });
+      // console.log(this.todoArr);
+
+      let data1 = {
+        _color: '',
+      };
+      Object.defineProperties(data1, {
+        color: {
+          get() {
+            return this._color;
+          },
+          set(x) {
+            _color = x;
+            console.log(_color);
+          }
+        }
+      });
+      // console.log(data1.color);
+
+
+      function deepProxy(obj, callback) {
+        if (typeof obj === 'object') {
+          for (let key in obj) {
+            if (typeof obj[key] === 'object') {
+              obj[key] = deepProxy(obj[key], callback);
+            }
+          }
+        }
+        return new Proxy(obj, {
+          get: function(target, p, receiver) {
+            if (p === 'color') return target._color;
+            return Reflect.get(...arguments);
+          },
+          set: function(target, p, value, receiver) {
+            if (p === 'color') {
+              target._color = value;
+              return true;
+            } else {
+              return Reflect.set(...arguments);
+            }
+          },
+        });
+      }
+      const data2 = deepProxy({
+        _color: '',
+        boy: {
+          // age: 13
+        },
+      }, () => {
+        console.log('12313');
+      });
+
+      data2.boy.age = '嘻嘻嘻';
+      console.log(data2.boy.age);
     },
   }
 </script>
