@@ -2,24 +2,41 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script> -->
+  <style>
+    div { width: 10px; height: 10px; background: red; }
+  </style>
 </head>
 <body>
+  <button>点我</button>
+  <div id="ele1"></div>
+  <div id="ele2"></div>
+  <div id="ele3"></div>
   <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/18pn/1907/f90388.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/02pn/2104/7415d7.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/01pn/2010/6e3c87.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/01pn/1908/21c6c5.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/01pn/2104/6409fb.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/20pn/1904/6c10a9.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/01pn/2107/f71822.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/01pn/2107/f924f5.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/08pn/2107/f8ecae.png"></div><div>轰轰烈烈撒地方</div>
-  <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/01pn/2107/5f47ee.png"></div><div>轰轰烈烈撒地方</div>
   <script>
-    // for-in
-    // for-of
-    // Object.keys for in
-    // Objke
+    document.querySelector('button').addEventListener('click', function() {
+      let ele1 = document.getElementById('ele1');
+      let ele2 = document.getElementById('ele2');
+      let ele3 = document.getElementById('ele3');
+
+      // Read
+      var h1 = ele1.clientHeight;
+
+      // Read (triggers layout)
+      var h2 = ele2.clientHeight;
+
+      // Read (triggers layout)
+      var h3 = ele3.clientHeight;
+
+      // Write (invalidates layout)
+      ele1.style.height = (h1 * 2) + 'px';
+
+      // Write (invalidates layout)
+      ele2.style.height = (h2 * 2) + 'px';
+
+      // Write (invalidates layout)
+      ele3.style.height = (h3 * 2) + 'px';
+    });
   </script>
 </body>
 </html>
