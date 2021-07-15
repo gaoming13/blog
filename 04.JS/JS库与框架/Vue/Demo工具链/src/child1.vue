@@ -1,30 +1,22 @@
 <template>
   <div class="child1">
-    <button @click="handleBtnClick">点我</button>
-    <code>{{ $listeners }}</code>
-    <code>{{ $attrs }}</code>
-    <Child2 v-bind="$attrs" v-bind:red-girl="'123'" />
+    <code>123</code>
   </div>
 </template>
 
 <script>
-import Child2 from './child2.vue';
-
+let s = 123;
+console.log('sdfsadfaf');
 export default {
-  inheritAttrs: true,
-  props: [
-    'backgroundColor'
-  ],
-  components: {
-    Child2,
+  data() {
+    console.log('1111');
+    return {};
   },
-  methods: {
-    handleBtnClick() {
-      console.log(this.$children[0].$emit('hahaha', '小狗'));
-      // this.$emit('hahaha', '小狗');
-      // console.log(this.$listeners);
-    }
-  },
+  mounted() {
+    console.log(s);
+    s = 456;
+    console.log(s);
+  }
 }
 </script>
 

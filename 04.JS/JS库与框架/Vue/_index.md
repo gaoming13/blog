@@ -5,6 +5,47 @@
 - VM: 中间件，分割了 V 和 M,`new Vue({...})`
 - V:视图,`<template>xx</template>`
 
+### 手册：组件通信有哪些方式
+- 父子通信
+  - 1.v-bind传值：父 `v-bind:xx-yy="abc"` 子 `props: ['xxYy']` `this.$props` `this.xxYy` `this.$attrs`
+    - `v-bind="$attrs"` / inheritAttrs默认false
+  - 2.v-on监听事件：父 `v-on:xxYy="todo"` 子 `this.$emit('xxYy', '参数1', '参数2')` `this.$listeners`
+    - `v-bind="$listeners"`
+  - 3.操作组件实例 `this.$parent` `this.$children` `this.$refs['comp1']`
+- 跨级通信
+  - 1.provide/inject：祖 `provide: {a: 'abc'}` 孙 `inject: ['a']` `this.a`
+- 无限制通信
+  - 1.Vuex
+  - 2.Bus: `this.$bus.on('event1', todo)` `this.$bus.emit('event1')`
+
+### 手册：computed 和 watch的区别
+- 计算属性 computed
+  - 1.computed属性值默认走缓存，基于依赖数据(data/props)更新缓存
+  - 2.使用情景：一个属性需要由其它属性计算而来
+- 侦听属性 watch
+  - 1.数据变会直接触发回调，回调支持异步
+  - 2.使用情景：一个属性(data/props)发生变化，然后执行对应的操作
+  - 3.参数 immdiate：组件加载后是否触发一次回调
+  - 4.参数 deep 深度监听，无法极爱能听到数组的变动和对象的新增
+
+### 手册：data为什么是一个函数
+- 若data是一个对象，两个实例引用同一个对象，会相互干扰
+- 写成函数，复用组件的时候，都会返回一份新的data
+- 相当于每个组件实例都有私有的数据空间
+
+### 手册：nextTick的作用
+- 在更新DOM时是*异步*执行的
+  - 1.只要侦听到数据变化，将开启一个事件队列，并缓冲同一事件循环中所发生的所有数据变更
+  - 2.同一个`watcher`被多次触发，只会被推入到事件队列中一次
+  - 3.这种在缓冲时去除重复数据对于避免不必要的计算和DOM操作是很重要的
+-
+```js
+this.msg = 'hello';
+this.$nextTick().then(() => {
+  // DOM更新了
+});
+```
+
 ### 双向数据绑定原理
 - 一句话：vue采用Object.defineProperty的getter和setter，并结合观察者模式来实现数据绑定的
 - 1.普通JS对象传给Vue实例来做data选项时,vue将遍历它的属性
@@ -24,19 +65,6 @@
   - 作为新标准将受到浏览器⼚商重点持续的性能优化，也就是传说中的新标准的性能红利
 - Object.defineProperty的优势
   - 兼容性好,⽀持IE9
-
-### Vue2.x组件通信有哪些方式
-- 父子通信
-  - 1.v-bind传值：父 `v-bind:xx-yy="abc"` 子 `props: ['xxYy']` `this.$props` `this.xxYy` `this.$attrs`
-    - `v-bind="$attrs"` / inheritAttrs默认false
-  - 2.v-on监听事件：父 `v-on:xxYy="todo"` 子 `this.$emit('xxYy', '参数1', '参数2')` `this.$listeners`
-    - `v-bind="$listeners"`
-  - 3.操作组件实例 `this.$parent` `this.$children` `this.$refs['comp1']`
-- 跨级通信
-  - 1.provide/inject：祖 `provide: {a: 'abc'}` 孙 `inject: ['a']` `this.a`
-- 无限制通信
-  - 1.Vuex
-  - 2.Bus: `this.$bus.on('event1', todo)` `this.$bus.emit('event1')`
 
 
 
