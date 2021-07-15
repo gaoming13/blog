@@ -5,14 +5,19 @@
 - CSS浏览器兼容性查询: http://caniuse.com/
 
 ### 浏览器的内核
-- Chrome(谷歌): webkit(新版后变成了blink,与Opera)
-  - -webkit-xxx
-- IE: Trident内核
-  - -ms-xxx
-- Edge: Webkit内核->Blink内核
-- Firefox(火狐): Gecho内核
-  - -moz-xxx
-- Safari: Webkit内核
-  - -webkit-xxx
-- Opera(欧朋): Presto(改为blink)
-  - -o-xxx
+- 浏览器的内核分为两部分：渲染引擎(Layout Engine 或 Rendering Engine) 和 JS引擎
+- 随着JS引擎越来越独立，内核也成了渲染引擎的代称
+- 渲染引擎包括：
+  - HTML解释器、CSS解释器、布局、网络、存储、图形、音视频、图片解码的等
+- 常见的浏览器内核(webkit/trident/gecho/presto)
+  - 1.Chrome(谷歌): webkit(新版后变成了blink,与Opera)
+    - -webkit-xxx
+  - 2.IE: Trident内核
+    - -ms-xxx
+  - 3.Edge: Webkit内核->Blink内核
+  - 4.Firefox(火狐): Gecho内核
+    - -moz-xxx
+  - 5.Safari: Webkit内核
+    - -webkit-xxx
+  - 6.Opera(欧朋): Presto(改为blink)
+    - -o-xxx

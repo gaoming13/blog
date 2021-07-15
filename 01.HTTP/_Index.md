@@ -205,8 +205,19 @@ Strict-Transport-Security: max-age=<expire-time>; includeSubDomains
 Strict-Transport-Security: max-age=<expire-time>; preload
 ```
 
-### 浏览器
-- 强缓存 vs 协商缓存
+### 浏览器缓存
+- 浏览器缓存机制分为 1.Memory Cache、2.Service Worker Cache、3.HTTP Cache、4.Push Cache
+- 1.Memory Cache(内存中的缓存)
+  - 内存缓存是快的，也是“短命”的。它和渲染进程“生死相依”，当进程结束后，也就是 tab 关闭以后，内存里的数据也将不复存在。
+- 2.Service Worker Cache(独立于主线程)
+  - Service Worker 脱离浏览器窗体,无法直接访问 DOM
+  - 可以实现 离线缓存、消息推送、网络代理等功能
+- 3.HTTP Cache(强缓存 vs 协商缓存)
+  - 等级
+    - 1.拒绝一切形式的缓存 `Cache-Control: no-store;`
+    - 2.每次都需要向服务器进行缓存确认 `Cache-Control: no-cache;` 协商缓存
+    - 3.代理服务器缓存 `Cache-Control: public;`
+    - 4.设置过期时间 `Cache-Control: max-age=86400;`
   - 强缓存优先级：pragma -> cache-control -> expires
     - 1.pragma:
       - no-cache(不管本地缓存,向服务器验证当前资源是否更新)=>走协商缓存 🔥
@@ -237,6 +248,7 @@ Strict-Transport-Security: max-age=<expire-time>; preload
     - 2.etag: "5faa3c7f-1439"
       - 基于资源内容生成的唯一标识
       - `if-none-match:"5faa3c7f-1439"`
+- 4.Push Cache
 
 ### 图片格式
 - JPEG/JPG
@@ -261,4 +273,3 @@ Strict-Transport-Security: max-age=<expire-time>; preload
   - 像 JPEG 一样对细节丰富的图片信手拈来
   - 像 PNG 一样支持透明
   - 像 GIF 一样可以显示动态图片——它集多种图片文件格式的优点于一身
-  -
