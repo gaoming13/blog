@@ -2,19 +2,31 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
   <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   <style>
-    div { width: 10px; height: 10px; background: red; }
+    /* div { width: 10px; height: 10px; background: red; } */
   </style>
 </head>
 <body>
   <button>点我</button>
-  <div id="ele1"></div>
+  <div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div><div>哈哈哈哈</div>
   <div id="ele2"></div>
   <div id="ele3"></div>
   <div><img src="https://s0.ui-123.com/img/logo.png" data-src="https://i0.ui-123.com/t1/18pn/1907/f90388.png"></div><div>轰轰烈烈撒地方</div>
   <script>
-
+    let a1 = _.debounce(function() {
+      console.log('--------------------------');
+    }, 500, {
+      leading: false,
+      maxWait: 500,
+    });
+    function do1() {
+      console.log('13123');
+      a1();
+    }
+    window.addEventListener('scroll', do1);
   </script>
 </body>
 </html>

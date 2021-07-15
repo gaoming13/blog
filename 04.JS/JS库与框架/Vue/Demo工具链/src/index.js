@@ -1,5 +1,8 @@
 import Vue from 'vue';
+// import VueBus from 'vue-bus';
 import App from './App.vue';
+
+// Vue.use(VueBus);
 
 const root = document.createElement('div');
 document.body.appendChild(root);

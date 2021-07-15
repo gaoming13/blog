@@ -1,82 +1,52 @@
 <template>
-  <div>
+  <div class="app">
+    <Child1 ref="abc" :backgroundColor="'grey'"  :p-child1="child1" :p-child2="child2" :p-child-attrs="1231" style="font-size: 12px;" class="head" @test1="handleFocus" @test2="handleFocus"></Child1>
+    <input type="text" v-model="s" />
+    <div @focus="handleFocus">
+      <input type="text" :value="t" @input="handelInputChange" />
+    </div>
     <ul>
       <li v-for="(todo, todoIdx) in todoArr" :key="todoIdx">{{ todo.text }}</li>
-      <li>1111</li>
+      <li>123</li>
       <li class="a1"><todo-item :label="'12313'" /></li>
     </ul>
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        s: 'abc',
-        todoArr: [
-          { text: '学习语文' },
-          { text: '学习数学' },
-          { text: '学习代理' },
-        ],
-      }
+import Child1 from './child1.vue';
+
+export default {
+  components: {
+    Child1,
+  },
+  data() {
+    return {
+        child1: "pChild1的值",
+          child2: "pChild2的值",
+      s: 'abc',
+      t: 'ghf',
+      todoArr: [
+        { text: '学习语文' },
+        { text: '学习数学' },
+        { text: '学习代理' },
+      ],
+    }
+  },
+  mounted() {
+    // this.todoArr.push({ text: '许西搜索' });
+    // console.log(this.todoArr);
+    // console.log(this);
+  },
+  methods: {
+    handelInputChange(e) {
+      this.t = e.target.value;
     },
-    mounted() {
-      // this.todoArr.push({ text: '许西搜索' });
-      // console.log(this.todoArr);
-
-      let data1 = {
-        _color: '',
-      };
-      Object.defineProperties(data1, {
-        color: {
-          get() {
-            return this._color;
-          },
-          set(x) {
-            _color = x;
-            console.log(_color);
-          }
-        }
-      });
-      // console.log(data1.color);
-
-
-      function deepProxy(obj, callback) {
-        if (typeof obj === 'object') {
-          for (let key in obj) {
-            if (typeof obj[key] === 'object') {
-              obj[key] = deepProxy(obj[key], callback);
-            }
-          }
-        }
-        return new Proxy(obj, {
-          get: function(target, p, receiver) {
-            if (p === 'color') return target._color;
-            return Reflect.get(...arguments);
-          },
-          set: function(target, p, value, receiver) {
-            if (p === 'color') {
-              target._color = value;
-              return true;
-            } else {
-              return Reflect.set(...arguments);
-            }
-          },
-        });
-      }
-      const data2 = deepProxy({
-        _color: '',
-        boy: {
-          // age: 13
-        },
-      }, () => {
-        console.log('12313');
-      });
-
-      data2.boy.age = '嘻嘻嘻';
-      console.log(data2.boy.age);
-    },
-  }
+    handleFocus(e) {
+      console.log(e);
+    }
+  },
+}
 </script>
 
 <style>

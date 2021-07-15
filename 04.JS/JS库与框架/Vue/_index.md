@@ -1,12 +1,11 @@
-# Vue
+## Vue
+提供了 MVVM 风格的双向数据绑定的 JS 库，专注于 View 层
+- 它的核心是 VM(ViewModel), 负责连接 View 和 Model 保证视图和数据的一致性
+- M: 主要存的是页面中的数据,`const data = {...}`
+- VM: 中间件，分割了 V 和 M,`new Vue({...})`
+- V:视图,`<template>xx</template>`
 
-- 提供了 MVVM 风格的双向数据绑定的 JS 库，专注于 View 层
-  - 它的核心是 VM(ViewModel), 负责连接 View 和 Model 保证视图和数据的一致性
-  - M: 主要存的是页面中的数据,`const data = {...}`
-  - VM: 中间件，分割了 V 和 M,`new Vue({...})`
-  - V:视图,`<template>xx</template>`
-
-## 双向数据绑定原理
+### 双向数据绑定原理
 - 一句话：vue采用Object.defineProperty的getter和setter，并结合观察者模式来实现数据绑定的
 - 1.普通JS对象传给Vue实例来做data选项时,vue将遍历它的属性
 - 2.Observer数据监听器：对 data 所有属性进行监听，如有变动可拿到新值+通知订阅者，变动获取通过 getter 和 setter 实现
@@ -16,7 +15,7 @@
   - 反馈给View层个更新界面视图
 - 5.Dep消息订阅器：内部维护了一个数组，用来收集订阅者(watcher)，数据变动触发notify函数，再调用订阅者的update方法
 
-## Proxy vs Object.defineProperty
+### Proxy vs Object.defineProperty
 - Proxy的优势
   - 可以直接监听对象⽽⾮属性
   - 可以直接监听数组的变化
@@ -25,6 +24,19 @@
   - 作为新标准将受到浏览器⼚商重点持续的性能优化，也就是传说中的新标准的性能红利
 - Object.defineProperty的优势
   - 兼容性好,⽀持IE9
+
+### Vue2.x组件通信有哪些方式
+- 父子通信
+  - 1.v-bind传值：父 `v-bind:xx-yy="abc"` 子 `props: ['xxYy']` `this.$props` `this.xxYy` `this.$attrs`
+    - `v-bind="$attrs"` / inheritAttrs默认false
+  - 2.v-on监听事件：父 `v-on:xxYy="todo"` 子 `this.$emit('xxYy', '参数1', '参数2')` `this.$listeners`
+    - `v-bind="$listeners"`
+  - 3.操作组件实例 `this.$parent` `this.$children` `this.$refs['comp1']`
+- 跨级通信
+  - 1.provide/inject：祖 `provide: {a: 'abc'}` 孙 `inject: ['a']` `this.a`
+- 无限制通信
+  - 1.Vuex
+  - 2.Bus: `this.$bus.on('event1', todo)` `this.$bus.emit('event1')`
 
 
 
